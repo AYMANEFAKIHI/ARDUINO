@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Arduino Student Lab - Learn Arduino Easily</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Learn Arduino, One Project at a Time.</h2>
+                <p>The clearest, most visually-driven tutorials for students to master programming and electronics.</p>
+                <a href="#beginner" class="cta-button">Start Learning Now (Beginner Projects)</a>
+            </div>
+        </section>
+
+        <section id="projects" class="projects-grid">
+            <div class="container">
+                <h3>Featured Projects</h3>
+                <div class="grid-container">
+
+                    <div class="project-card" id="beginner">
+                        <div class="card-header">
+                            <h3>Hello World (Blink)</h3>
+                            <span class="difficulty-badge beginner">BEGINNER</span>
+                        </div>
+                        <img src="assets/1.jpg" alt="Blink Wiring" class="project-thumbnail">
+                        <p class="snippet">The essential starting point: learn digital output and basic timing with an LED.</p>
+                        <a href="blink-tutorial.html" class="view-button">View Tutorial</a>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="card-header">
+                            <h3>Push Button Input</h3>
+                            <span class="difficulty-badge beginner">BEGINNER</span>
+                        </div>
+                        <img src="assets/6.png" alt="Button Wiring" class="project-thumbnail">
+                        <p class="snippet">Read signals from the physical world by wiring a simple digital button input.</p>
+                        <a href="button-tutorial.html" class="view-button">View Tutorial</a>
+                    </div>
+
+                    <div class="project-card" id="intermediate">
+                        <div class="card-header">
+                            <h3>Fading with a Potentiometer</h3>
+                            <span class="difficulty-badge intermediate">INTERMEDIATE</span>
+                        </div>
+                        <img src="assets/11.png" alt="Potentiometer Wiring" class="project-thumbnail">
+                        <p class="snippet">Combine analog input with PWM output using the powerful map() function.</p>
+                        <a href="pot-fade-tutorial.html" class="view-button">View Tutorial</a>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="card-header">
+                            <h3>HC-SR04 Distance Finder</h3>
+                            <span class="difficulty-badge intermediate">INTERMEDIATE</span>
+                        </div>
+                        <img src="assets/21.png" alt="Distance Sensor Wiring" class="project-thumbnail">
+                        <p class="snippet">Build a distance sensor using ultrasonic waves and the pulseIn() function.</p>
+                        <a href="distance-tutorial.html" class="view-button">View Tutorial</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #5: SOS Morse Code Flasher - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #5: SOS Morse Code Flasher</h1>
+                <p class="project-summary">Create a classic SOS distress signal using Morse code! This project teaches pattern timing and introduces you to functions that make complex sequences manageable.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Understanding Morse code timing standards</li>
+                <li>Creating reusable functions for patterns</li>
+                <li>Organizing complex timing sequences</li>
+                <li>Using constants for easy customization</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) LED</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) Breadboard</li>
+<li>(2) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/5.jpeg" alt="[ Same as Project #1 - LED on Pin 13 ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>Pin 13</td><td>LED anode (+) via 220Ω resistor</td></tr>
+                <tr><td>GND</td><td>LED cathode (-)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #5: SOS Morse Code Flasher
+ * The Arduino Student Lab
+ * 
+ * Flashes the international distress signal SOS
+ * in proper Morse code timing
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int LED_PIN = 13;
+
+// ============================================
+// MORSE CODE TIMING (in milliseconds)
+// Standard ratio: dot=1, dash=3, gaps follow same pattern
+// ============================================
+const int UNIT_TIME = 200;                    // Base unit: 200ms
+const int DOT_DURATION = UNIT_TIME;           // 1 unit
+const int DASH_DURATION = UNIT_TIME * 3;      // 3 units
+const int INTRA_GAP = UNIT_TIME;              // Gap within a letter (1 unit)
+const int LETTER_GAP = UNIT_TIME * 3;         // Gap between letters (3 units)
+const int WORD_GAP = UNIT_TIME * 7;           // Gap between words/repeat (7 units)
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("SOS Morse Code Flasher");
+  Serial.println("... --- ...");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Flash SOS: ... --- ...
+  
+  Serial.println("Sending SOS...");
+  
+  // S = dot dot dot (...)
+  flashS();
+  delay(LETTER_GAP);
+  
+  // O = dash dash dash (---)
+  flashO();
+  delay(LETTER_GAP);
+  
+  // S = dot dot dot (...)
+  flashS();
+  
+  // Pause before repeating
+  Serial.println("Waiting to repeat...\n");
+  delay(WORD_GAP);
+}
+
+// ============================================
+// LETTER FUNCTIONS
+// ============================================
+
+// Flash the letter S: ...
+void flashS() {
+  Serial.print("S: ");
+  dot();
+  dot();
+  dot();
+  Serial.println();
+}
+
+// Flash the letter O: ---
+void flashO() {
+  Serial.print("O: ");
+  dash();
+  dash();
+  dash();
+  Serial.println();
+}
+
+// ============================================
+// BASIC MORSE ELEMENTS
+// ============================================
+
+// Flash a dot (short)
+void dot() {
+  Serial.print(".");
+  digitalWrite(LED_PIN, HIGH);
+  delay(DOT_DURATION);
+  digitalWrite(LED_PIN, LOW);
+  delay(INTRA_GAP);
+}
+
+// Flash a dash (long)
+void dash() {
+  Serial.print("-");
+  digitalWrite(LED_PIN, HIGH);
+  delay(DASH_DURATION);
+  digitalWrite(LED_PIN, LOW);
+  delay(INTRA_GAP);
+}
+
+/*
+ * MORSE CODE ALPHABET (for future expansion):
+ * 
+ * A: .-      N: -.
+ * B: -...    O: ---
+ * C: -.-.    P: .--.
+ * D: -..     Q: --.-
+ * E: .       R: .-.
+ * F: ..-.    S: ...
+ * G: --.     T: -
+ * H: ....    U: ..-
+ * I: ..      V: ...-
+ * J: .---    W: .--
+ * K: -.-     X: -..-
+ * L: .-..    Y: -.--
+ * M: --      Z: --..
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Unit Time:</strong> All Morse timing is based on a single "unit" - here 200ms.</li>
+                <li><strong>dot() and dash():</strong> These basic functions handle LED on/off with correct timing.</li>
+                <li><strong>flashS() and flashO():</strong> Combine basic elements into complete letters.</li>
+                <li><strong>Main Loop:</strong> Calls letter functions with appropriate gaps between them.</li>
+                <li><strong>Serial Output:</strong> Shows what's being transmitted for debugging.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Full Alphabet:</strong> Create functions for all 26 letters using the reference table.</li>
+                <li><strong>Name Flasher:</strong> Flash your name or initials in Morse code.</li>
+                <li><strong>Add Sound:</strong> Use a piezo buzzer to beep along with the flashes.</li>
+                <li><strong>Serial Input:</strong> Type a message in Serial Monitor and flash it in Morse.</li>
+                <li><strong>Speed Control:</strong> Use a potentiometer to adjust the UNIT_TIME.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-4.html" class="btn">← Previous: #4 Non-Blocking Blink</a>
+                <a href="button-tutorial.html" class="btn">Next: #6 Push Button →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

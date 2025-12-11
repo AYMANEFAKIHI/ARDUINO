@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #57: IR Remote Control Decoder - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #57: IR Remote Control Decoder</h1>
+                <p class="project-summary">Read the codes sent by your TV or DVD remote control.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>Infrared (IR) remotes send unique codes for each button. This project decodes and displays them.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul><li>Arduino Uno</li><li>IR Receiver (VS1838B)</li><li>Remote Control</li></ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Receiver Out to D11, VCC to 5V, GND to GND.</p>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+#include <IRremote.h>
+
+const int RECV_PIN = 11;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
+void setup(){
+  Serial.begin(9600);
+  irrecv.enableIRIn();
+}
+
+void loop(){
+  if (irrecv.decode(&results)){
+    Serial.println(results.value, HEX);
+    irrecv.resume();
+  }
+}
+                    </pre>
+                </div>
+            </article>
+
+            <div class="project-navigation">
+                <a href="project-56.html" class="btn">← Previous: #56</a>
+                <a href="project-58.html" class="btn">Next: #58 →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

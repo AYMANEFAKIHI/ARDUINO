@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #34: 8x8 LED Matrix Display - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #34: 8x8 LED Matrix Pattern Display</h1>
+                <p class="project-summary">Control 64 LEDs with just 3 data pins! Learn how to use the MAX7219 driver to display icons, patterns, and animations on an 8x8 matrix.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>An 8x8 matrix has 64 LEDs. Controlling them individually would require 64 pins! The MAX7219 chip solves this using <strong>multiplexing</strong>. It lights up one row at a time so fast that it looks like a complete image. We will use the <code>LedControl</code> library to easily draw shapes and patterns.</p>
+                <ul>
+                    <li>Understanding LED matrices and multiplexing</li>
+                    <li>Using the MAX7219 driver chip</li>
+                    <li>Binary representation of images (8 bytes per image)</li>
+                    <li>Creating simple animations</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno</li>
+                    <li>(1) MAX7219 8x8 LED Matrix Module</li>
+                    <li>(5) Jumper Wires (Female-to-Male)</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Connect the MAX7219 module to the Arduino:</p>
+                    <ol>
+                        <li><strong>VCC</strong> to 5V</li>
+                        <li><strong>GND</strong> to GND</li>
+                        <li><strong>DIN</strong> (Data In) to Pin 12</li>
+                        <li><strong>CS</strong> (Chip Select) to Pin 11</li>
+                        <li><strong>CLK</strong> (Clock) to Pin 10</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/34.png" alt="🔌 Wiring Diagram: DIN->12, CS->11, CLK->10" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>You will need to install the <strong>"LedControl"</strong> library by Eberhard Fahle via the Library Manager. This code displays a heart and a smiley face.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+/*
+ * Project #34: 8x8 LED Matrix (MAX7219)
+ * The Arduino Student Lab
+ * 
+ * Displays icons and animations on an 8x8 matrix
+ * Requires "LedControl" library
+ */
+
+#include &lt;LedControl.h&gt;
+
+// Pin Definitions
+const int DIN_PIN = 12;
+const int CS_PIN = 11;
+const int CLK_PIN = 10;
+
+// Initialize LedControl
+// (DataPin, ClockPin, LoadPin, Number of Devices)
+LedControl lc = LedControl(DIN_PIN, CLK_PIN, CS_PIN, 1);
+
+// Define Icons (1 = LED ON, 0 = LED OFF)
+byte heart[8] = {
+  0b00000000,
+  0b01100110,
+  0b11111111,
+  0b11111111,
+  0b11111111,
+  0b01111110,
+  0b00111100,
+  0b00011000
+};
+
+byte smile[8] = {
+  0b00111100,
+  0b01000010,
+  0b10100101,
+  0b10000001,
+  0b10100101,
+  0b10011001,
+  0b01000010,
+  0b00111100
+};
+
+void setup() {
+  // Wake up the MAX7219 from power-saving mode
+  lc.shutdown(0, false);
+  // Set brightness (0-15)
+  lc.setIntensity(0, 8);
+  // Clear display
+  lc.clearDisplay(0);
+}
+
+void loop() {
+  // Display Heart
+  displayImage(heart);
+  delay(1000);
+  
+  // Display Smiley
+  displayImage(smile);
+  delay(1000);
+  
+  // Simple Animation: Single LED moving
+  lc.clearDisplay(0);
+  for (int row = 0; row < 8; row++) {
+    for (int col = 0; col < 8; col++) {
+      lc.setLed(0, row, col, true);
+      delay(50);
+      lc.setLed(0, row, col, false);
+    }
+  }
+}
+
+// Helper function to display a byte array
+void displayImage(byte image[]) {
+  for (int i = 0; i < 8; i++) {
+    lc.setRow(0, i, image[i]);
+  }
+}
+                    </pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <p><strong>Byte Arrays:</strong> Just like custom LCD characters, we use binary to design our 8x8 images. Each byte represents one row.</p>
+                <p><strong>Challenges:</strong></p>
+                <ul>
+                    <li><strong>Animation:</strong> Create a 3-frame animation of a stick figure jumping.</li>
+                    <li><strong>Dice:</strong> Connect a button. When pressed, show a random dice face (1-6).</li>
+                    <li><strong>Scrolling Text:</strong> This is harder! Try to make a letter scroll from right to left.</li>
+                </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-33.html" class="btn">← Previous: #33 LCD Custom Chars</a>
+                <a href="project-35.html" class="btn">Next: #35 NeoPixel Basics →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

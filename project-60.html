@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #60: Rotary Encoder Basic Counter - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #60: Rotary Encoder Basic Counter</h1>
+                <p class="project-summary">Use a rotary encoder to count up and down by turning a knob.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>Rotary encoders are different from potentiometers; they can spin infinitely and provide digital pulses to indicate direction and steps.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul><li>Arduino Uno</li><li>Rotary Encoder Module</li></ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>CLK to D2, DT to D3, SW to D4, + to 5V, GND to GND.</p>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+#define CLK 2
+#define DT 3
+#define SW 4
+
+int counter = 0;
+int currentStateCLK;
+int lastStateCLK;
+
+void setup() {
+  pinMode(CLK,INPUT);
+  pinMode(DT,INPUT);
+  pinMode(SW, INPUT_PULLUP);
+  Serial.begin(9600);
+  lastStateCLK = digitalRead(CLK);
+}
+
+void loop() {
+  currentStateCLK = digitalRead(CLK);
+
+  if (currentStateCLK != lastStateCLK  && currentStateCLK == 1){
+    if (digitalRead(DT) != currentStateCLK) {
+      counter --;
+    } else {
+      counter ++;
+    }
+    Serial.print("Counter: ");
+    Serial.println(counter);
+  }
+
+  lastStateCLK = currentStateCLK;
+  
+  if(digitalRead(SW) == LOW) {
+    counter = 0;
+    Serial.println("Reset");
+    delay(200);
+  }
+}
+                    </pre>
+                </div>
+            </article>
+
+            <div class="project-navigation">
+                <a href="project-59.html" class="btn">← Previous: #59</a>
+                <a href="project-61.html" class="btn">Next: #61 →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

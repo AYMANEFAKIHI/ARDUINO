@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #30: I2C LCD Display - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #30: I2C LCD (PCF8574 Backpack)</h1>
+                <p class="project-summary">Use only 2 wires to control a 16x2 LCD! The I2C backpack reduces wiring complexity from 16 pins to just 4 (VCC, GND, SDA, SCL). Essential for pin-limited projects.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, you will learn how to use an I2C LCD display. Standard LCDs require many pins, but with an I2C backpack, we only need 2 data pins (SDA and SCL). This is crucial for advanced projects where you need to save pins for sensors and motors.</p>
+                <ul>
+                    <li>I2C communication basics</li>
+                    <li>Using LCD backpack modules</li>
+                    <li>Finding I2C device addresses</li>
+                    <li>LiquidCrystal_I2C library</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno (or compatible board)</li>
+                    <li>(1) 16x2 LCD with I2C Backpack (Pre-soldered module)</li>
+                    <li>(4) Jumper Wires (Female-to-male)</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Connect the 4 pins from the I2C backpack to the Arduino:</p>
+                    <ol>
+                        <li><strong>VCC</strong> to 5V</li>
+                        <li><strong>GND</strong> to GND</li>
+                        <li><strong>SDA</strong> to A4 (or SDA pin on newer boards)</li>
+                        <li><strong>SCL</strong> to A5 (or SCL pin on newer boards)</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/30.png" alt="🔌 Wiring Diagram: Only 4 wires needed!" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE. You must install the "LiquidCrystal_I2C" library via the Library Manager first.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+/*
+ * Project #30: I2C LCD (PCF8574 Backpack)
+ * The Arduino Student Lab
+ * 
+ * Control 16x2 LCD with just 2 data wires using I2C
+ * Address scanner included if display doesn't work
+ */
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+// ============================================
+// LCD CONFIGURATION
+// ============================================
+// Common I2C addresses: 0x27 or 0x3F
+// If display doesn't work, run the I2C scanner below
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// ============================================
+// CUSTOM CHARACTERS
+// ============================================
+byte thermometer[8] = {
+  0b00100,
+  0b01010,
+  0b01010,
+  0b01110,
+  0b01110,
+  0b11111,
+  0b11111,
+  0b01110
+};
+
+byte droplet[8] = {
+  0b00100,
+  0b00100,
+  0b01010,
+  0b01010,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b01110
+};
+
+// ============================================
+// SETUP
+// ============================================
+void setup() {
+  Serial.begin(9600);
+  Serial.println("=== I2C LCD DISPLAY ===");
+  
+  // Initialize I2C LCD
+  lcd.init();
+  lcd.backlight();  // Turn on backlight
+  
+  // Create custom characters
+  lcd.createChar(0, thermometer);
+  lcd.createChar(1, droplet);
+  
+  // Startup message
+  lcd.setCursor(0, 0);
+  lcd.print("I2C LCD Ready!");
+  lcd.setCursor(0, 1);
+  lcd.print("Only 4 wires!");
+  
+  Serial.println("LCD Initialized at address 0x27");
+  Serial.println("If blank, run I2C scanner");
+  
+  delay(2000);
+}
+
+// ============================================
+// MAIN LOOP
+// ============================================
+void loop() {
+  // Demo: Simulated sensor display
+  lcd.clear();
+  
+  // Temperature display
+  lcd.setCursor(0, 0);
+  lcd.write(byte(0));  // Thermometer icon
+  lcd.print(" Temp: ");
+  float temp = 22.5 + (random(-10, 10) / 10.0);
+  lcd.print(temp, 1);
+  lcd.print((char)223);  // Degree symbol
+  lcd.print("C");
+  
+  // Humidity display
+  lcd.setCursor(0, 1);
+  lcd.write(byte(1));  // Droplet icon
+  lcd.print(" Humid: ");
+  int humid = 45 + random(-5, 5);
+  lcd.print(humid);
+  lcd.print("%");
+  
+  delay(2000);
+  
+  // Scrolling message demo
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Scrolling Text:");
+  
+  String message = "I2C makes wiring so much easier! ";
+  
+  for (int pos = 0; pos < message.length(); pos++) {
+    lcd.setCursor(0, 1);
+    // Show 16 characters starting at current position
+    for (int i = 0; i < 16; i++) {
+      int charIndex = (pos + i) % message.length();
+      lcd.print(message[charIndex]);
+    }
+    delay(250);
+  }
+  
+  delay(1000);
+}
+
+/*
+ * I2C ADDRESS SCANNER
+ * 
+ * If your LCD stays blank, upload this code to find the address:
+ * 
+ * #include <Wire.h>
+ * 
+ * void setup() {
+ *   Wire.begin();
+ *   Serial.begin(9600);
+ *   Serial.println("I2C Scanner");
+ * }
+ * 
+ * void loop() {
+ *   byte error, address;
+ *   int devices = 0;
+ *   
+ *   Serial.println("Scanning...");
+ *   
+ *   for (address = 1; address < 127; address++) {
+ *     Wire.beginTransmission(address);
+ *     error = Wire.endTransmission();
+ *     
+ *     if (error == 0) {
+ *       Serial.print("Device found at 0x");
+ *       if (address < 16) Serial.print("0");
+ *       Serial.println(address, HEX);
+ *       devices++;
+ *     }
+ *   }
+ *   
+ *   Serial.print("Found ");
+ *   Serial.print(devices);
+ *   Serial.println(" device(s)");
+ *   Serial.println();
+ *   
+ *   delay(5000);
+ * }
+ */
+                    </pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. How It Works & Challenges</h2>
+                <p><strong>How It Works:</strong> The PCF8574 chip acts as a translator. It takes I2C commands from the Arduino (which only need 2 wires) and toggles the 8 parallel pins connected to the LCD screen.</p>
+                <p><strong>Challenges:</strong></p>
+                <ul>
+                    <li><strong>Two LCDs:</strong> Connect two displays with different addresses.</li>
+                    <li><strong>Sensor Dashboard:</strong> Display real sensor data (temperature, etc.).</li>
+                    <li><strong>Menu System:</strong> Create navigable menu with buttons.</li>
+                </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-29.html" class="btn">← Previous: #29 Shift Register</a>
+                <a href="project-31.html" class="btn">Next: #31 LCD Temp Display →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

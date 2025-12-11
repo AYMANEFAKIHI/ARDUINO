@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HC-SR04 Distance Finder - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">INTERMEDIATE</span>
+                <h1>HC-SR04 Distance Finder</h1>
+                <p class="project-summary">Build a distance sensor using ultrasonic waves and the pulseIn() function.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>Let's give our Arduino "eyes"! The HC-SR04 is an ultrasonic sensor that measures distance by sending out a sound wave and timing how long it takes to bounce back. This project teaches you how to work with time-sensitive sensors using the <code>pulseIn()</code> function and how to perform mathematical calculations within your code to convert raw time data into real-world units like centimeters.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno</li>
+                    <li>(1) HC-SR04 Ultrasonic Sensor</li>
+                    <li>(1) Breadboard</li>
+                    <li>(4) Jumper Wires</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Follow these steps carefully to wire your circuit.</p>
+                    <ol>
+                        <li><strong>Place the Sensor:</strong> Insert the HC-SR04 into the breadboard facing outward. It has 4 pins: VCC, Trig, Echo, GND.</li>
+                        <li><strong>Power:</strong> Connect the **VCC** pin to **5V** on the Arduino. Connect the **GND** pin to **GND** on the Arduino.</li>
+                        <li><strong>Trigger:</strong> Connect the **Trig** pin to **Digital Pin 9**. This pin sends the signal to start the sound ping.</li>
+                        <li><strong>Echo:</strong> Connect the **Echo** pin to **Digital Pin 10**. This pin listens for the returning sound wave.</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/21.png" alt="📏 Wiring Diagram Placeholder" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE. The comments explain exactly what each line is doing.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+// ----------------------------------------------------------------
+// HC-SR04 Distance Finder Sketch
+// ----------------------------------------------------------------
+
+// Define pins for the ultrasonic sensor
+const int trigPin = 9;
+const int echoPin = 10;
+
+// Define variables for calculation
+long duration; // Variable for the duration of sound wave travel
+int distance;  // Variable for the distance measurement
+
+void setup() {
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT);  // Sets the echoPin as an Input
+  
+  // Start serial communication so we can see the distance on the computer
+  Serial.begin(9600); 
+}
+
+void loop() {
+  // 1. Clear the trigPin condition
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  // 2. Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  // This sends out an 8-cycle sonic burst
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // 3. Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+
+  // 4. Calculating the distance
+  // Speed of sound is roughly 0.034 cm per microsecond.
+  // We divide by 2 because the sound goes out AND comes back.
+  distance = duration * 0.034 / 2;
+
+  // 5. Print the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  
+  // Wait a bit before the next measurement
+  delay(100);
+}
+                    </pre>
+                </div>
+            </article>
+            
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-20.html" class="btn">← Previous: #20 Capacitive Touch</a>
+                <a href="project-22.html" class="btn">Next: #22 PIR Motion Light →</a>
+            </div>
+            
+            </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

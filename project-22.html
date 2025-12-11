@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #22: PIR Motion-Activated Light - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #22: PIR Motion-Activated Light</h1>
+                <p class="project-summary">Build an automatic security light that turns on when motion is detected! PIR (Passive Infrared) sensors detect body heat - the same technology used in home security systems.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>How PIR motion sensors work</li>
+                <li>Implementing timeout logic</li>
+                <li>Building automatic lighting systems</li>
+                <li>Adjusting sensor sensitivity and delay</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) HC-SR501 PIR Sensor</li>
+<li>(1) LED</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) Breadboard</li>
+<li>(5+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/22.png" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>5V</td><td>PIR VCC</td></tr>
+                <tr><td>GND</td><td>PIR GND, LED cathode</td></tr>
+                <tr><td>Pin 2</td><td>PIR OUT (Signal)</td></tr>
+                <tr><td>Pin 13</td><td>LED anode via 220Ω</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #22: PIR Motion-Activated Light
+ * The Arduino Student Lab
+ * 
+ * Automatically turns on light when motion detected
+ * Stays on for configured duration, then turns off
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int PIR_PIN = 2;       // PIR sensor output
+const int LED_PIN = 13;      // Light to control
+
+// ============================================
+// TIMING CONFIGURATION
+// ============================================
+const unsigned long LIGHT_DURATION = 10000;  // Stay on for 10 seconds
+const unsigned long WARMUP_TIME = 30000;     // PIR warmup period (30s)
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+bool lightOn = false;
+unsigned long lightTurnedOnTime = 0;
+bool sensorReady = false;
+int motionCount = 0;
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(PIR_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  
+  digitalWrite(LED_PIN, LOW);
+  
+  Serial.begin(9600);
+  Serial.println("=== PIR MOTION-ACTIVATED LIGHT ===");
+  Serial.println("");
+  Serial.println("PIR sensor warming up...");
+  Serial.println("Please wait 30 seconds for calibration.");
+  Serial.println("");
+  
+  // Blink LED during warmup
+  for (int i = 0; i < 30; i++) {
+    digitalWrite(LED_PIN, HIGH);
+    delay(100);
+    digitalWrite(LED_PIN, LOW);
+    delay(900);
+    Serial.print(30 - i);
+    Serial.println(" seconds remaining...");
+  }
+  
+  sensorReady = true;
+  Serial.println("");
+  Serial.println("Sensor ready! Detecting motion...");
+  Serial.println("");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  if (!sensorReady) return;
+  
+  unsigned long currentTime = millis();
+  
+  // Read PIR sensor
+  bool motionDetected = digitalRead(PIR_PIN);
+  
+  if (motionDetected) {
+    if (!lightOn) {
+      // First motion detection - turn on light
+      motionCount++;
+      lightOn = true;
+      lightTurnedOnTime = currentTime;
+      digitalWrite(LED_PIN, HIGH);
+      
+      Serial.print("[");
+      Serial.print(currentTime / 1000);
+      Serial.print("s] Motion #");
+      Serial.print(motionCount);
+      Serial.println(" detected! Light ON");
+    } else {
+      // Motion while light is on - reset timer
+      lightTurnedOnTime = currentTime;
+      Serial.println("  Motion continues - timer reset");
+    }
+  }
+  
+  // Check if light should turn off
+  if (lightOn && (currentTime - lightTurnedOnTime >= LIGHT_DURATION)) {
+    lightOn = false;
+    digitalWrite(LED_PIN, LOW);
+    
+    Serial.print("[");
+    Serial.print(currentTime / 1000);
+    Serial.println("s] No motion - Light OFF");
+    Serial.println("");
+  }
+  
+  delay(100);  // Small delay to reduce CPU usage
+}
+
+/*
+ * HOW PIR SENSORS WORK
+ * 
+ * PIR = Passive Infrared
+ * "Passive" because it doesn't emit anything - only receives
+ * 
+ * Inside the sensor:
+ * +---------------------------+
+ * |  [Fresnel Lens]           |  <- Focuses IR from wide area
+ * |      |                    |
+ * |  [Pyroelectric Sensor]    |  <- Detects IR changes
+ * |      |                    |
+ * |  [Signal Processing]      |  <- Amplifies & compares
+ * +---------------------------+
+ * 
+ * Detection principle:
+ * - All warm objects emit infrared radiation
+ * - Humans emit IR around 10 micrometers wavelength
+ * - Sensor has two elements that detect IR
+ * - When a person moves, one element sees more IR
+ * - The difference triggers detection
+ * 
+ * HC-SR501 ADJUSTMENTS:
+ * - Left pot: Sensitivity (clockwise = more sensitive)
+ * - Right pot: Time delay (clockwise = longer)
+ * - Jumper: H = retriggerable, L = single trigger
+ * 
+ * WARMUP PERIOD:
+ * PIR sensors need 30-60 seconds to calibrate to
+ * ambient IR levels. May give false triggers during warmup.
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>PIR Detection:</strong> Sensor outputs HIGH when motion (IR change) detected.</li>
+                <li><strong>Warmup:</strong> 30-second calibration period prevents false triggers.</li>
+                <li><strong>Timer Reset:</strong> Continued motion resets the off-timer.</li>
+                <li><strong>Auto-Off:</strong> Light turns off after no motion for set duration.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Daylight Override:</strong> Add LDR to only activate at night.</li>
+                <li><strong>Adjustable Duration:</strong> Use potentiometer to set light-on time.</li>
+                <li><strong>Multiple Zones:</strong> Add more PIR sensors for different areas.</li>
+                <li><strong>Real Light:</strong> Use a relay module to control an AC lamp.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="distance-tutorial.html" class="btn">← Previous: #21 Distance Sensor</a>
+                <a href="project-23.html" class="btn">Next: #23 Parking Assist →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

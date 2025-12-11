@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #46: DHT22 Weather Station (LCD) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #46: DHT22 Weather Station (LCD)</h1>
+                <p class="project-summary">Build a weather station that displays temperature and humidity readings from a DHT22 sensor on an LCD screen.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will combine the DHT22 temperature and humidity sensor with an LCD display to create a standalone weather station. The DHT22 is more accurate than the DHT11 used in earlier projects.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul><li>Arduino Uno</li><li>DHT22 Sensor</li><li>16x2 LCD Display</li><li>Potentiometer (10k)</li><li>Jumper Wires</li><li>Breadboard</li></ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p><strong>DHT22:</strong> Pin 1 to 5V, Pin 2 to D2, Pin 4 to GND. (Add 10k pull-up between Pin 1 and 2 if module doesn't have one).<br><strong>LCD:</strong> RS to D7, E to D8, D4 to D9, D5 to D10, D6 to D11, D7 to D12. VSS to GND, VDD to 5V, V0 to Potentiometer.</p>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+#include <LiquidCrystal.h>
+#include "DHT.h"
+
+#define DHTPIN 2     
+#define DHTTYPE DHT22   
+
+DHT dht(DHTPIN, DHTTYPE);
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+
+void setup() {
+  lcd.begin(16, 2);
+  dht.begin();
+}
+
+void loop() {
+  delay(2000);
+
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+
+  if (isnan(h) || isnan(t)) {
+    lcd.setCursor(0, 0);
+    lcd.print("Failed to read");
+    return;
+  }
+
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.print(t);
+  lcd.print(" C");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Hum:  ");
+  lcd.print(h);
+  lcd.print(" %");
+}
+                    </pre>
+                </div>
+            </article>
+
+            <div class="project-navigation">
+                <a href="project-45.html" class="btn">← Previous: #45</a>
+                <a href="project-47.html" class="btn">Next: #47 →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fading LED with Potentiometer - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">INTERMEDIATE</span>
+                <h1>Fading LED with a Potentiometer</h1>
+                <p class="project-summary">Explore analog inputs, PWM output, and mapping values with a potentiometer.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>Digital signals are just On or Off, but the real world is analog (variable). In this project, we will use a Potentiometer (a variable resistor, like a volume knob) to control the brightness of an LED. This introduces **Analog Input** (reading a range of values), **PWM (Pulse Width Modulation)** to simulate analog output, and the very useful <code>map()</code> function to translate numbers from one range to another.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno</li>
+                    <li>(1) Potentiometer (10k $\Omega$ is standard)</li>
+                    <li>(1) LED</li>
+                    <li>(1) 220 $\Omega$ Resistor</li>
+                    <li>(1) Breadboard</li>
+                    <li>Jumper Wires</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Follow these steps carefully to wire your circuit.</p>
+                    <ol>
+                        <li><strong>LED Setup:</strong> Connect the LED and 220 $\Omega$ resistor as usual, but this time connect the Anode (long leg) to **Digital Pin 9**. <br><em>Note: Pin 9 has a "~" symbol next to it, meaning it supports PWM (fading).</em></li>
+                        <li><strong>Place the Potentiometer:</strong> Insert the potentiometer into the breadboard. It has three pins.</li>
+                        <li><strong>Power the Potentiometer:</strong> Connect the **Left** outer pin to **5V**. Connect the **Right** outer pin to **GND**.</li>
+                        <li><strong>Connect the Wiper:</strong> Connect the **Middle** pin (the wiper) to **Analog Pin A0** on the Arduino.</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/11.png" alt="🎛️ Wiring Diagram Placeholder" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE. The comments explain exactly what each line is doing.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+// ----------------------------------------------------------------
+// Fading LED with Potentiometer Sketch
+// ----------------------------------------------------------------
+
+const int potPin = A0;  // Analog input pin that the potentiometer is attached to
+const int ledPin = 9;   // Analog output (PWM) pin that the LED is attached to
+
+int sensorValue = 0;    // Value read from the pot
+int outputValue = 0;    // Value output to the PWM (analog out)
+
+void setup() {
+  // No pinMode needed for Analog Input (A0), it is automatic.
+  // We set the LED pin as output.
+  pinMode(ledPin, OUTPUT);
+  
+  // Initialize serial communications at 9600 bps (optional, for debugging):
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Read the analog in value:
+  // This returns a value between 0 (0V) and 1023 (5V)
+  sensorValue = analogRead(potPin);
+
+  // Map it to the range of the analog out:
+  // The analogWrite function only accepts values between 0 and 255.
+  // We use map(value, fromLow, fromHigh, toLow, toHigh)
+  outputValue = map(sensorValue, 0, 1023, 0, 255);
+
+  // Change the analog out value:
+  analogWrite(ledPin, outputValue);
+
+  // Print the results to the Serial Monitor (Tools > Serial Monitor)
+  Serial.print("sensor = ");
+  Serial.print(sensorValue);
+  Serial.print("\t output = ");
+  Serial.println(outputValue);
+
+  // Wait 2 milliseconds before the next loop for the ADC to settle
+  delay(2);
+}
+                    </pre>
+                </div>
+            </article>
+            
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-10.html" class="btn">← Previous: #10 Vibration Sensor</a>
+                <a href="project-12.html" class="btn">Next: #12 Photoresistor Night Light →</a>
+            </div>
+            
+            </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #33: LCD Custom Characters - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #33: LCD Custom Characters & Animation</h1>
+                <p class="project-summary">Go beyond text! Learn how to design and display your own custom icons, symbols, and simple animations on the LCD screen.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>The LCD controller (HD44780) has a built-in character set, but it also allows you to define up to 8 custom characters (0-7). Each character is a 5x8 pixel grid. By defining which pixels are on or off, we can create battery icons, smileys, or even simple animations.</p>
+                <ul>
+                    <li>Understanding the 5x8 pixel grid</li>
+                    <li>Using binary to design characters</li>
+                    <li><code>createChar()</code> function</li>
+                    <li>Animating by switching characters</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno</li>
+                    <li>(1) 16x2 LCD with I2C Backpack</li>
+                    <li>(4) Jumper Wires</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Standard I2C wiring:</p>
+                    <ol>
+                        <li><strong>VCC</strong> to 5V</li>
+                        <li><strong>GND</strong> to GND</li>
+                        <li><strong>SDA</strong> to A4</li>
+                        <li><strong>SCL</strong> to A5</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/33.jpeg" alt="🔌 Wiring Diagram: Standard I2C Connection" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>This code creates a "Pac-Man" style animation and a battery charging icon.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+/*
+ * Project #33: LCD Custom Characters
+ * The Arduino Student Lab
+ * 
+ * Creates custom icons (Pacman, Ghost, Battery)
+ * and animates them.
+ */
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// Define Custom Characters (5x8 grid)
+// 1 = Pixel ON, 0 = Pixel OFF
+
+byte pacmanOpen[8] = {
+  0b01110,
+  0b11101,
+  0b11111,
+  0b11100,
+  0b11111,
+  0b11111,
+  0b01110,
+  0b00000
+};
+
+byte pacmanClosed[8] = {
+  0b01110,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b01110,
+  0b00000
+};
+
+byte ghost[8] = {
+  0b01110,
+  0b11111,
+  0b10101,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b10101,
+  0b00000
+};
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  
+  // Register custom characters (0-7 allowed)
+  lcd.createChar(0, pacmanOpen);
+  lcd.createChar(1, pacmanClosed);
+  lcd.createChar(2, ghost);
+  
+  lcd.setCursor(0, 0);
+  lcd.print("Custom Chars!");
+}
+
+void loop() {
+  // Animation Loop
+  for (int i = 0; i < 16; i++) {
+    lcd.setCursor(i, 1);
+    
+    // Frame 1: Open Mouth
+    lcd.write(0); 
+    delay(200);
+    
+    // Frame 2: Closed Mouth
+    lcd.setCursor(i, 1);
+    lcd.write(1);
+    delay(200);
+    
+    // Clear the character behind (unless it's the start)
+    lcd.setCursor(i, 1);
+    lcd.print(" ");
+  }
+  
+  delay(1000);
+}
+                    </pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <p><strong>Binary Art:</strong> We define characters using arrays of bytes. <code>0b01110</code> represents one row of 5 pixels (0=off, 1=on). You can draw your own on graph paper first!</p>
+                <p><strong>Challenges:</strong></p>
+                <ul>
+                    <li><strong>Battery Indicator:</strong> Create 4 custom characters representing 25%, 50%, 75%, and 100% battery and animate them charging.</li>
+                    <li><strong>Dino Run:</strong> Recreate the Chrome Dino game character.</li>
+                    <li><strong>Big Numbers:</strong> Use 4 custom characters combined to create giant digits that span 2 rows.</li>
+                </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-32.html" class="btn">← Previous: #32 LCD Scrolling</a>
+                <a href="project-34.html" class="btn">Next: #34 8x8 LED Matrix →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

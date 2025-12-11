@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #29: LCD Hello World (16x2) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #29: LCD Hello World (16x2)</h1>
+                <p class="project-summary">Master the classic 16x2 LCD display! Learn to display text, scroll messages, and create custom characters. The LCD is essential for projects that need to show information.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Wiring a parallel LCD display</li>
+                <li>Using the LiquidCrystal library</li>
+                <li>LCD cursor positioning</li>
+                <li>Creating custom characters</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) 16x2 LCD Display</li>
+<li>(1) 10kΩ Potentiometer</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) Breadboard</li>
+<li>(16+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/29.jpeg" alt="[ LCD has 16 pins - wiring is detailed below ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>LCD Pin</th><th>Name</th><th>Arduino</th></tr>
+                <tr><td>1</td><td>VSS (GND)</td><td>GND</td></tr>
+                <tr><td>2</td><td>VDD (5V)</td><td>5V</td></tr>
+                <tr><td>3</td><td>V0 (Contrast)</td><td>Pot wiper</td></tr>
+                <tr><td>4</td><td>RS</td><td>Pin 12</td></tr>
+                <tr><td>5</td><td>RW</td><td>GND</td></tr>
+                <tr><td>6</td><td>E (Enable)</td><td>Pin 11</td></tr>
+                <tr><td>7-10</td><td>D0-D3</td><td>(Not used in 4-bit mode)</td></tr>
+                <tr><td>11</td><td>D4</td><td>Pin 5</td></tr>
+                <tr><td>12</td><td>D5</td><td>Pin 4</td></tr>
+                <tr><td>13</td><td>D6</td><td>Pin 3</td></tr>
+                <tr><td>14</td><td>D7</td><td>Pin 2</td></tr>
+                <tr><td>15</td><td>A (Backlight+)</td><td>5V via 220Ω</td></tr>
+                <tr><td>16</td><td>K (Backlight-)</td><td>GND</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #29: LCD Hello World (16x2)
+ * The Arduino Student Lab
+ * 
+ * Displays text on a 16x2 LCD display
+ * Demonstrates positioning, scrolling, and custom chars
+ */
+
+#include &lt;LiquidCrystal.h&gt;
+
+// ============================================
+// LCD PIN CONFIGURATION
+// ============================================
+// LiquidCrystal(RS, E, D4, D5, D6, D7)
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+// ============================================
+// CUSTOM CHARACTER DEFINITIONS
+// ============================================
+// Each character is 5x8 pixels (5 columns, 8 rows)
+byte smiley[8] = {
+  0b00000,
+  0b01010,
+  0b01010,
+  0b00000,
+  0b10001,
+  0b01110,
+  0b00000,
+  0b00000
+};
+
+byte heart[8] = {
+  0b00000,
+  0b01010,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b01110,
+  0b00100,
+  0b00000
+};
+
+// ============================================
+// SETUP
+// ============================================
+void setup() {
+  // Initialize LCD (16 columns, 2 rows)
+  lcd.begin(16, 2);
+  
+  // Create custom characters (indices 0-7)
+  lcd.createChar(0, smiley);
+  lcd.createChar(1, heart);
+  
+  Serial.begin(9600);
+  Serial.println("=== LCD HELLO WORLD ===");
+  
+  // Show startup message
+  lcd.print("Hello, Arduino!");
+  lcd.setCursor(0, 1);
+  lcd.print("LCD Display ");
+  lcd.write(byte(0));  // Smiley
+  
+  delay(3000);
+}
+
+// ============================================
+// MAIN LOOP
+// ============================================
+void loop() {
+  // Demo 1: Basic text
+  lcd.clear();
+  lcd.print("Demo 1: Text");
+  lcd.setCursor(0, 1);
+  lcd.print("16 chars x 2 row");
+  delay(2000);
+  
+  // Demo 2: Cursor positioning
+  lcd.clear();
+  lcd.print("Demo 2: Position");
+  delay(1000);
+  
+  lcd.setCursor(0, 1);  // Column 0, Row 1
+  for (int col = 0; col < 16; col++) {
+    lcd.setCursor(col, 1);
+    lcd.print("*");
+    delay(100);
+  }
+  delay(1000);
+  
+  // Demo 3: Scrolling
+  lcd.clear();
+  lcd.print("Demo 3: Scroll");
+  lcd.setCursor(0, 1);
+  lcd.print("Watch this!");
+  delay(1000);
+  
+  // Scroll left
+  for (int i = 0; i < 5; i++) {
+    lcd.scrollDisplayLeft();
+    delay(300);
+  }
+  // Scroll right
+  for (int i = 0; i < 5; i++) {
+    lcd.scrollDisplayRight();
+    delay(300);
+  }
+  delay(1000);
+  
+  // Demo 4: Custom characters
+  lcd.clear();
+  lcd.print("Demo 4: Custom");
+  lcd.setCursor(0, 1);
+  lcd.print("I ");
+  lcd.write(byte(1));  // Heart
+  lcd.print(" Arduino ");
+  lcd.write(byte(0));  // Smiley
+  delay(3000);
+  
+  // Demo 5: Counter
+  lcd.clear();
+  lcd.print("Demo 5: Counter");
+  for (int i = 0; i <= 100; i += 10) {
+    lcd.setCursor(0, 1);
+    lcd.print("Value: ");
+    lcd.print(i);
+    lcd.print("%  ");  // Extra spaces clear old chars
+    delay(300);
+  }
+  delay(2000);
+}
+
+/*
+ * LCD LIBRARY REFERENCE
+ * 
+ * INITIALIZATION:
+ * lcd.begin(cols, rows)  - Initialize display size
+ * 
+ * TEXT OUTPUT:
+ * lcd.print("text")      - Print text at cursor
+ * lcd.print(number)      - Print number
+ * lcd.write(byte)        - Print single character
+ * 
+ * CURSOR CONTROL:
+ * lcd.setCursor(col,row) - Move cursor (0-indexed)
+ * lcd.home()             - Cursor to top-left
+ * lcd.cursor()           - Show cursor
+ * lcd.noCursor()         - Hide cursor
+ * lcd.blink()            - Blinking cursor
+ * lcd.noBlink()          - Stop blinking
+ * 
+ * DISPLAY CONTROL:
+ * lcd.clear()            - Clear and cursor home
+ * lcd.display()          - Turn on display
+ * lcd.noDisplay()        - Turn off display
+ * lcd.scrollDisplayLeft()
+ * lcd.scrollDisplayRight()
+ * 
+ * CUSTOM CHARACTERS:
+ * lcd.createChar(num, array)  - Define custom (0-7)
+ * lcd.write(byte(num))        - Display custom char
+ * 
+ * CURSOR POSITIONS:
+ * +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+ * |00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15| Row 0
+ * +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+ * |00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15| Row 1
+ * +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>4-Bit Mode:</strong> Uses 4 data lines (D4-D7) to save Arduino pins.</li>
+                <li><strong>Cursor Position:</strong> setCursor(column, row) positions for next write.</li>
+                <li><strong>Custom Chars:</strong> 8 custom characters stored in LCD memory.</li>
+                <li><strong>Scrolling:</strong> Built-in functions shift entire display content.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Temperature Display:</strong> Show sensor reading with ° symbol.</li>
+                <li><strong>Long Message Scroll:</strong> Scroll text longer than 16 characters.</li>
+                <li><strong>Progress Bar:</strong> Create a custom-character progress bar.</li>
+                <li><strong>Simple Menu:</strong> Navigate options using buttons.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-28.html" class="btn">← Previous: #28 4-Digit Clock</a>
+                <a href="project-30.html" class="btn">Next: #30 I2C LCD →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

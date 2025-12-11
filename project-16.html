@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #16: Simple Melody with Piezo Buzzer - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #16: Simple Melody with Piezo Buzzer</h1>
+                <p class="project-summary">Make your Arduino play music! Using the <code>tone()</code> function and musical note frequencies, create melodies that would make Beethoven proud (or at least mildly amused).</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>How piezo buzzers produce sound</li>
+                <li>Using the <code>tone()</code> and <code>noTone()</code> functions</li>
+                <li>Musical note frequencies</li>
+                <li>Storing melodies in arrays</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) Piezo Buzzer</li>
+<li>(1) Breadboard</li>
+<li>(2) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/16.png" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>Pin 8</td><td>Buzzer positive (+)</td></tr>
+                <tr><td>GND</td><td>Buzzer negative (-)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #16: Simple Melody with Piezo Buzzer
+ * The Arduino Student Lab
+ * 
+ * Plays "Twinkle Twinkle Little Star" using tone()
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int BUZZER_PIN = 8;
+
+// ============================================
+// MUSICAL NOTE FREQUENCIES (Hz)
+// ============================================
+#define NOTE_C4  262   // Middle C
+#define NOTE_D4  294
+#define NOTE_E4  330
+#define NOTE_F4  349
+#define NOTE_G4  392
+#define NOTE_A4  440
+#define NOTE_B4  494
+#define NOTE_C5  523   // C one octave up
+#define NOTE_REST 0    // Silence
+
+// ============================================
+// MELODY DEFINITION
+// ============================================
+// Twinkle Twinkle Little Star
+int melody[] = {
+  NOTE_C4, NOTE_C4, NOTE_G4, NOTE_G4, NOTE_A4, NOTE_A4, NOTE_G4,  // Twin-kle twin-kle lit-tle star
+  NOTE_F4, NOTE_F4, NOTE_E4, NOTE_E4, NOTE_D4, NOTE_D4, NOTE_C4,  // How I won-der what you are
+  NOTE_G4, NOTE_G4, NOTE_F4, NOTE_F4, NOTE_E4, NOTE_E4, NOTE_D4,  // Up a-bove the world so high
+  NOTE_G4, NOTE_G4, NOTE_F4, NOTE_F4, NOTE_E4, NOTE_E4, NOTE_D4,  // Like a dia-mond in the sky
+  NOTE_C4, NOTE_C4, NOTE_G4, NOTE_G4, NOTE_A4, NOTE_A4, NOTE_G4,  // Twin-kle twin-kle lit-tle star
+  NOTE_F4, NOTE_F4, NOTE_E4, NOTE_E4, NOTE_D4, NOTE_D4, NOTE_C4   // How I won-der what you are
+};
+
+// Note durations: 4 = quarter note, 8 = eighth note, etc.
+int noteDurations[] = {
+  4, 4, 4, 4, 4, 4, 2,
+  4, 4, 4, 4, 4, 4, 2,
+  4, 4, 4, 4, 4, 4, 2,
+  4, 4, 4, 4, 4, 4, 2,
+  4, 4, 4, 4, 4, 4, 2,
+  4, 4, 4, 4, 4, 4, 2
+};
+
+// Calculate number of notes
+const int NUM_NOTES = sizeof(melody) / sizeof(melody[0]);
+
+// Tempo control (higher = faster)
+const int TEMPO = 120;  // BPM (beats per minute)
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("=== MELODY PLAYER ===");
+  Serial.println("Playing Twinkle Twinkle Little Star...");
+  Serial.println("");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Play each note in the melody
+  for (int i = 0; i < NUM_NOTES; i++) {
+    // Calculate note duration
+    // Quarter note (4) at 120 BPM = 500ms
+    int noteDuration = (60000 / TEMPO) / (noteDurations[i] / 4.0);
+    
+    // Play the note
+    if (melody[i] != NOTE_REST) {
+      tone(BUZZER_PIN, melody[i], noteDuration);
+      Serial.print("Note ");
+      Serial.print(i + 1);
+      Serial.print(": ");
+      Serial.print(melody[i]);
+      Serial.println(" Hz");
+    }
+    
+    // Pause between notes (adds slight separation)
+    int pauseBetweenNotes = noteDuration * 1.3;
+    delay(pauseBetweenNotes);
+    
+    // Stop the tone
+    noTone(BUZZER_PIN);
+  }
+  
+  // Pause before repeating
+  Serial.println("\n--- Melody complete! Restarting... ---\n");
+  delay(2000);
+}
+
+/*
+ * MUSICAL FREQUENCY REFERENCE
+ * 
+ * Note  | Freq (Hz)
+ * ------|----------
+ * C4    | 262
+ * C#4   | 277
+ * D4    | 294
+ * D#4   | 311
+ * E4    | 330
+ * F4    | 349
+ * F#4   | 370
+ * G4    | 392
+ * G#4   | 415
+ * A4    | 440  (Standard tuning reference)
+ * A#4   | 466
+ * B4    | 494
+ * C5    | 523
+ * 
+ * Each octave doubles the frequency:
+ * A3 = 220 Hz, A4 = 440 Hz, A5 = 880 Hz
+ * 
+ * PIEZO BUZZER TYPES:
+ * - Active: Contains oscillator, makes tone when powered
+ * - Passive: Needs frequency input, use with tone()
+ * 
+ * This project uses a PASSIVE buzzer!
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>tone(pin, freq, duration):</strong> Generates square wave at specified frequency.</li>
+                <li><strong>Frequencies:</strong> Each musical note has a specific frequency (A4 = 440 Hz).</li>
+                <li><strong>Duration:</strong> Quarter notes, half notes, etc. are calculated from tempo.</li>
+                <li><strong>Arrays:</strong> Melody and durations stored in parallel arrays.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>New Song:</strong> Encode a different song (Happy Birthday, Star Wars theme).</li>
+                <li><strong>Tempo Control:</strong> Add a potentiometer to adjust playback speed.</li>
+                <li><strong>Button Triggered:</strong> Only play when a button is pressed.</li>
+                <li><strong>RTTTL Player:</strong> Parse Ring Tone Text Transfer Language format.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-15.html" class="btn">← Previous: #15 Breathing LED</a>
+                <a href="project-17.html" class="btn">Next: #17 Doorbell →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #26: IR Obstacle Detector - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #26: IR Obstacle Detector</h1>
+                <p class="project-summary">Use infrared sensors for simple obstacle detection! IR obstacle sensors are perfect for line-following robots, edge detection, and proximity switches.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>How IR proximity sensors work</li>
+                <li>Digital vs. analog output sensors</li>
+                <li>Adjusting detection threshold</li>
+                <li>Applications in robotics</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) IR Obstacle Sensor</li>
+<li>(1) LED</li>
+<li>(1) Piezo Buzzer</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) Breadboard</li>
+<li>(6+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/26.jpeg" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>5V</td><td>IR Sensor VCC</td></tr>
+                <tr><td>GND</td><td>IR Sensor GND, LED (-), Buzzer (-)</td></tr>
+                <tr><td>Pin 2</td><td>IR Sensor OUT</td></tr>
+                <tr><td>Pin 13</td><td>LED (+) via 220Ω</td></tr>
+                <tr><td>Pin 8</td><td>Buzzer (+)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #26: IR Obstacle Detector
+ * The Arduino Student Lab
+ * 
+ * Detects obstacles using IR proximity sensor
+ * Provides LED and buzzer feedback
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int IR_SENSOR_PIN = 2;   // Digital input from sensor
+const int LED_PIN = 13;        // Visual indicator
+const int BUZZER_PIN = 8;      // Audio alert
+
+// ============================================
+// STATE TRACKING
+// ============================================
+bool lastState = false;
+unsigned long detectionCount = 0;
+
+// ============================================
+// SETUP
+// ============================================
+void setup() {
+  pinMode(IR_SENSOR_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("=== IR OBSTACLE DETECTOR ===");
+  Serial.println("Adjust potentiometer on sensor to set range");
+  Serial.println("");
+}
+
+// ============================================
+// MAIN LOOP
+// ============================================
+void loop() {
+  // Read IR sensor (LOW = obstacle detected)
+  bool obstacleDetected = (digitalRead(IR_SENSOR_PIN) == LOW);
+  
+  // Update outputs based on detection
+  if (obstacleDetected) {
+    digitalWrite(LED_PIN, HIGH);    // LED on
+    tone(BUZZER_PIN, 1000);         // Buzzer on
+    
+    // Only print on state change (to avoid flooding serial)
+    if (!lastState) {
+      detectionCount++;
+      Serial.print("OBSTACLE DETECTED! (#");
+      Serial.print(detectionCount);
+      Serial.println(")");
+    }
+  } else {
+    digitalWrite(LED_PIN, LOW);     // LED off
+    noTone(BUZZER_PIN);             // Buzzer off
+    
+    if (lastState) {
+      Serial.println("Clear.");
+      Serial.println("");
+    }
+  }
+  
+  lastState = obstacleDetected;
+  delay(50);
+}
+
+/*
+ * HOW IR OBSTACLE SENSORS WORK
+ * 
+ * Components inside the module:
+ * +---------------------------+
+ * |  [IR LED]    [IR Receiver]|
+ * |     ◯           ◯        |
+ * |                           |
+ * |  [Comparator IC]          |
+ * |  [Potentiometer]          |
+ * +---------------------------+
+ *        |  |  |
+ *       VCC OUT GND
+ * 
+ * Working principle:
+ * 1. IR LED constantly emits infrared light
+ * 2. When object is near, IR reflects back
+ * 3. IR receiver detects the reflection
+ * 4. Comparator compares signal vs threshold
+ * 5. Output goes LOW when obstacle detected
+ * 
+ * ADJUSTING THE SENSOR:
+ * - Turn potentiometer to adjust detection distance
+ * - Clockwise: Increase range (more sensitive)
+ * - Counter-clockwise: Decrease range
+ * - Typical range: 2cm to 30cm
+ * 
+ * IMPORTANT NOTES:
+ * - IR sensors can be affected by sunlight
+ * - Dark surfaces absorb IR, reducing range
+ * - Shiny surfaces can cause false triggers
+ * - Use multiple sensors for wide coverage
+ * 
+ * OUTPUT LOGIC (varies by module):
+ * - Most modules: LOW = obstacle, HIGH = clear
+ * - Some modules are reversed, check yours!
+ * 
+ * APPLICATIONS:
+ * - Robot obstacle avoidance
+ * - Line following (detect dark line)
+ * - Edge detection (table edge = no reflection)
+ * - Touch-free switches
+ * - Object counters
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>IR Emission:</strong> Module continuously emits infrared light.</li>
+                <li><strong>Reflection:</strong> Nearby objects reflect IR back to receiver.</li>
+                <li><strong>Comparison:</strong> Signal compared against threshold (potentiometer).</li>
+                <li><strong>Digital Output:</strong> LOW when obstacle within range, HIGH otherwise.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Object Counter:</strong> Count objects passing the sensor.</li>
+                <li><strong>Edge Detection:</strong> Detect when robot approaches table edge.</li>
+                <li><strong>Dual Sensors:</strong> Add left/right sensors for robot steering.</li>
+                <li><strong>Line Follower:</strong> Use to follow a black line on white surface.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-25.html" class="btn">← Previous: #25 Proximity Buzzer</a>
+                <a href="project-27.html" class="btn">Next: #27 7-Segment Countdown →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

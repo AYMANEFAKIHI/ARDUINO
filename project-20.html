@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #20: Capacitive Touch Sensor (TTP223) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #20: Capacitive Touch Sensor (TTP223)</h1>
+                <p class="project-summary">Add touch input to your projects! The TTP223 module lets you control things with a simple touch - no mechanical button needed. Same technology as your smartphone screen!</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>How capacitive touch sensing works</li>
+                <li>Using touch sensor modules</li>
+                <li>Comparing touch vs mechanical buttons</li>
+                <li>Building touch-activated projects</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) TTP223 Touch Sensor</li>
+<li>(1) LED</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) Breadboard</li>
+<li>(5+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/20.jpeg" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>TTP223 Module</th></tr>
+                <tr><td>5V</td><td>VCC</td></tr>
+                <tr><td>GND</td><td>GND</td></tr>
+                <tr><td>Pin 2</td><td>SIG (Signal Out)</td></tr>
+                <tr><td>Pin 13</td><td>LED via 220Ω</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #20: Capacitive Touch Sensor (TTP223)
+ * The Arduino Student Lab
+ * 
+ * Touch the sensor to toggle the LED on/off
+ * Demonstrates capacitive touch input
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int TOUCH_PIN = 2;    // Touch sensor output
+const int LED_PIN = 13;     // LED to control
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+bool ledState = false;           // Current LED state
+bool lastTouchState = LOW;       // Previous touch reading
+unsigned long lastTouchTime = 0; // For debouncing
+const unsigned long DEBOUNCE_DELAY = 200;  // 200ms debounce
+
+// Touch counter for fun statistics
+int touchCount = 0;
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(TOUCH_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  
+  digitalWrite(LED_PIN, LOW);
+  
+  Serial.begin(9600);
+  Serial.println("=== CAPACITIVE TOUCH SENSOR ===");
+  Serial.println("Touch the sensor to toggle the LED!");
+  Serial.println("");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Read touch sensor
+  bool touchState = digitalRead(TOUCH_PIN);
+  unsigned long currentTime = millis();
+  
+  // Detect touch (rising edge with debounce)
+  if (touchState == HIGH && lastTouchState == LOW) {
+    if (currentTime - lastTouchTime > DEBOUNCE_DELAY) {
+      lastTouchTime = currentTime;
+      touchCount++;
+      
+      // Toggle LED
+      ledState = !ledState;
+      digitalWrite(LED_PIN, ledState);
+      
+      // Report
+      Serial.print("Touch #");
+      Serial.print(touchCount);
+      Serial.print(" - LED is now: ");
+      Serial.println(ledState ? "ON" : "OFF");
+    }
+  }
+  
+  lastTouchState = touchState;
+}
+
+/*
+ * HOW CAPACITIVE TOUCH WORKS
+ * 
+ * Your body is like a capacitor (stores electrical charge).
+ * When you touch a conductive surface:
+ * 
+ *   Before Touch:          After Touch:
+ *   +------------+         +------------+
+ *   |   Sensor   |         |   Sensor   |
+ *   |  Electrode |         |  Electrode |
+ *   +------------+         +------||----+
+ *         |                       ||
+ *     No change              Your finger
+ *                           adds capacitance!
+ * 
+ * The TTP223 chip detects this capacitance change
+ * and outputs HIGH when touched.
+ * 
+ * TTP223 MODULE FEATURES:
+ * - Operating voltage: 2V - 5.5V
+ * - Output: Digital HIGH (touched) / LOW (not touched)
+ * - Response time: ~60ms
+ * - Auto-calibration on power-up
+ * 
+ * MODES (set by solder jumpers on back):
+ * - A jumper: Toggle mode (touch = flip output)
+ * - B jumper: Momentary mode (HIGH only while touching)
+ * - Default: Momentary (no jumpers)
+ * 
+ * WHY USE CAPACITIVE TOUCH?
+ * - No moving parts (no wear)
+ * - Can work through thin materials
+ * - Sleek, modern interface
+ * - Water resistant options available
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Capacitance Detection:</strong> Your body adds capacitance when touching the sensor.</li>
+                <li><strong>TTP223 IC:</strong> Detects capacitance change and outputs digital signal.</li>
+                <li><strong>Auto-Calibration:</strong> Sensor calibrates to environment on power-up.</li>
+                <li><strong>Debouncing:</strong> Still needed to prevent multiple triggers from one touch.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Touch Lamp:</strong> Create a multi-level touch lamp (off → dim → medium → bright).</li>
+                <li><strong>Touch Piano:</strong> Multiple touch sensors as piano keys.</li>
+                <li><strong>Secret Touch:</strong> Hide sensor under paper/plastic for hidden button.</li>
+                <li><strong>Long Press:</strong> Different action for tap vs. long press.</li>
+            </ul>
+
+            <div style="margin-top: 30px; padding: 20px; background: #e8f5e9; border-radius: 8px;">
+                <h3 style="color: #2e7d32; margin-top: 0;">🎉 Congratulations!</h3>
+                <p>You've completed all 20 <strong>Beginner Projects</strong>! You now understand:</p>
+                <ul>
+                    <li>Digital input and output</li>
+                    <li>Analog input and PWM output</li>
+                    <li>Timing with delay() and millis()</li>
+                    <li>Serial communication</li>
+                    <li>Various sensors and actuators</li>
+                </ul>
+                <p><strong>Ready for Intermediate projects?</strong> Let's add displays, motors, and more sensors!</p>
+            </div>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-19.html" class="btn">← Previous: #19 Theremin</a>
+                <a href="distance-tutorial.html" class="btn">Next: #21 Distance Sensor →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #41: DC Motor Direction (H-Bridge L298N) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #41: DC Motor Direction (H-Bridge L298N)</h1>
+                <p class="project-summary">To spin a DC motor in both directions (forward and reverse), we need a special circuit called an H-Bridge. The L298N is a popular dual H-Bridge module that allows us to control the speed and direction of two DC motors at once. In this project, we will control one motor.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>To spin a DC motor in both directions (forward and reverse), we need a special circuit called an H-Bridge. The L298N is a popular dual H-Bridge module that allows us to control the speed and direction of two DC motors at once. In this project, we will control one motor.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>Arduino Uno Board</li>
+                    <li>USB Cable</li>
+                    <li>DC Motor (Gearbox motor recommended)</li>
+                    <li>L298N Motor Driver Module</li>
+                    <li>Battery Pack (9V or 4xAA)</li>
+                    <li>Jumper Wires</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Connect the L298N module as follows:</p>
+                <ul>
+                    <li><strong>12V Input</strong> to Battery Positive (+)</li>
+                    <li><strong>GND</strong> to Battery Negative (-) AND Arduino GND (Common Ground)</li>
+                    <li><strong>5V Output</strong> (optional) can power the Arduino if battery > 7V</li>
+                    <li><strong>IN1</strong> to Arduino Pin <strong>8</strong></li>
+                    <li><strong>IN2</strong> to Arduino Pin <strong>9</strong></li>
+                    <li><strong>ENA</strong> (Enable A) to Arduino Pin <strong>10</strong> (Remove jumper cap if present)</li>
+                    <li><strong>OUT1 & OUT2</strong> to Motor Terminals</li>
+                </ul>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+// Motor A connections
+int enA = 10;
+int in1 = 9;
+int in2 = 8;
+
+void setup() {
+  // Set all the motor control pins to outputs
+  pinMode(enA, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  
+  // Turn off motors - Initial state
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+}
+
+void loop() {
+  directionControl();
+  delay(1000);
+  speedControl();
+  delay(1000);
+}
+
+// This function lets you control spinning direction of motors
+void directionControl() {
+  // Set motors to maximum speed
+  // For PWM maximum possible values are 0 to 255
+  analogWrite(enA, 255);
+
+  // Turn on motor A & B
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  delay(2000);
+  
+  // Now change motor directions
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  delay(2000);
+  
+  // Turn off motors
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+}
+
+// This function lets you control speed of the motors
+void speedControl() {
+  // Turn on motors
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  
+  // Accelerate from zero to maximum speed
+  for (int i = 0; i < 256; i++) {
+    analogWrite(enA, i);
+    delay(20);
+  }
+  
+  // Decelerate from maximum speed to zero
+  for (int i = 255; i >= 0; --i) {
+    analogWrite(enA, i);
+    delay(20);
+  }
+  
+  // Now turn off motors
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+}
+                    </pre>
+                </div>
+            </article>
+
+            <div class="project-navigation">
+                <a href="project-40.html" class="btn">← Previous: #40</a>
+                <a href="project-42.html" class="btn">Next: #42 →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

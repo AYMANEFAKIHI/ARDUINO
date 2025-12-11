@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #10: Vibration Sensor (SW-420) Alert - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #10: Vibration Sensor (SW-420) Alert</h1>
+                <p class="project-summary">Detect vibrations, knocks, and impacts with the SW-420 sensor! Perfect for building earthquake detectors, knock sensors, and anti-theft alarms.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Using vibration/shock sensors</li>
+                <li>Adjusting sensor sensitivity</li>
+                <li>Building impact detection systems</li>
+                <li>Counting vibration events</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) SW-420 Vibration Sensor</li>
+<li>(1) LED</li>
+<li>(1) Piezo Buzzer</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) Breadboard</li>
+<li>(5+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/10.jpeg" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>SW-420 Module</th></tr>
+                <tr><td>5V</td><td>VCC</td></tr>
+                <tr><td>GND</td><td>GND</td></tr>
+                <tr><td>Pin 2</td><td>DO (Digital Out)</td></tr>
+                <tr><td>Pin 13</td><td>LED via 220Ω</td></tr>
+                <tr><td>Pin 8</td><td>Buzzer (optional)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #10: Vibration Sensor (SW-420) Alert
+ * The Arduino Student Lab
+ * 
+ * Detects vibrations, knocks, and impacts
+ * Counts events and triggers alerts
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int VIBRATION_PIN = 2;   // Vibration sensor digital output
+const int LED_PIN = 13;        // Alert LED
+const int BUZZER_PIN = 8;      // Alert buzzer (optional)
+
+// ============================================
+// CONFIGURATION
+// ============================================
+const unsigned long ALERT_DURATION = 500;    // How long LED stays on (ms)
+const unsigned long DEBOUNCE_TIME = 50;      // Ignore rapid triggers (ms)
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+int vibrationCount = 0;              // Total vibrations detected
+unsigned long lastVibrationTime = 0; // For debouncing
+unsigned long alertStartTime = 0;    // When alert began
+bool alertActive = false;            // Is alert LED on?
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(VIBRATION_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("=== VIBRATION SENSOR READY ===");
+  Serial.println("Tap, knock, or shake the sensor!");
+  Serial.println("Adjust the potentiometer on the module");
+  Serial.println("to change sensitivity.");
+  Serial.println("");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  unsigned long currentTime = millis();
+  
+  // Read vibration sensor
+  // LOW when vibration detected (module pulls low)
+  bool vibrationDetected = (digitalRead(VIBRATION_PIN) == LOW);
+  
+  // Check for new vibration (with debounce)
+  if (vibrationDetected && (currentTime - lastVibrationTime > DEBOUNCE_TIME)) {
+    lastVibrationTime = currentTime;
+    
+    // Increment counter
+    vibrationCount++;
+    
+    // Start alert
+    alertActive = true;
+    alertStartTime = currentTime;
+    digitalWrite(LED_PIN, HIGH);
+    tone(BUZZER_PIN, 1000, 100);  // Short beep
+    
+    // Report to Serial
+    Serial.print("VIBRATION #");
+    Serial.print(vibrationCount);
+    Serial.println(" detected!");
+  }
+  
+  // Turn off alert after duration
+  if (alertActive && (currentTime - alertStartTime >= ALERT_DURATION)) {
+    alertActive = false;
+    digitalWrite(LED_PIN, LOW);
+  }
+  
+  // Every 10 seconds, report total count
+  static unsigned long lastReportTime = 0;
+  if (currentTime - lastReportTime >= 10000) {
+    lastReportTime = currentTime;
+    Serial.print("-- Total vibrations in last 10s: ");
+    static int lastCount = 0;
+    Serial.println(vibrationCount - lastCount);
+    lastCount = vibrationCount;
+  }
+}
+
+/*
+ * SW-420 VIBRATION SENSOR MODULE
+ * 
+ * The module contains:
+ * - SW-420 vibration switch (spring-based)
+ * - Comparator circuit
+ * - Sensitivity potentiometer
+ * - LED indicator
+ * 
+ * How it works:
+ * - A spring inside vibrates when disturbed
+ * - Spring touching contacts = circuit closes
+ * - Comparator outputs digital HIGH/LOW
+ * 
+ * Adjusting sensitivity:
+ * - Turn potentiometer clockwise = MORE sensitive
+ * - Turn counter-clockwise = LESS sensitive
+ * - Adjust until LED triggers at desired force
+ * 
+ * APPLICATIONS:
+ * - Anti-theft alarm (car, bike, laptop)
+ * - Earthquake early warning
+ * - Knock detection (secret knock door lock)
+ * - Machine monitoring (detect malfunction)
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Spring Mechanism:</strong> A conductive spring inside vibrates when disturbed.</li>
+                <li><strong>Digital Output:</strong> Module outputs LOW when vibration exceeds threshold.</li>
+                <li><strong>Sensitivity Adjustment:</strong> Potentiometer on module sets the trigger threshold.</li>
+                <li><strong>Event Counting:</strong> Code tracks total vibrations and reports periodically.</li>
+                <li><strong>Debouncing:</strong> Ignores rapid multiple triggers from single vibration.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Knock Pattern:</strong> Detect a specific knock pattern (like shave-and-a-haircut) to unlock.</li>
+                <li><strong>Intensity Levels:</strong> Use the analog output (if available) to measure vibration strength.</li>
+                <li><strong>Data Logger:</strong> Record timestamps of all vibrations to SD card.</li>
+                <li><strong>Seismograph:</strong> Plot vibration intensity over time using Serial Plotter.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-9.html" class="btn">← Previous: #9 Reed Switch</a>
+                <a href="pot-fade-tutorial.html" class="btn">Next: #11 Potentiometer →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

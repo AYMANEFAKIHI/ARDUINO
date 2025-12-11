@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #27: 7-Segment Countdown Timer - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #27: 7-Segment Countdown Timer</h1>
+                <p class="project-summary">Learn how 7-segment displays work! Build a countdown timer that displays 9-0 with a finale alarm. Master segment patterns and display multiplexing basics.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>How 7-segment displays are wired</li>
+                <li>Creating digit patterns with segment maps</li>
+                <li>Building countdown timers</li>
+                <li>Common cathode vs common anode displays</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) 7-Segment Display</li>
+<li>(7) 220Ω Resistors</li>
+<li>(1) Piezo Buzzer</li>
+<li>(1) Push Button</li>
+<li>(1) 10kΩ Resistor</li>
+<li>(1) Breadboard</li>
+<li>(15+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/27.jpeg" alt="[ 7-Segment Display Pinout ]" style="max-width: 100%; height: auto;">
+</div>
+                    
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #27: 7-Segment Countdown Timer
+ * The Arduino Student Lab
+ * 
+ * Displays 9 down to 0 with buzzer alarm at end
+ * Button starts/resets the countdown
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+// Segment pins (a-g) connected to Arduino pins 2-8
+const int SEGMENT_A = 2;
+const int SEGMENT_B = 3;
+const int SEGMENT_C = 4;
+const int SEGMENT_D = 5;
+const int SEGMENT_E = 6;
+const int SEGMENT_F = 7;
+const int SEGMENT_G = 8;
+
+const int BUTTON_PIN = 9;
+const int BUZZER_PIN = 10;
+
+// ============================================
+// SEGMENT PATTERNS
+// ============================================
+// Each byte represents segments: 0bGFEDCBA
+// 1 = segment ON, 0 = segment OFF
+const byte DIGITS[] = {
+  0b0111111,  // 0: A,B,C,D,E,F on
+  0b0000110,  // 1: B,C on
+  0b1011011,  // 2: A,B,D,E,G on
+  0b1001111,  // 3: A,B,C,D,G on
+  0b1100110,  // 4: B,C,F,G on
+  0b1101101,  // 5: A,C,D,F,G on
+  0b1111101,  // 6: A,C,D,E,F,G on
+  0b0000111,  // 7: A,B,C on
+  0b1111111,  // 8: All on
+  0b1101111   // 9: A,B,C,D,F,G on
+};
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+int currentDigit = 9;
+bool countdownActive = false;
+bool lastButtonState = false;
+unsigned long lastCountTime = 0;
+const unsigned long COUNT_INTERVAL = 1000;  // 1 second
+
+// ============================================
+// SETUP
+// ============================================
+void setup() {
+  // Set segment pins as outputs
+  for (int pin = 2; pin <= 8; pin++) {
+    pinMode(pin, OUTPUT);
+  }
+  
+  pinMode(BUTTON_PIN, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("=== 7-SEGMENT COUNTDOWN TIMER ===");
+  Serial.println("Press button to start/reset");
+  Serial.println("");
+  
+  // Display starting digit
+  displayDigit(currentDigit);
+}
+
+// ============================================
+// MAIN LOOP
+// ============================================
+void loop() {
+  // Handle button press
+  bool buttonState = digitalRead(BUTTON_PIN);
+  
+  if (buttonState && !lastButtonState) {
+    // Button just pressed - start/reset countdown
+    currentDigit = 9;
+    countdownActive = true;
+    lastCountTime = millis();
+    displayDigit(currentDigit);
+    noTone(BUZZER_PIN);
+    Serial.println("Countdown started!");
+  }
+  lastButtonState = buttonState;
+  
+  // Handle countdown
+  if (countdownActive) {
+    unsigned long currentTime = millis();
+    
+    if (currentTime - lastCountTime >= COUNT_INTERVAL) {
+      lastCountTime = currentTime;
+      
+      if (currentDigit > 0) {
+        currentDigit--;
+        displayDigit(currentDigit);
+        
+        // Tick sound
+        tone(BUZZER_PIN, 800, 50);
+        
+        Serial.print("Countdown: ");
+        Serial.println(currentDigit);
+      } else {
+        // Countdown finished!
+        countdownActive = false;
+        finaleAlarm();
+        Serial.println("TIME'S UP!");
+      }
+    }
+  }
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+void displayDigit(int digit) {
+  if (digit < 0 || digit > 9) return;
+  
+  byte pattern = DIGITS[digit];
+  
+  // Write each segment
+  digitalWrite(SEGMENT_A, pattern & 0b0000001);
+  digitalWrite(SEGMENT_B, pattern & 0b0000010);
+  digitalWrite(SEGMENT_C, pattern & 0b0000100);
+  digitalWrite(SEGMENT_D, pattern & 0b0001000);
+  digitalWrite(SEGMENT_E, pattern & 0b0010000);
+  digitalWrite(SEGMENT_F, pattern & 0b0100000);
+  digitalWrite(SEGMENT_G, pattern & 0b1000000);
+}
+
+void finaleAlarm() {
+  // Play alarm sequence
+  for (int i = 0; i < 5; i++) {
+    tone(BUZZER_PIN, 1500, 200);
+    delay(300);
+  }
+  
+  // Final long beep
+  tone(BUZZER_PIN, 2000, 1000);
+}
+
+/*
+ * 7-SEGMENT DISPLAY EXPLAINED
+ * 
+ *    --A--
+ *   |     |
+ *   F     B
+ *   |     |
+ *    --G--
+ *   |     |
+ *   E     C
+ *   |     |
+ *    --D--  .DP
+ * 
+ * Each segment is an individual LED.
+ * By turning combinations on/off, we form digits.
+ * 
+ * SEGMENT PATTERN TABLE:
+ * Digit | A B C D E F G | Hex
+ * ------+---------------+-----
+ *   0   | 1 1 1 1 1 1 0 | 0x3F
+ *   1   | 0 1 1 0 0 0 0 | 0x06
+ *   2   | 1 1 0 1 1 0 1 | 0x5B
+ *   3   | 1 1 1 1 0 0 1 | 0x4F
+ *   4   | 0 1 1 0 0 1 1 | 0x66
+ *   5   | 1 0 1 1 0 1 1 | 0x6D
+ *   6   | 1 0 1 1 1 1 1 | 0x7D
+ *   7   | 1 1 1 0 0 0 0 | 0x07
+ *   8   | 1 1 1 1 1 1 1 | 0x7F
+ *   9   | 1 1 1 1 0 1 1 | 0x6F
+ * 
+ * COMMON CATHODE vs COMMON ANODE:
+ * - Common Cathode: All cathodes tied to GND
+ *   HIGH = segment ON
+ * - Common Anode: All anodes tied to VCC
+ *   LOW = segment ON (inverted logic!)
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Segment Patterns:</strong> Each digit defined by which segments are lit.</li>
+                <li><strong>Bit Manipulation:</strong> Pattern stored as binary, extracted with AND.</li>
+                <li><strong>Countdown Logic:</strong> millis() timer decrements digit each second.</li>
+                <li><strong>Button Control:</strong> Starts or resets countdown to 9.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Two Digits:</strong> Add another display for 99-0 countdown.</li>
+                <li><strong>Adjustable Time:</strong> Use potentiometer to set starting number.</li>
+                <li><strong>Up Counter:</strong> Modify to count up from 0 instead.</li>
+                <li><strong>Stopwatch:</strong> Add start/stop/reset buttons.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-26.html" class="btn">← Previous: #26 IR Obstacle</a>
+                <a href="project-28.html" class="btn">Next: #28 4-Digit Clock →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

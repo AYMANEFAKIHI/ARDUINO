@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #18: Serial Monitor Temperature Logger - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #18: Serial Monitor Temperature Logger</h1>
+                <p class="project-summary">Learn the essential debugging skill: Serial communication! Log temperature readings with timestamps to the Serial Monitor - your window into what Arduino is thinking.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Serial communication basics</li>
+                <li><code>Serial.print()</code> vs <code>Serial.println()</code></li>
+                <li>Formatting data output</li>
+                <li>Creating readable logs with timestamps</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) LM35 Temperature Sensor</li>
+<li>(1) Breadboard</li>
+<li>(3) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/18.jpeg" alt="[ Same as Project #13 - LM35 on A0 ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>5V</td><td>LM35 VCC (left pin)</td></tr>
+                <tr><td>A0</td><td>LM35 VOUT (middle pin)</td></tr>
+                <tr><td>GND</td><td>LM35 GND (right pin)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #18: Serial Monitor Temperature Logger
+ * The Arduino Student Lab
+ * 
+ * Logs temperature readings with timestamps
+ * Demonstrates Serial communication for debugging
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int TEMP_PIN = A0;
+
+// ============================================
+// LOGGING CONFIGURATION
+// ============================================
+const unsigned long LOG_INTERVAL = 2000;  // Log every 2 seconds
+unsigned long lastLogTime = 0;
+unsigned long readingNumber = 0;
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  // Initialize Serial at 9600 baud
+  Serial.begin(9600);
+  
+  // Wait for Serial to connect (important for some boards)
+  while (!Serial) {
+    ; // Wait
+  }
+  
+  // Print header
+  Serial.println("==========================================");
+  Serial.println("     TEMPERATURE DATA LOGGER");
+  Serial.println("==========================================");
+  Serial.println("");
+  Serial.println("Reading#  Time(s)   Raw    Voltage   Temp(C)  Temp(F)");
+  Serial.println("--------  -------   ---    -------   -------  -------");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  unsigned long currentTime = millis();
+  
+  // Check if it's time to log
+  if (currentTime - lastLogTime >= LOG_INTERVAL) {
+    lastLogTime = currentTime;
+    readingNumber++;
+    
+    // Take temperature reading
+    int rawValue = analogRead(TEMP_PIN);
+    float voltage = (rawValue / 1024.0) * 5.0;
+    float tempC = voltage * 100.0;
+    float tempF = (tempC * 9.0 / 5.0) + 32.0;
+    
+    // Calculate runtime in seconds
+    float runtimeSeconds = currentTime / 1000.0;
+    
+    // Log data in formatted columns
+    // Using print() for same line, println() for new line
+    
+    // Reading number (padded)
+    Serial.print("#");
+    if (readingNumber < 10) Serial.print("  ");
+    else if (readingNumber < 100) Serial.print(" ");
+    Serial.print(readingNumber);
+    Serial.print("     ");
+    
+    // Time in seconds
+    Serial.print(runtimeSeconds, 1);
+    Serial.print("s    ");
+    
+    // Raw ADC value
+    if (rawValue < 100) Serial.print(" ");
+    if (rawValue < 10) Serial.print(" ");
+    Serial.print(rawValue);
+    Serial.print("    ");
+    
+    // Voltage
+    Serial.print(voltage, 3);
+    Serial.print("V    ");
+    
+    // Temperature Celsius
+    Serial.print(tempC, 1);
+    Serial.print("C    ");
+    
+    // Temperature Fahrenheit
+    Serial.print(tempF, 1);
+    Serial.println("F");
+    
+    // Every 10 readings, add a separator
+    if (readingNumber % 10 == 0) {
+      Serial.println("--------------------------------------------------");
+    }
+  }
+}
+
+/*
+ * SERIAL COMMUNICATION BASICS
+ * 
+ * Serial.begin(9600):
+ *   Initialize serial port at 9600 bits/second
+ *   Common rates: 9600, 115200, 250000
+ *   Must match Serial Monitor setting!
+ * 
+ * Serial.print(value):
+ *   Send data WITHOUT newline
+ *   Can chain multiple prints on same line
+ * 
+ * Serial.println(value):
+ *   Send data WITH newline
+ *   Next output starts on new line
+ * 
+ * Serial.print(float, decimals):
+ *   Control decimal places: Serial.print(3.14159, 2) → "3.14"
+ * 
+ * WHY 9600 BAUD?
+ *   Historical default, very reliable
+ *   For faster data: use 115200 or higher
+ *   Ensure both Arduino code AND Serial Monitor match!
+ * 
+ * COPYING DATA:
+ *   You can select and copy text from Serial Monitor
+ *   Paste into Excel/Sheets for analysis!
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Serial.begin():</strong> Initializes communication at specified baud rate.</li>
+                <li><strong>print() vs println():</strong> print stays on same line, println adds newline.</li>
+                <li><strong>Formatting:</strong> Padding and alignment make data readable.</li>
+                <li><strong>Timestamps:</strong> <code>millis()</code> provides runtime in milliseconds.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>CSV Format:</strong> Output comma-separated values for easy spreadsheet import.</li>
+                <li><strong>Alerts:</strong> Print "WARNING" when temperature exceeds a threshold.</li>
+                <li><strong>Statistics:</strong> Calculate and display min/max/average every 10 readings.</li>
+                <li><strong>Multiple Sensors:</strong> Log from 2-3 temperature sensors simultaneously.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-17.html" class="btn">← Previous: #17 Doorbell</a>
+                <a href="project-19.html" class="btn">Next: #19 Theremin →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

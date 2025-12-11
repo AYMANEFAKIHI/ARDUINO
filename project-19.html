@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #19: Potentiometer Theremin - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #19: Potentiometer Theremin</h1>
+                <p class="project-summary">Create a simple electronic instrument! Turn the potentiometer to change pitch - just like a theremin, but without the spooky hand-waving (we'll add that in a later project!).</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Mapping analog input to frequency output</li>
+                <li>Choosing appropriate frequency ranges</li>
+                <li>Creating interactive sound projects</li>
+                <li>Understanding human hearing range</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) Potentiometer</li>
+<li>(1) Piezo Buzzer</li>
+<li>(1) Breadboard</li>
+<li>(5+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/19.jpeg" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>A0</td><td>Potentiometer wiper (middle)</td></tr>
+                <tr><td>Pin 8</td><td>Buzzer (+)</td></tr>
+                <tr><td>5V</td><td>Potentiometer outer pin</td></tr>
+                <tr><td>GND</td><td>Potentiometer outer pin, Buzzer (-)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #19: Potentiometer Theremin
+ * The Arduino Student Lab
+ * 
+ * Turn the knob to change pitch
+ * Simple electronic musical instrument
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int POT_PIN = A0;
+const int BUZZER_PIN = 8;
+
+// ============================================
+// FREQUENCY RANGE
+// ============================================
+// Human hearing: 20 Hz to 20,000 Hz
+// Musical range: ~100 Hz to ~2000 Hz is most pleasant
+const int MIN_FREQ = 100;    // Low pitch
+const int MAX_FREQ = 2000;   // High pitch
+
+// Threshold for silence (avoid noise at low pot values)
+const int SILENCE_THRESHOLD = 10;
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("=== POTENTIOMETER THEREMIN ===");
+  Serial.println("Turn the knob to play!");
+  Serial.println("");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Read potentiometer (0-1023)
+  int potValue = analogRead(POT_PIN);
+  
+  // Map pot value to frequency range
+  int frequency = map(potValue, 0, 1023, MIN_FREQ, MAX_FREQ);
+  
+  // If pot is near minimum, stay silent
+  if (potValue < SILENCE_THRESHOLD) {
+    noTone(BUZZER_PIN);
+    Serial.println("Silent (pot at minimum)");
+  } else {
+    // Play the tone
+    tone(BUZZER_PIN, frequency);
+    
+    // Debug output
+    Serial.print("Pot: ");
+    Serial.print(potValue);
+    Serial.print(" | Freq: ");
+    Serial.print(frequency);
+    Serial.print(" Hz | Note: ");
+    Serial.println(frequencyToNote(frequency));
+  }
+  
+  delay(10);  // Small delay for stability
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+/*
+ * frequencyToNote(freq)
+ * Returns approximate musical note name for a frequency
+ */
+String frequencyToNote(int freq) {
+  // Approximate note frequencies
+  if (freq < 139) return "C3";
+  if (freq < 156) return "D3";
+  if (freq < 175) return "E3";
+  if (freq < 185) return "F3";
+  if (freq < 208) return "G3";
+  if (freq < 233) return "A3";
+  if (freq < 262) return "B3";
+  if (freq < 294) return "C4";
+  if (freq < 330) return "D4";
+  if (freq < 349) return "E4";
+  if (freq < 392) return "F4";
+  if (freq < 440) return "G4";
+  if (freq < 494) return "A4";
+  if (freq < 523) return "B4";
+  if (freq < 587) return "C5";
+  if (freq < 659) return "D5";
+  if (freq < 698) return "E5";
+  if (freq < 784) return "F5";
+  if (freq < 880) return "G5";
+  if (freq < 988) return "A5";
+  if (freq < 1047) return "B5";
+  if (freq < 1175) return "C6";
+  if (freq < 1319) return "D6";
+  if (freq < 1397) return "E6";
+  if (freq < 1568) return "F6";
+  if (freq < 1760) return "G6";
+  if (freq < 1976) return "A6";
+  return "B6+";
+}
+
+/*
+ * ABOUT THE THEREMIN
+ * 
+ * The theremin (invented 1920) is one of the earliest
+ * electronic instruments. It's played without touching:
+ * - One antenna controls pitch (hand distance)
+ * - One antenna controls volume (other hand)
+ * 
+ * Famous theremin sounds:
+ * - Classic sci-fi movie soundtracks
+ * - Beach Boys "Good Vibrations"
+ * - Star Trek original series theme
+ * 
+ * Our version uses a potentiometer instead of
+ * detecting hand proximity, but the concept is similar!
+ * 
+ * FREQUENCY PERCEPTION:
+ * - Pitch perception is logarithmic, not linear
+ * - An octave = doubling the frequency
+ * - A4 = 440 Hz, A5 = 880 Hz (sounds same distance apart)
+ * - Our linear mapping isn't "musical" but works!
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Analog Read:</strong> Potentiometer outputs 0-1023 based on position.</li>
+                <li><strong>map() Function:</strong> Converts 0-1023 range to 100-2000 Hz range.</li>
+                <li><strong>tone() Output:</strong> Continuously plays the calculated frequency.</li>
+                <li><strong>Silence Zone:</strong> Very low pot values produce silence (prevents unwanted noise).</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Two Controls:</strong> Add a second pot to control volume (using PWM).</li>
+                <li><strong>Light Theremin:</strong> Replace pot with photoresistor for hands-free control.</li>
+                <li><strong>Quantized Notes:</strong> Snap to nearest musical note instead of continuous pitch.</li>
+                <li><strong>Record & Play:</strong> Record a sequence and play it back.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-18.html" class="btn">← Previous: #18 Serial Logger</a>
+                <a href="project-20.html" class="btn">Next: #20 Touch Sensor →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

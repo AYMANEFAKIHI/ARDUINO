@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #14: 5-LED Volume/Level Meter - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #14: 5-LED Volume/Level Meter</h1>
+                <p class="project-summary">Create a visual level indicator using 5 LEDs! Turn a potentiometer and watch LEDs light up sequentially - like a VU meter or signal strength indicator.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Mapping analog values to discrete levels</li>
+                <li>Controlling multiple outputs based on input ranges</li>
+                <li>Building bar graph displays</li>
+                <li>Using arrays for efficient LED control</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(5) LEDs</li>
+<li>(1) Potentiometer</li>
+<li>(5) 220Ω Resistors</li>
+<li>(1) Breadboard</li>
+<li>(12+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/14.png" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>A0</td><td>Potentiometer middle pin (wiper)</td></tr>
+                <tr><td>Pin 2</td><td>LED 1 (Green) via 220Ω</td></tr>
+                <tr><td>Pin 3</td><td>LED 2 (Green) via 220Ω</td></tr>
+                <tr><td>Pin 4</td><td>LED 3 (Yellow) via 220Ω</td></tr>
+                <tr><td>Pin 5</td><td>LED 4 (Yellow) via 220Ω</td></tr>
+                <tr><td>Pin 6</td><td>LED 5 (Red) via 220Ω</td></tr>
+                <tr><td>5V</td><td>Potentiometer outer pin</td></tr>
+                <tr><td>GND</td><td>Potentiometer outer pin, all LED cathodes</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #14: 5-LED Volume/Level Meter
+ * The Arduino Student Lab
+ * 
+ * Displays analog input level as a bar graph
+ * using 5 LEDs (like a VU meter)
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int POT_PIN = A0;        // Potentiometer input
+const int NUM_LEDS = 5;        // Number of LEDs in bar graph
+
+// LED pins in order from lowest to highest
+const int LED_PINS[NUM_LEDS] = {2, 3, 4, 5, 6};
+
+// ============================================
+// THRESHOLD VALUES
+// ============================================
+// Divide 0-1023 range into 5 equal segments
+// Each segment is ~205 units wide
+const int THRESHOLDS[NUM_LEDS] = {205, 410, 615, 820, 1000};
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  // Set all LED pins as outputs
+  for (int i = 0; i < NUM_LEDS; i++) {
+    pinMode(LED_PINS[i], OUTPUT);
+  }
+  
+  Serial.begin(9600);
+  Serial.println("=== 5-LED LEVEL METER ===");
+  Serial.println("Turn the potentiometer to see LEDs respond!");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Read potentiometer value (0-1023)
+  int sensorValue = analogRead(POT_PIN);
+  
+  // Determine how many LEDs should be lit
+  int ledsToLight = 0;
+  for (int i = 0; i < NUM_LEDS; i++) {
+    if (sensorValue >= THRESHOLDS[i]) {
+      ledsToLight = i + 1;
+    }
+  }
+  
+  // Update LEDs
+  updateLEDs(ledsToLight);
+  
+  // Debug output
+  Serial.print("Value: ");
+  Serial.print(sensorValue);
+  Serial.print(" | Level: ");
+  Serial.print(ledsToLight);
+  Serial.print("/5 ");
+  printBar(ledsToLight);
+  Serial.println();
+  
+  delay(50);  // Small delay for stable readings
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+/*
+ * updateLEDs(count)
+ * Lights up 'count' LEDs from the bottom up
+ * Turns off LEDs above that count
+ */
+void updateLEDs(int count) {
+  for (int i = 0; i < NUM_LEDS; i++) {
+    if (i < count) {
+      digitalWrite(LED_PINS[i], HIGH);  // Light this LED
+    } else {
+      digitalWrite(LED_PINS[i], LOW);   // Turn off this LED
+    }
+  }
+}
+
+/*
+ * printBar(level)
+ * Prints a text-based bar graph to Serial Monitor
+ */
+void printBar(int level) {
+  Serial.print("[");
+  for (int i = 0; i < NUM_LEDS; i++) {
+    if (i < level) {
+      Serial.print("█");  // Filled block
+    } else {
+      Serial.print("░");  // Empty block
+    }
+  }
+  Serial.print("]");
+}
+
+/*
+ * UNDERSTANDING THE THRESHOLDS:
+ * 
+ * Analog range: 0 to 1023
+ * 
+ * Value:     0    205   410   615   820   1023
+ *            |-----|-----|-----|-----|-----|
+ * LEDs lit:    0     1     2     3     4     5
+ * 
+ * LED 1 lights when value >= 1 (almost immediately)
+ * LED 2 lights when value >= 205 (20%)
+ * LED 3 lights when value >= 410 (40%)
+ * LED 4 lights when value >= 615 (60%)
+ * LED 5 lights when value >= 820 (80%)
+ * 
+ * You can adjust thresholds for non-linear response!
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Analog Input:</strong> Potentiometer outputs 0-1023 based on position.</li>
+                <li><strong>Thresholds:</strong> We divide the range into 5 segments (0-20%, 20-40%, etc.).</li>
+                <li><strong>LED Count:</strong> Count how many thresholds the value exceeds.</li>
+                <li><strong>Bar Graph:</strong> Light LEDs from bottom up based on the count.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Sound Meter:</strong> Replace potentiometer with a sound sensor for a VU meter.</li>
+                <li><strong>Peak Hold:</strong> Keep the highest LED lit for 1 second before dropping.</li>
+                <li><strong>10-LED Bar:</strong> Expand to 10 LEDs for higher resolution.</li>
+                <li><strong>RGB Colors:</strong> Use NeoPixels for a smooth color-changing bar graph.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-13.html" class="btn">← Previous: #13 Temperature Monitor</a>
+                <a href="project-15.html" class="btn">Next: #15 Breathing LED →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #2: Traffic Light Sequence - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #2: 3-LED Traffic Light Sequence</h1>
+                <p class="project-summary">Build a realistic traffic light simulation using 3 LEDs. This project teaches you how to control multiple outputs and create timed sequences - the foundation for any automated system.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, you will learn how to control multiple digital outputs simultaneously. We will simulate a traffic light system using Red, Yellow, and Green LEDs. You'll learn about timing sequences using <code>delay()</code> and how to organize your code with helper functions for better readability.</p>
+                <ul>
+                    <li>Controlling multiple digital outputs simultaneously</li>
+                    <li>Creating timed sequences with <code>delay()</code></li>
+                    <li>Realistic traffic light timing patterns</li>
+                    <li>Organizing code for readability</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno (or compatible board)</li>
+                    <li>(1) Red LED (5mm standard)</li>
+                    <li>(1) Yellow LED (5mm standard)</li>
+                    <li>(1) Green LED (5mm standard)</li>
+                    <li>(3) 220Ω Resistors (Current limiting)</li>
+                    <li>(1) Breadboard (Half-size or larger)</li>
+                    <li>(6+) Jumper Wires (Male-to-male)</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Connect the LEDs to the Arduino pins as follows:</p>
+                    <ol>
+                        <li><strong>Red LED:</strong> Anode (long leg) to Pin 10 via 220Ω resistor. Cathode (short leg) to GND.</li>
+                        <li><strong>Yellow LED:</strong> Anode (long leg) to Pin 9 via 220Ω resistor. Cathode (short leg) to GND.</li>
+                        <li><strong>Green LED:</strong> Anode (long leg) to Pin 8 via 220Ω resistor. Cathode (short leg) to GND.</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/2.jpg" alt="🔌 Wiring Diagram: Red(10), Yellow(9), Green(8)" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+/*
+ * Project #2: 3-LED Traffic Light Sequence
+ * The Arduino Student Lab
+ * 
+ * Simulates a realistic traffic light cycle
+ * Red -> Green -> Yellow -> Red
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int RED_LED = 10;      // Red LED on pin 10
+const int YELLOW_LED = 9;    // Yellow LED on pin 9
+const int GREEN_LED = 8;     // Green LED on pin 8
+
+// ============================================
+// TIMING CONSTANTS (in milliseconds)
+// ============================================
+const int RED_TIME = 5000;      // Red light duration: 5 seconds
+const int GREEN_TIME = 4000;    // Green light duration: 4 seconds
+const int YELLOW_TIME = 2000;   // Yellow light duration: 2 seconds
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  // Configure all LED pins as outputs
+  pinMode(RED_LED, OUTPUT);
+  pinMode(YELLOW_LED, OUTPUT);
+  pinMode(GREEN_LED, OUTPUT);
+  
+  // Start with all LEDs off
+  allOff();
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // PHASE 1: Red Light
+  redLight();
+  delay(RED_TIME);
+  
+  // PHASE 2: Green Light
+  greenLight();
+  delay(GREEN_TIME);
+  
+  // PHASE 3: Yellow Light (warning)
+  yellowLight();
+  delay(YELLOW_TIME);
+  
+  // Loop repeats - back to red
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+// Turn all LEDs off
+void allOff() {
+  digitalWrite(RED_LED, LOW);
+  digitalWrite(YELLOW_LED, LOW);
+  digitalWrite(GREEN_LED, LOW);
+}
+
+// Red light ON, others OFF
+void redLight() {
+  digitalWrite(RED_LED, HIGH);
+  digitalWrite(YELLOW_LED, LOW);
+  digitalWrite(GREEN_LED, LOW);
+}
+
+// Yellow light ON, others OFF
+void yellowLight() {
+  digitalWrite(RED_LED, LOW);
+  digitalWrite(YELLOW_LED, HIGH);
+  digitalWrite(GREEN_LED, LOW);
+}
+
+// Green light ON, others OFF
+void greenLight() {
+  digitalWrite(RED_LED, LOW);
+  digitalWrite(YELLOW_LED, LOW);
+  digitalWrite(GREEN_LED, HIGH);
+}
+                    </pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. How It Works & Challenges</h2>
+                <p><strong>How It Works:</strong> We define pin numbers and timing values as constants at the top for easy modification. Helper functions like <code>redLight()</code> make the main loop readable. The cycle goes Red (stop) → Green (go) → Yellow (prepare to stop) → repeat.</p>
+                <p><strong>Challenges:</strong></p>
+                <ul>
+                    <li><strong>Pedestrian Crossing:</strong> Add a button that interrupts the cycle for pedestrians.</li>
+                    <li><strong>Two-Way Intersection:</strong> Add 3 more LEDs for cross traffic (when one is red, other is green).</li>
+                    <li><strong>Night Mode:</strong> After 10pm (simulated), make yellow LED blink continuously.</li>
+                </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="blink-tutorial.html" class="btn">← Previous: #1 Blink LED</a>
+                <a href="project-3.html" class="btn">Next: #3 Knight Rider →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

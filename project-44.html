@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #44: Relay Module ON/OFF Control - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #44: Relay Module ON/OFF Control</h1>
+                <p class="project-summary">A relay is an electrically operated switch. It allows a low-power signal (like 5V from an Arduino) to control a high-power circuit (like a 12V lamp or even 110V/220V appliances). In this project, we will learn how to toggle a relay safely.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>A relay is an electrically operated switch. It allows a low-power signal (like 5V from an Arduino) to control a high-power circuit (like a 12V lamp or even 110V/220V appliances). In this project, we will learn how to toggle a relay safely.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>Arduino Uno Board</li>
+                    <li>USB Cable</li>
+                    <li>1-Channel Relay Module (5V)</li>
+                    <li>LED (to simulate a high-power load)</li>
+                    <li>220Ω Resistor (for LED)</li>
+                    <li>Jumper Wires</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p><strong>WARNING:</strong> Do not attempt to control mains voltage (110V/220V) unless you are a qualified electrician. We will use an LED to simulate a load.</p>
+                <ul>
+                    <li><strong>Relay VCC</strong> to Arduino 5V</li>
+                    <li><strong>Relay GND</strong> to Arduino GND</li>
+                    <li><strong>Relay IN</strong> to Arduino Pin <strong>7</strong></li>
+                    <li><strong>Relay COM (Common)</strong> to Arduino 5V</li>
+                    <li><strong>Relay NO (Normally Open)</strong> to LED Anode (+)</li>
+                    <li><strong>LED Cathode (-)</strong> to 220Ω Resistor, then to GND</li>
+                </ul>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+int relayPin = 7;
+
+void setup() {
+  pinMode(relayPin, OUTPUT);
+}
+
+void loop() {
+  // Turn Relay ON
+  // Note: Most relay modules are Active LOW
+  digitalWrite(relayPin, LOW); 
+  delay(2000);
+  
+  // Turn Relay OFF
+  digitalWrite(relayPin, HIGH);
+  delay(2000);
+}
+                    </pre>
+                </div>
+            </article>
+
+            <div class="project-navigation">
+                <a href="project-43.html" class="btn">← Previous: #43</a>
+                <a href="project-45.html" class="btn">Next: #45 →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #31: LCD Temperature Display - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #31: LCD Temperature Display</h1>
+                <p class="project-summary">Combine sensors and displays! In this project, we'll take the temperature reading from an LM35 sensor and display it in real-time on our I2C LCD screen.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, you will learn how to display variable data on an LCD. We will read an analog value from an LM35 temperature sensor, convert it to degrees Celsius, and update the display. You'll also learn how to update the screen efficiently to avoid flickering.</p>
+                <ul>
+                    <li>Displaying variable data on an LCD</li>
+                    <li>Updating the display without flickering</li>
+                    <li>Formatting text and numbers</li>
+                    <li>Combining analog inputs with I2C outputs</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno (or compatible board)</li>
+                    <li>(1) 16x2 LCD with I2C Backpack (Address usually 0x27)</li>
+                    <li>(1) LM35 Temperature Sensor</li>
+                    <li>(7) Jumper Wires (M-M and F-M)</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Follow these steps to connect your LCD and sensor:</p>
+                    <ol>
+                        <li><strong>LCD Power:</strong> Connect LCD VCC to 5V and GND to GND.</li>
+                        <li><strong>LCD Data:</strong> Connect LCD SDA to A4 and SCL to A5.</li>
+                        <li><strong>Sensor Power:</strong> Connect LM35 VCC (left leg, flat side facing you) to 5V and GND (right leg) to GND.</li>
+                        <li><strong>Sensor Signal:</strong> Connect the middle leg of the LM35 to Analog Pin A0.</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/31.jpeg" alt="🔌 Wiring Diagram: LCD (A4/A5) + LM35 (A0)" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE. Ensure you have the "LiquidCrystal_I2C" library installed.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+/*
+ * Project #31: LCD Temperature Display
+ * The Arduino Student Lab
+ * 
+ * Reads temperature from LM35 on pin A0
+ * Displays value in Celsius on I2C LCD
+ */
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+// Initialize LCD (Address 0x27, 16 columns, 2 rows)
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+const int sensorPin = A0; // LM35 output pin
+
+void setup() {
+  // Initialize the LCD
+  lcd.init();
+  lcd.backlight();
+  
+  // Print static text once to avoid flickering
+  lcd.setCursor(0, 0);
+  lcd.print("Temp Monitor");
+  lcd.setCursor(0, 1);
+  lcd.print("Temp:      C");
+}
+
+void loop() {
+  // Read the raw analog value
+  int reading = analogRead(sensorPin);
+  
+  // Convert to voltage (0-5V)
+  float voltage = reading * (5.0 / 1023.0);
+  
+  // Convert voltage to Celsius (10mV per degree)
+  float tempC = voltage * 100.0;
+  
+  // Update only the number part
+  lcd.setCursor(6, 1);
+  lcd.print(tempC, 1); // Print with 1 decimal place
+  
+  // Small delay for stability
+  delay(1000);
+}
+                    </pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Troubleshooting & Explanation</h2>
+                <p><strong>Code Explanation:</strong> We use <code>lcd.print(tempC, 1)</code> to show one decimal place. By printing the static text "Temp:" only once in <code>setup()</code>, we prevent the screen from flickering.</p>
+                <p><strong>Troubleshooting:</strong> If the reading is unstable, check your connections. If the LCD is blank, adjust the potentiometer on the back of the I2C module.</p>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-30.html" class="btn">← Previous: #30 I2C LCD</a>
+                <a href="project-32.html" class="btn">Next: #32 LCD Scrolling Text →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

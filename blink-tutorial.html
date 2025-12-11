@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World (Blink) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">BEGINNER</span>
+                <h1>Hello World (Blink an LED)</h1>
+                <p class="project-summary">This foundational project is the 'Hello World' of electronics, teaching you the most basic and crucial concept: digital output and timing.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will use the Arduino to turn a Light Emitting Diode (LED) on and off repeatedly. This demonstrates **digital output**, where a pin is set to HIGH (5 volts, turning the LED ON) or LOW (0 volts, turning the LED OFF). We use the <code>delay()</code> function to pause the program for a specific amount of time, controlling the blink rate. Understanding this ON/OFF control is key to all Arduino projects.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno board</li>
+                    <li>(1) Breadboard</li>
+                    <li>(1) LED (any color)</li>
+                    <li>(1) 220 $\Omega$ Resistor (Essential for protecting the LED)</li>
+                    <li>Jumper Wires</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>Follow these steps carefully to wire your circuit. Remember, an LED has polarity: the longer leg is the **anode** (positive) and the shorter leg is the **cathode** (negative).</p>
+                    <ol>
+                        <li>Insert the **LED** onto the breadboard.</li>
+                        <li>Connect the shorter leg (cathode) of the LED to the **GND** (Ground) rail of the breadboard.</li>
+                        <li>Insert one end of the **220 $\Omega$ Resistor** into the same row as the longer leg (anode) of the LED.</li>
+                        <li>Connect the other end of the resistor to **Digital Pin 13** on the Arduino.</li>
+                        <li>Connect the **GND** rail of the breadboard to the **GND** pin on the Arduino.</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/1.jpg" alt="🔌 Wiring Diagram Placeholder" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE. The comments explain exactly what each line is doing.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+// ----------------------------------------------------------------
+// Hello World (Blink an LED) Sketch
+// ----------------------------------------------------------------
+
+// Define the LED pin as a constant integer for clarity.
+// We are using the built-in LED pin (13) for this example.
+const int ledPin = 13; 
+
+void setup() {
+  // Setup code runs once when you press reset or power the board.
+  // We initialize the digital pin as an output.
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  // Main code runs repeatedly forever.
+  
+  // 1. Turn the LED on (set the voltage HIGH)
+  digitalWrite(ledPin, HIGH); 
+  
+  // 2. Pause the program for 1000 milliseconds (1 second)
+  delay(1000); 
+  
+  // 3. Turn the LED off (set the voltage LOW)
+  digitalWrite(ledPin, LOW); 
+  
+  // 4. Pause the program for another 1 second
+  delay(1000); 
+}
+                    </pre>
+                </div>
+            </article>
+            
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: flex-end;">
+                <a href="project-2.html" class="btn">Next: #2 Traffic Light →</a>
+            </div>
+            
+            </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

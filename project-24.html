@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #24: Radar Sweep (Serial Plotter) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #24: Radar Sweep (Serial Plotter)</h1>
+                <p class="project-summary">Build a scanning radar! A servo sweeps the ultrasonic sensor back and forth while you visualize the data using Arduino's Serial Plotter or Processing.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Combining servo motors with sensors</li>
+                <li>Using the Serial Plotter for visualization</li>
+                <li>Creating scanning/sweeping mechanisms</li>
+                <li>Data formatting for graphing</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) HC-SR04 Ultrasonic</li>
+<li>(1) SG90 Servo Motor</li>
+<li>(1) Breadboard</li>
+<li>(8+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/24.jpeg" alt="[ Mount HC-SR04 on top of servo horn ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>5V</td><td>HC-SR04 VCC, Servo VCC (red)</td></tr>
+                <tr><td>GND</td><td>HC-SR04 GND, Servo GND (brown)</td></tr>
+                <tr><td>Pin 9</td><td>HC-SR04 Trig</td></tr>
+                <tr><td>Pin 10</td><td>HC-SR04 Echo</td></tr>
+                <tr><td>Pin 6</td><td>Servo Signal (orange)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #24: Radar Sweep (Serial Plotter)
+ * The Arduino Student Lab
+ * 
+ * Servo sweeps ultrasonic sensor 180 degrees
+ * Data output formatted for Serial Plotter
+ */
+
+#include &lt;Servo.h&gt;
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int TRIG_PIN = 9;
+const int ECHO_PIN = 10;
+const int SERVO_PIN = 6;
+
+// ============================================
+// CONFIGURATION
+// ============================================
+const int SWEEP_MIN = 15;     // Minimum angle (degrees)
+const int SWEEP_MAX = 165;    // Maximum angle (degrees)
+const int SWEEP_STEP = 1;     // Degrees per step
+const int SWEEP_DELAY = 30;   // Delay between steps (ms)
+
+// ============================================
+// OBJECTS
+// ============================================
+Servo radarServo;
+
+// ============================================
+// SETUP
+// ============================================
+void setup() {
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  
+  radarServo.attach(SERVO_PIN);
+  radarServo.write(90);  // Start at center
+  
+  Serial.begin(9600);
+  
+  // Wait for servo to reach position
+  delay(1000);
+}
+
+// ============================================
+// MAIN LOOP
+// ============================================
+void loop() {
+  // Sweep from left to right
+  for (int angle = SWEEP_MIN; angle <= SWEEP_MAX; angle += SWEEP_STEP) {
+    scanAtAngle(angle);
+  }
+  
+  // Sweep from right to left
+  for (int angle = SWEEP_MAX; angle >= SWEEP_MIN; angle -= SWEEP_STEP) {
+    scanAtAngle(angle);
+  }
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+void scanAtAngle(int angle) {
+  // Move servo to angle
+  radarServo.write(angle);
+  delay(SWEEP_DELAY);
+  
+  // Measure distance
+  float distance = measureDistance();
+  
+  // Clamp distance for display (0-200cm range)
+  if (distance > 200) distance = 200;
+  if (distance < 0) distance = 0;
+  
+  // Output format for Serial Plotter
+  // Format: angle,distance
+  Serial.print(angle);
+  Serial.print(",");
+  Serial.println(distance);
+}
+
+float measureDistance() {
+  // Send trigger pulse
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  
+  // Measure echo
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+  
+  // Calculate distance
+  float distance = duration * 0.0343 / 2.0;
+  
+  // Handle no-echo
+  if (duration == 0) distance = 200;
+  
+  return distance;
+}
+
+/*
+ * USING THE SERIAL PLOTTER
+ * 
+ * 1. Upload this code
+ * 2. Go to Tools → Serial Plotter (or Ctrl+Shift+L)
+ * 3. Set baud rate to 9600
+ * 4. Watch the sweep visualization!
+ * 
+ * The plotter shows two lines:
+ * - Blue line = angle (0-180, sawtooth wave)
+ * - Red line = distance (varies with obstacles)
+ * 
+ * FOR A REAL RADAR DISPLAY:
+ * Use Processing (processing.org) with this data
+ * to create a proper radar sweep visualization!
+ * 
+ * Processing code available at:
+ * https://github.com/arduino-student-lab/radar
+ * 
+ * MOUNTING THE SENSOR:
+ *   +--------+
+ *   |        |  ← HC-SR04
+ *   | O    O |
+ *   +---||---+
+ *       ||
+ *   +--------+
+ *   | SERVO  |  ← Attach sensor to servo horn
+ *   +--------+
+ *       |
+ *     BASE
+ * 
+ * Use hot glue, tape, or a 3D-printed mount
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Servo Sweep:</strong> Motor rotates sensor from 15° to 165° and back.</li>
+                <li><strong>Distance Sampling:</strong> At each angle, we measure distance.</li>
+                <li><strong>Serial Output:</strong> Angle and distance sent as CSV for plotting.</li>
+                <li><strong>Visualization:</strong> Serial Plotter shows live graph of data.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Processing Display:</strong> Build a real radar sweep display in Processing.</li>
+                <li><strong>Object Tracking:</strong> Detect and track moving objects.</li>
+                <li><strong>Zone Mapping:</strong> Build a map of the surrounding area.</li>
+                <li><strong>Sound Effects:</strong> Add sonar "ping" sound with each sweep.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-23.html" class="btn">← Previous: #23 Parking Assist</a>
+                <a href="project-25.html" class="btn">Next: #25 Proximity Buzzer →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

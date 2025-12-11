@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #32: LCD Scrolling Marquee Text - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #32: LCD Scrolling Marquee Text</h1>
+                <p class="project-summary">Learn how to display long messages on a small screen! This project teaches you how to scroll text across the LCD, creating a marquee effect similar to news tickers.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore how to manipulate the LCD cursor and display window to show text that is longer than the screen width (16 characters). We will use the built-in scrolling functions and also learn how to create a custom scrolling loop for more control.</p>
+                <ul>
+                    <li>LCD cursor control</li>
+                    <li><code>scrollDisplayLeft()</code> and <code>scrollDisplayRight()</code> functions</li>
+                    <li>String manipulation for custom scrolling</li>
+                    <li>Managing timing for readable text</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>(1) Arduino Uno (or compatible board)</li>
+                    <li>(1) 16x2 LCD with I2C Backpack</li>
+                    <li>(4) Jumper Wires (Female-to-male)</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>The wiring is identical to the previous I2C LCD projects:</p>
+                    <ol>
+                        <li><strong>VCC</strong> to 5V</li>
+                        <li><strong>GND</strong> to GND</li>
+                        <li><strong>SDA</strong> to A4</li>
+                        <li><strong>SCL</strong> to A5</li>
+                    </ol>
+                    <div class="image-area">
+    <img src="assets/32.jpeg" alt="🔌 Wiring Diagram: Standard I2C Connection" style="max-width: 100%; height: auto;">
+</div>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE. This sketch demonstrates two ways to scroll text.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+/*
+ * Project #32: LCD Scrolling Marquee Text
+ * The Arduino Student Lab
+ * 
+ * Demonstrates how to scroll long text across a 16x2 LCD
+ */
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+// Initialize LCD (Address 0x27)
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  // ==========================================
+  // METHOD 1: Built-in Scrolling (Moves everything)
+  // ==========================================
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Method 1: Built-in Scroll");
+  delay(1000);
+  
+  // Scroll 13 positions to the left
+  for (int positionCounter = 0; positionCounter < 13; positionCounter++) {
+    lcd.scrollDisplayLeft();
+    delay(300);
+  }
+  delay(1000);
+  
+  // ==========================================
+  // METHOD 2: Custom Loop (Smoother & Controlled)
+  // ==========================================
+  lcd.clear();
+  String message = "This is a long message that scrolls smoothly across the screen!   ";
+  
+  lcd.setCursor(0, 0);
+  lcd.print("Method 2: Custom");
+  
+  // Loop through the string
+  for (int i = 0; i < message.length() - 16; i++) {
+    lcd.setCursor(0, 1);
+    // Print a substring of 16 characters
+    lcd.print(message.substring(i, i + 16));
+    delay(250);
+  }
+  
+  delay(2000);
+}
+                    </pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <p><strong>Method 1 vs Method 2:</strong> The built-in <code>scrollDisplayLeft()</code> moves <em>everything</em> on the screen, which can be disorienting if you want a static title. Method 2 uses string manipulation (<code>substring</code>) to update only the bottom line, keeping the top line fixed.</p>
+                <p><strong>Challenges:</strong></p>
+                <ul>
+                    <li><strong>Speed Control:</strong> Add a potentiometer to control the scrolling speed in real-time.</li>
+                    <li><strong>Pause on End:</strong> Modify the code to pause when the message finishes before restarting.</li>
+                    <li><strong>Two-Line Scroll:</strong> Try scrolling different messages on both lines in opposite directions!</li>
+                </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-31.html" class="btn">← Previous: #31 LCD Temp Display</a>
+                <a href="project-33.html" class="btn">Next: #33 I2C LCD Backpack →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

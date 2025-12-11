@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #17: Button-Activated Doorbell - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #17: Button-Activated Doorbell</h1>
+                <p class="project-summary">Build a classic "ding-dong" doorbell! This project combines button input with sound output to create a practical, real-world device.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Combining input and output together</li>
+                <li>Creating two-tone sequences</li>
+                <li>Non-blocking input handling</li>
+                <li>Building practical devices</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) Piezo Buzzer</li>
+<li>(1) Push Button</li>
+<li>(1) 10kΩ Resistor</li>
+<li>(1) Breadboard</li>
+<li>(5+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/17.jpeg" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>Pin 8</td><td>Buzzer positive (+)</td></tr>
+                <tr><td>Pin 2</td><td>Button output</td></tr>
+                <tr><td>5V</td><td>Button input</td></tr>
+                <tr><td>GND</td><td>Buzzer (-), 10kΩ to button output</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #17: Button-Activated Doorbell
+ * The Arduino Student Lab
+ * 
+ * Press the button to play a "ding-dong" sound!
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int BUTTON_PIN = 2;
+const int BUZZER_PIN = 8;
+
+// ============================================
+// DOORBELL CONFIGURATION
+// ============================================
+// Classic doorbell uses a major third interval
+const int DING_FREQ = 698;   // F5 - higher note
+const int DONG_FREQ = 523;   // C5 - lower note
+const int DING_DURATION = 300;  // milliseconds
+const int DONG_DURATION = 400;  // milliseconds
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+bool lastButtonState = LOW;
+bool doorbellPlaying = false;
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(BUTTON_PIN, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("=== DOORBELL READY ===");
+  Serial.println("Press the button to ring!");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  bool buttonState = digitalRead(BUTTON_PIN);
+  
+  // Detect button press (rising edge)
+  if (buttonState == HIGH && lastButtonState == LOW) {
+    if (!doorbellPlaying) {
+      ringDoorbell();
+    }
+  }
+  
+  lastButtonState = buttonState;
+}
+
+// ============================================
+// DOORBELL FUNCTIONS
+// ============================================
+
+void ringDoorbell() {
+  doorbellPlaying = true;
+  
+  Serial.println("DING-DONG!");
+  
+  // Play "DING" (higher note)
+  tone(BUZZER_PIN, DING_FREQ);
+  delay(DING_DURATION);
+  noTone(BUZZER_PIN);
+  
+  // Brief pause
+  delay(50);
+  
+  // Play "DONG" (lower note)
+  tone(BUZZER_PIN, DONG_FREQ);
+  delay(DONG_DURATION);
+  noTone(BUZZER_PIN);
+  
+  doorbellPlaying = false;
+}
+
+/*
+ * MUSICAL INTERVALS IN DOORBELLS
+ * 
+ * Traditional doorbells use pleasing intervals:
+ * 
+ * Major Third (this project):
+ *   DING = F5 (698 Hz)
+ *   DONG = C5 (523 Hz)
+ *   Ratio ≈ 4:5 (pleasant, stable)
+ * 
+ * Westminster Chimes (Big Ben):
+ *   E4 - C4 - D4 - G3
+ *   More complex, elegant sound
+ * 
+ * Perfect Fifth (classic):
+ *   DING = G4 (392 Hz)
+ *   DONG = C4 (262 Hz)
+ *   Ratio = 3:2 (very consonant)
+ * 
+ * TRY DIFFERENT COMBINATIONS!
+ * 
+ * Perfect Fourth:  F4 (349) → C4 (262)
+ * Minor Third:     Eb4 (311) → C4 (262)
+ * Octave:          C5 (523) → C4 (262)
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Edge Detection:</strong> We only trigger when button changes from LOW to HIGH.</li>
+                <li><strong>Two-Tone:</strong> "Ding" is a higher frequency, "Dong" is lower.</li>
+                <li><strong>Blocking Prevention:</strong> <code>doorbellPlaying</code> flag prevents re-triggering.</li>
+                <li><strong>Musical Interval:</strong> A major third sounds pleasant and is commonly used.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Westminster Chimes:</strong> Program the full Big Ben sequence.</li>
+                <li><strong>Multiple Tones:</strong> Different buttons play different doorbell sounds.</li>
+                <li><strong>LED Indicator:</strong> Flash an LED when doorbell is pressed.</li>
+                <li><strong>Wireless:</strong> Later, use RF modules for a wireless doorbell.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-16.html" class="btn">← Previous: #16 Piezo Melody</a>
+                <a href="project-18.html" class="btn">Next: #18 Serial Logger →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

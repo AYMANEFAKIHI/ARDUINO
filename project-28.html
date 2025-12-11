@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #28: 4-Digit Clock Display (TM1637) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #28: 4-Digit Clock Display (TM1637)</h1>
+                <p class="project-summary">Build a digital clock using the popular TM1637 4-digit display module! This simple-to-wire display is perfect for clocks, counters, and score displays.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Using TM1637 display modules</li>
+                <li>Working with display libraries</li>
+                <li>Building a simple timekeeping system</li>
+                <li>Two-wire communication protocols</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) TM1637 4-Digit Display</li>
+<li>(4) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/28.png" alt="[ TM1637 has only 4 pins! ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>TM1637 Pin</th></tr>
+                <tr><td>5V</td><td>VCC</td></tr>
+                <tr><td>GND</td><td>GND</td></tr>
+                <tr><td>Pin 2</td><td>CLK</td></tr>
+                <tr><td>Pin 3</td><td>DIO</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #28: 4-Digit Clock Display (TM1637)
+ * The Arduino Student Lab
+ * 
+ * Simple clock using TM1637 display module
+ * Shows hours:minutes with blinking colon
+ */
+
+#include &lt;TM1637Display.h&gt;
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int CLK_PIN = 2;
+const int DIO_PIN = 3;
+
+// ============================================
+// CREATE DISPLAY OBJECT
+// ============================================
+TM1637Display display(CLK_PIN, DIO_PIN);
+
+// ============================================
+// TIME VARIABLES
+// ============================================
+int hours = 12;
+int minutes = 0;
+int seconds = 0;
+unsigned long lastSecond = 0;
+bool colonOn = true;
+
+// ============================================
+// SETUP
+// ============================================
+void setup() {
+  // Set brightness (0-7)
+  display.setBrightness(5);
+  
+  Serial.begin(9600);
+  Serial.println("=== TM1637 CLOCK DISPLAY ===");
+  Serial.println("Time starts at 12:00");
+  Serial.println("Use Serial Monitor to set time:");
+  Serial.println("Send 'H+' or 'H-' for hours");
+  Serial.println("Send 'M+' or 'M-' for minutes");
+  Serial.println("");
+  
+  updateDisplay();
+}
+
+// ============================================
+// MAIN LOOP
+// ============================================
+void loop() {
+  unsigned long currentMillis = millis();
+  
+  // Update every second
+  if (currentMillis - lastSecond >= 1000) {
+    lastSecond = currentMillis;
+    
+    // Increment time
+    seconds++;
+    if (seconds >= 60) {
+      seconds = 0;
+      minutes++;
+      
+      if (minutes >= 60) {
+        minutes = 0;
+        hours++;
+        
+        if (hours >= 24) {
+          hours = 0;
+        }
+      }
+      
+      updateDisplay();
+    }
+    
+    // Toggle colon every second
+    colonOn = !colonOn;
+    updateDisplay();
+    
+    // Print time to serial
+    printTime();
+  }
+  
+  // Handle serial commands for time setting
+  if (Serial.available()) {
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();
+    
+    if (cmd == "H+") {
+      hours = (hours + 1) % 24;
+      updateDisplay();
+    }
+    else if (cmd == "H-") {
+      hours = (hours + 23) % 24;
+      updateDisplay();
+    }
+    else if (cmd == "M+") {
+      minutes = (minutes + 1) % 60;
+      seconds = 0;
+      updateDisplay();
+    }
+    else if (cmd == "M-") {
+      minutes = (minutes + 59) % 60;
+      seconds = 0;
+      updateDisplay();
+    }
+  }
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+void updateDisplay() {
+  // Create the display value: HHMM
+  int displayValue = hours * 100 + minutes;
+  
+  // Show on display with or without colon
+  uint8_t colonMask = colonOn ? 0b01000000 : 0;
+  
+  display.showNumberDecEx(displayValue, colonMask, true);
+}
+
+void printTime() {
+  Serial.print(hours < 10 ? "0" : "");
+  Serial.print(hours);
+  Serial.print(":");
+  Serial.print(minutes < 10 ? "0" : "");
+  Serial.print(minutes);
+  Serial.print(":");
+  Serial.print(seconds < 10 ? "0" : "");
+  Serial.println(seconds);
+}
+
+/*
+ * TM1637 DISPLAY OVERVIEW
+ * 
+ * The TM1637 is a dedicated display driver IC
+ * that handles all the segment multiplexing.
+ * 
+ * Features:
+ * - 4 digits with optional colon (:)
+ * - Only 2 data pins needed (CLK, DIO)
+ * - Adjustable brightness (8 levels)
+ * - Built-in key scanning (some modules)
+ * 
+ * MODULE LAYOUT:
+ *   +--+--+--+--+
+ *   |  |: |  |  |
+ *   +--+--+--+--+
+ * 
+ * LIBRARY FUNCTIONS:
+ * 
+ * display.setBrightness(0-7)
+ *   Set display brightness
+ * 
+ * display.showNumberDec(num)
+ *   Show a number (0-9999)
+ * 
+ * display.showNumberDecEx(num, dots, leadingZeros)
+ *   Show number with colon control
+ *   dots: 0b01000000 for center colon
+ * 
+ * display.setSegments(segments[])
+ *   Show custom segment patterns
+ * 
+ * display.clear()
+ *   Turn off all segments
+ * 
+ * NOTE: This is a SIMPLE clock - time drifts!
+ * For accurate timekeeping, use RTC module (DS3231)
+ * See Project #52 for RTC version
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Two-Wire Protocol:</strong> TM1637 uses CLK and DIO for communication.</li>
+                <li><strong>Library Abstraction:</strong> TM1637Display library handles protocol.</li>
+                <li><strong>Colon Control:</strong> Bit mask toggles center colon on/off.</li>
+                <li><strong>Simple Timekeeping:</strong> millis() counts seconds (drifts over time).</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>12-Hour Format:</strong> Add AM/PM and convert to 12-hour time.</li>
+                <li><strong>Set Time Buttons:</strong> Add physical buttons for hour/minute adjustment.</li>
+                <li><strong>Alarm Feature:</strong> Set an alarm time with buzzer.</li>
+                <li><strong>Stopwatch Mode:</strong> Display MM:SS for timing events.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-27.html" class="btn">← Previous: #27 7-Segment Countdown</a>
+                <a href="project-29.html" class="btn">Next: #29 LCD Hello World →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

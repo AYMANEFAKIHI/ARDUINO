@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #8: Tilt Switch Orientation Sensor - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #8: Tilt Switch Orientation Sensor</h1>
+                <p class="project-summary">Detect orientation changes with a simple tilt switch! This ball-bearing sensor closes a circuit when tilted, making it perfect for detecting movement or position changes.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>How tilt switches work (ball-bearing mechanism)</li>
+                <li>Using different types of digital input switches</li>
+                <li>Building orientation-sensitive projects</li>
+                <li>Debouncing mechanical sensors</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) Tilt Switch (SW-520D)</li>
+<li>(1) LED</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) 10kΩ Resistor</li>
+<li>(1) Breadboard</li>
+<li>(5+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/8.png" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>Pin 2</td><td>Tilt switch (one leg)</td></tr>
+                <tr><td>Pin 13</td><td>LED anode (+) via 220Ω resistor</td></tr>
+                <tr><td>5V</td><td>Tilt switch (other leg)</td></tr>
+                <tr><td>GND</td><td>10kΩ to pin 2, LED cathode</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #8: Tilt Switch Orientation Sensor
+ * The Arduino Student Lab
+ * 
+ * Detects when the sensor is tilted past its trigger angle
+ * Uses debouncing for stable readings
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int TILT_PIN = 2;
+const int LED_PIN = 13;
+
+// ============================================
+// DEBOUNCE CONFIGURATION
+// ============================================
+const unsigned long DEBOUNCE_DELAY = 100;  // Tilt switches need more debounce time
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+bool tiltState = false;
+bool lastTiltState = false;
+unsigned long lastDebounceTime = 0;
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(TILT_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("Tilt Sensor Ready!");
+  Serial.println("Tilt the sensor to trigger the LED.");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Read current tilt sensor state
+  bool reading = digitalRead(TILT_PIN);
+  
+  // Check if state changed
+  if (reading != lastTiltState) {
+    lastDebounceTime = millis();
+  }
+  
+  // If stable for DEBOUNCE_DELAY, accept new state
+  if ((millis() - lastDebounceTime) > DEBOUNCE_DELAY) {
+    if (reading != tiltState) {
+      tiltState = reading;
+      
+      // Update LED to match tilt state
+      digitalWrite(LED_PIN, tiltState);
+      
+      // Debug output
+      if (tiltState) {
+        Serial.println("TILTED! (circuit closed)");
+      } else {
+        Serial.println("LEVEL (circuit open)");
+      }
+    }
+  }
+  
+  lastTiltState = reading;
+}
+
+/*
+ * HOW TILT SWITCHES WORK
+ * 
+ * Inside the switch is a small metal ball bearing:
+ * 
+ *   Upright:          Tilted:
+ *   +------+          +------+
+ *   |      |          |    o |  <- ball rolls
+ *   |  o   |          |   /  |
+ *   +--||--+          +--||--+
+ *      ||                ||
+ *   contacts           contacts touched!
+ * 
+ * When tilted past the threshold angle (~15-45°),
+ * the ball touches both contacts, closing the circuit.
+ * 
+ * APPLICATIONS:
+ * - Detect if a device has been knocked over
+ * - Motion-activated lights
+ * - Gaming controllers (tilt steering)
+ * - Anti-theft alarms
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Ball Bearing:</strong> A metal ball inside the switch rolls with gravity.</li>
+                <li><strong>Contact Points:</strong> When tilted, the ball bridges two contact points.</li>
+                <li><strong>Digital Signal:</strong> Circuit closed = HIGH, circuit open = LOW.</li>
+                <li><strong>Debouncing:</strong> The ball can bounce, so we wait 100ms for stable readings.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Four-Way Detection:</strong> Use 4 tilt switches to detect North/South/East/West orientation.</li>
+                <li><strong>Motion Alarm:</strong> Sound a buzzer if the sensor detects any tilt.</li>
+                <li><strong>Game Controller:</strong> Use tilt to control LED brightness (tilt more = brighter).</li>
+                <li><strong>Level Indicator:</strong> Use 2 tilt switches to create a simple level/bubble indicator.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-7.html" class="btn">← Previous: #7 Toggle Button</a>
+                <a href="project-9.html" class="btn">Next: #9 Reed Switch →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

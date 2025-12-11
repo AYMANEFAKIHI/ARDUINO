@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #13: LM35 Temperature Monitor - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #13: LM35 Temperature Monitor</h1>
+                <p class="project-summary">Read real temperature values using the LM35 analog sensor! This classic sensor outputs a voltage directly proportional to Celsius temperature.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Using analog temperature sensors</li>
+                <li>Converting analog readings to real-world units</li>
+                <li>Working with voltage-to-temperature relationships</li>
+                <li>Serial Monitor for data display</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) LM35 Temperature Sensor</li>
+<li>(1) Breadboard</li>
+<li>(3) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/13.png" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #13: LM35 Temperature Monitor
+ * The Arduino Student Lab
+ * 
+ * Reads temperature from LM35 sensor and displays
+ * in Celsius and Fahrenheit on Serial Monitor
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int LM35_PIN = A0;   // Analog input for LM35
+
+// ============================================
+// CONFIGURATION
+// ============================================
+const float VOLTAGE_REF = 5.0;      // Arduino reference voltage
+const int ADC_RESOLUTION = 1024;    // 10-bit ADC (0-1023)
+const int READINGS_TO_AVERAGE = 10; // Smooth readings
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  Serial.begin(9600);
+  Serial.println("=== LM35 TEMPERATURE MONITOR ===");
+  Serial.println("Reading temperature every second...");
+  Serial.println("");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Take multiple readings and average them
+  float totalReading = 0;
+  for (int i = 0; i < READINGS_TO_AVERAGE; i++) {
+    totalReading += analogRead(LM35_PIN);
+    delay(10);  // Small delay between readings
+  }
+  float averageReading = totalReading / READINGS_TO_AVERAGE;
+  
+  // Convert analog reading to voltage
+  // Formula: voltage = (reading / 1024) * 5.0
+  float voltage = (averageReading / ADC_RESOLUTION) * VOLTAGE_REF;
+  
+  // Convert voltage to temperature (Celsius)
+  // LM35 outputs 10mV per degree Celsius
+  // Formula: tempC = voltage * 100
+  float temperatureC = voltage * 100.0;
+  
+  // Convert Celsius to Fahrenheit
+  // Formula: tempF = (tempC * 9/5) + 32
+  float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
+  
+  // Display results
+  Serial.print("Raw ADC: ");
+  Serial.print(averageReading, 1);
+  
+  Serial.print(" | Voltage: ");
+  Serial.print(voltage, 3);
+  Serial.print("V");
+  
+  Serial.print(" | Temp: ");
+  Serial.print(temperatureC, 1);
+  Serial.print("°C / ");
+  Serial.print(temperatureF, 1);
+  Serial.println("°F");
+  
+  // Wait before next reading
+  delay(1000);
+}
+
+/*
+ * LM35 TEMPERATURE SENSOR
+ * 
+ * Key Specifications:
+ * - Output: 10mV per °C (linear)
+ * - Range: -55°C to +150°C
+ * - Accuracy: ±0.5°C (typical)
+ * - No external calibration needed
+ * 
+ * THE MATH EXPLAINED:
+ * 
+ * 1. ADC Reading (0-1023) represents 0-5V
+ *    voltage = (reading / 1024) * 5.0
+ * 
+ * 2. LM35 outputs 10mV per degree Celsius
+ *    At 25°C: output = 25 * 10mV = 250mV = 0.25V
+ *    At 100°C: output = 100 * 10mV = 1000mV = 1.0V
+ * 
+ * 3. Convert voltage to temperature:
+ *    tempC = voltage / 0.01 = voltage * 100
+ * 
+ * EXAMPLE:
+ *    ADC reading = 51
+ *    voltage = (51 / 1024) * 5.0 = 0.249V
+ *    tempC = 0.249 * 100 = 24.9°C ✓
+ * 
+ * TIP: For better resolution, use the internal 1.1V
+ * reference with analogReference(INTERNAL) - this
+ * gives higher resolution for low temperatures.
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>LM35 Output:</strong> Outputs exactly 10mV for every 1°C (e.g., 250mV at 25°C).</li>
+                <li><strong>ADC Conversion:</strong> Arduino's 10-bit ADC converts 0-5V to values 0-1023.</li>
+                <li><strong>Averaging:</strong> Multiple readings are averaged to reduce noise.</li>
+                <li><strong>Math:</strong> Divide by 1024, multiply by reference voltage, multiply by 100.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>High/Low Alert:</strong> Add LEDs that light up when temperature exceeds thresholds.</li>
+                <li><strong>Min/Max Tracking:</strong> Track and display the minimum and maximum temperatures recorded.</li>
+                <li><strong>LCD Display:</strong> Show temperature on a 16x2 LCD instead of Serial Monitor.</li>
+                <li><strong>Data Logger:</strong> Record temperature readings with timestamps.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-12.html" class="btn">← Previous: #12 Night Light</a>
+                <a href="project-14.html" class="btn">Next: #14 LED Level Meter →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

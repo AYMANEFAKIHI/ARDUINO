@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Arduino Projects Roadmap - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .roadmap-intro {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .roadmap-intro h1 {
+            color: #00979C;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #00979C;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .difficulty-section {
+            margin-bottom: 50px;
+        }
+        .difficulty-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+        }
+        .difficulty-header.beginner { border-color: #4CAF50; }
+        .difficulty-header.intermediate { border-color: #FFC107; }
+        .difficulty-header.advanced { border-color: #F44336; }
+        .difficulty-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        .difficulty-header .badge {
+            font-size: 0.9em;
+        }
+        .category-block {
+            background: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .category-block h3 {
+            color: #00979C;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 1.3em;
+        }
+        .category-description {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .project-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .project-item {
+            background: #f8f9fa;
+            border-left: 4px solid #00979C;
+            padding: 12px 15px;
+            border-radius: 0 6px 6px 0;
+            transition: all 0.2s;
+        }
+        .project-item:hover {
+            background: #e0f7fa;
+            transform: translateX(5px);
+        }
+        .project-item.available {
+            border-left-color: #4CAF50;
+            cursor: pointer;
+        }
+        .project-item.available::after {
+            content: " ✓";
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .project-number {
+            font-weight: 700;
+            color: #00979C;
+            margin-right: 8px;
+        }
+        .project-name {
+            font-weight: 500;
+        }
+        .project-concept {
+            display: block;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 4px;
+        }
+        .legend {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        @media (max-width: 768px) {
+            .stats-bar { gap: 20px; }
+            .stat-number { font-size: 2em; }
+            .project-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#beginner">Beginner</a></li>
+                    <li><a href="index.html#intermediate">Intermediate</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 20px;">
+        
+        <div class="roadmap-intro">
+            <h1>🗺️ 100 Arduino Projects Roadmap</h1>
+            <p>Your complete learning journey from absolute beginner to advanced maker. Each project teaches a unique concept or component.</p>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Beginner Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Intermediate Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">35</div>
+                    <div class="stat-label">Advanced Projects</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <strong>Legend:</strong>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4CAF50;"></div>
+                <span>Tutorial Available</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #00979C;"></div>
+                <span>Coming Soon</span>
+            </div>
+        </div>
+
+        <!-- ==================== BEGINNER SECTION ==================== -->
+        <section class="difficulty-section">
+            <div class="difficulty-header beginner">
+                <span class="difficulty-badge beginner">BEGINNER</span>
+                <h2>Foundation Projects (1-20)</h2>
+            </div>
+            <p>Master the fundamentals: digital I/O, analog I/O, basic timing, and simple sensors. These projects use single inputs and single outputs.</p>
+
+            <!-- Basic Digital I/O -->
+            <div class="category-block">
+                <h3>🔌 Basic Digital Output</h3>
+                <p class="category-description">Core concepts: pinMode(), digitalWrite(), delay(), millis()</p>
+                <div class="project-list">
+                    <a href="blink-tutorial.html" class="project-item available">
+                        <span class="project-number">#1</span>
+                        <span class="project-name">Hello World (Blink an LED)</span>
+                        <span class="project-concept">digitalWrite() + delay()</span>
+                    </a>
+                    <a href="project-2.html" class="project-item available">
+                        <span class="project-number">#2</span>
+                        <span class="project-name">3-LED Traffic Light Sequence</span>
+                        <span class="project-concept">Multiple outputs + timing</span>
+                    </a>
+                    <a href="project-3.html" class="project-item available">
+                        <span class="project-number">#3</span>
+                        <span class="project-name">Knight Rider LED Scanner</span>
+                        <span class="project-concept">Arrays + for loops</span>
+                    </a>
+                    <a href="project-4.html" class="project-item available">
+                        <span class="project-number">#4</span>
+                        <span class="project-name">Non-Blocking Blink with millis()</span>
+                        <span class="project-concept">millis() vs delay()</span>
+                    </a>
+                    <a href="project-5.html" class="project-item available">
+                        <span class="project-number">#5</span>
+                        <span class="project-name">SOS Morse Code Flasher</span>
+                        <span class="project-concept">Pattern timing</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Basic Digital Input -->
+            <div class="category-block">
+                <h3>🔘 Basic Digital Input</h3>
+                <p class="category-description">Core concepts: digitalRead(), pull-up/pull-down resistors, if/else</p>
+                <div class="project-list">
+                    <a href="button-tutorial.html" class="project-item available">
+                        <span class="project-number">#6</span>
+                        <span class="project-name">Simple Push Button Input</span>
+                        <span class="project-concept">digitalRead() + pull-down resistor</span>
+                    </a>
+                    <a href="project-7.html" class="project-item available">
+                        <span class="project-number">#7</span>
+                        <span class="project-name">Push-to-Toggle LED (Latching)</span>
+                        <span class="project-concept">State variables + debouncing</span>
+                    </a>
+                    <a href="project-8.html" class="project-item available">
+                        <span class="project-number">#8</span>
+                        <span class="project-name">Tilt Switch Orientation Sensor</span>
+                        <span class="project-concept">Different switch types</span>
+                    </a>
+                    <a href="project-9.html" class="project-item available">
+                        <span class="project-number">#9</span>
+                        <span class="project-name">Magnetic Reed Switch Door Alarm</span>
+                        <span class="project-concept">Magnetic sensors</span>
+                    </a>
+                    <a href="project-10.html" class="project-item available">
+                        <span class="project-number">#10</span>
+                        <span class="project-name">Vibration Sensor (SW-420) Alert</span>
+                        <span class="project-concept">Vibration detection</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Basic Analog I/O -->
+            <div class="category-block">
+                <h3>🎛️ Basic Analog I/O</h3>
+                <p class="category-description">Core concepts: analogRead(), analogWrite() (PWM), map()</p>
+                <div class="project-list">
+                    <a href="pot-fade-tutorial.html" class="project-item available">
+                        <span class="project-number">#11</span>
+                        <span class="project-name">Fading LED with Potentiometer</span>
+                        <span class="project-concept">analogRead() + analogWrite() + map()</span>
+                    </a>
+                    <a href="project-12.html" class="project-item available">
+                        <span class="project-number">#12</span>
+                        <span class="project-name">Photoresistor (LDR) Night Light</span>
+                        <span class="project-concept">Light sensing + threshold</span>
+                    </a>
+                    <a href="project-13.html" class="project-item available">
+                        <span class="project-number">#13</span>
+                        <span class="project-name">LM35 Temperature Monitor (Serial)</span>
+                        <span class="project-concept">Analog temperature sensor</span>
+                    </a>
+                    <a href="project-14.html" class="project-item available">
+                        <span class="project-number">#14</span>
+                        <span class="project-name">5-LED Volume/Level Meter</span>
+                        <span class="project-concept">Analog to multi-LED display</span>
+                    </a>
+                    <a href="project-15.html" class="project-item available">
+                        <span class="project-number">#15</span>
+                        <span class="project-name">Breathing LED (Smooth Fade)</span>
+                        <span class="project-concept">PWM + sine wave math</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Basic Sound & Serial -->
+            <div class="category-block">
+                <h3>🔊 Basic Sound & Serial</h3>
+                <p class="category-description">Core concepts: tone(), Serial.begin(), Serial.print()</p>
+                <div class="project-list">
+                    <a href="project-16.html" class="project-item available">
+                        <span class="project-number">#16</span>
+                        <span class="project-name">Simple Melody with Piezo Buzzer</span>
+                        <span class="project-concept">tone() function + frequencies</span>
+                    </a>
+                    <a href="project-17.html" class="project-item available">
+                        <span class="project-number">#17</span>
+                        <span class="project-name">Button-Activated Doorbell</span>
+                        <span class="project-concept">Input triggers sound output</span>
+                    </a>
+                    <a href="project-18.html" class="project-item available">
+                        <span class="project-number">#18</span>
+                        <span class="project-name">Serial Monitor Temperature Logger</span>
+                        <span class="project-concept">Serial.print() for debugging</span>
+                    </a>
+                    <a href="project-19.html" class="project-item available">
+                        <span class="project-number">#19</span>
+                        <span class="project-name">Potentiometer Theremin</span>
+                        <span class="project-concept">Analog input to sound frequency</span>
+                    </a>
+                    <a href="project-20.html" class="project-item available">
+                        <span class="project-number">#20</span>
+                        <span class="project-name">Capacitive Touch Sensor (TTP223)</span>
+                        <span class="project-concept">Touch-based input</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== INTERMEDIATE SECTION ==================== -->
+        <section class="difficulty-section">
+            <div class="difficulty-header intermediate">
+                <span class="difficulty-badge intermediate">INTERMEDIATE</span>
+                <h2>Expansion Projects (21-65)</h2>
+            </div>
+            <p>Learn to use common modules, displays, motors, and multiple I/O combinations. Focus on libraries, timing, and control logic.</p>
+
+            <!-- Distance & Motion Sensors -->
+            <div class="category-block">
+                <h3>📏 Distance & Motion Sensors</h3>
+                <p class="category-description">Core concepts: pulseIn(), PIR sensors, timing calculations</p>
+                <div class="project-list">
+                    <a href="distance-tutorial.html" class="project-item available">
+                        <span class="project-number">#21</span>
+                        <span class="project-name">HC-SR04 Distance Finder</span>
+                        <span class="project-concept">pulseIn() + speed of sound</span>
+                    </a>
+                    <a href="project-22.html" class="project-item available">
+                        <span class="project-number">#22</span>
+                        <span class="project-name">PIR Motion-Activated Light</span>
+                        <span class="project-concept">PIR sensor + timeout logic</span>
+                    </a>
+                    <a href="project-23.html" class="project-item available">
+                        <span class="project-number">#23</span>
+                        <span class="project-name">Parking Assist (3-Zone LED)</span>
+                        <span class="project-concept">Distance thresholds</span>
+                    </a>
+                    <a href="project-24.html" class="project-item available">
+                        <span class="project-number">#24</span>
+                        <span class="project-name">Radar Sweep (Serial Plotter)</span>
+                        <span class="project-concept">Servo + ultrasonic + visualization</span>
+                    </a>
+                    <a href="project-25.html" class="project-item available">
+                        <span class="project-number">#25</span>
+                        <span class="project-name">Proximity Alert Buzzer</span>
+                        <span class="project-concept">Distance to frequency mapping</span>
+                    </a>
+                    <a href="project-26.html" class="project-item available">
+                        <span class="project-number">#26</span>
+                        <span class="project-name">IR Obstacle Avoidance Sensor</span>
+                        <span class="project-concept">IR proximity detection</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Displays -->
+            <div class="category-block">
+                <h3>📺 Displays & Visual Output</h3>
+                <p class="category-description">Core concepts: Libraries, shift registers, multiplexing</p>
+                <div class="project-list">
+                    <a href="project-27.html" class="project-item available">
+                        <span class="project-number">#27</span>
+                        <span class="project-name">Single 7-Segment Digit Counter</span>
+                        <span class="project-concept">7-segment basics</span>
+                    </a>
+                    <a href="project-28.html" class="project-item available">
+                        <span class="project-number">#28</span>
+                        <span class="project-name">4-Digit 7-Segment Counter (TM1637)</span>
+                        <span class="project-concept">TM1637 library</span>
+                    </a>
+                    <a href="project-29.html" class="project-item available">
+                        <span class="project-number">#29</span>
+                        <span class="project-name">74HC595 Shift Register (8 LEDs)</span>
+                        <span class="project-concept">shiftOut() + shift registers</span>
+                    </a>
+                    <a href="project-30.html" class="project-item available">
+                        <span class="project-number">#30</span>
+                        <span class="project-name">LCD 16x2 "Hello World"</span>
+                        <span class="project-concept">LiquidCrystal library</span>
+                    </a>
+                    <a href="project-31.html" class="project-item available">
+                        <span class="project-number">#31</span>
+                        <span class="project-name">LCD Temperature Display</span>
+                        <span class="project-concept">Sensor data to LCD</span>
+                    </a>
+                    <a href="project-32.html" class="project-item available">
+                        <span class="project-number">#32</span>
+                        <span class="project-name">LCD Scrolling Marquee Text</span>
+                        <span class="project-concept">LCD cursor control</span>
+                    </a>
+                    <a href="project-33.html" class="project-item available">
+                        <span class="project-number">#33</span>
+                        <span class="project-name">LCD Custom Characters & Animation</span>
+                        <span class="project-concept">Custom icons + animation</span>
+                    </a>
+                    <a href="project-34.html" class="project-item available">
+                        <span class="project-number">#34</span>
+                        <span class="project-name">8x8 LED Matrix Pattern Display</span>
+                        <span class="project-concept">MAX7219 library</span>
+                    </a>
+                    <a href="project-35.html" class="project-item available">
+                        <span class="project-number">#35</span>
+                        <span class="project-name">NeoPixel RGB LED Strip Basics</span>
+                        <span class="project-concept">Adafruit NeoPixel library</span>
+                    </a>
+                    <a href="project-36.html" class="project-item available">
+                        <span class="project-number">#36</span>
+                        <span class="project-name">NeoPixel Rainbow Cycle</span>
+                        <span class="project-concept">ColorHSV() + loops</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Motors & Actuators -->
+            <div class="category-block">
+                <h3>⚙️ Motors & Actuators</h3>
+                <p class="category-description">Core concepts: Servo library, PWM motor control, motor drivers</p>
+                <div class="project-list">
+                    <a href="project-37.html" class="project-item available">
+                        <span class="project-number">#37</span>
+                        <span class="project-name">Servo Motor Basic Sweep</span>
+                        <span class="project-concept">Servo library basics</span>
+                    </a>
+                    <a href="project-38.html" class="project-item available">
+                        <span class="project-number">#38</span>
+                        <span class="project-name">Servo Control with Potentiometer</span>
+                        <span class="project-concept">map() function</span>
+                    </a>
+                    <a href="project-39.html" class="project-item available">
+                        <span class="project-number">#39</span>
+                        <span class="project-name">Joystick-Controlled Pan/Tilt</span>
+                        <span class="project-concept">2-axis control</span>
+                    </a>
+                    <a href="project-40.html" class="project-item available">
+                        <span class="project-number">#40</span>
+                        <span class="project-name">DC Motor Speed Control (PWM)</span>
+                        <span class="project-concept">analogWrite() + transistor/MOSFET</span>
+                    </a>
+                    <a href="project-41.html" class="project-item available">
+                        <span class="project-number">#41</span>
+                        <span class="project-name">DC Motor Direction (H-Bridge L298N)</span>
+                        <span class="project-concept">H-Bridge motor driver</span>
+                    </a>
+                    <a href="project-42.html" class="project-item available">
+                        <span class="project-number">#42</span>
+                        <span class="project-name">Stepper Motor Basic Steps (28BYJ-48)</span>
+                        <span class="project-concept">Stepper library + ULN2003</span>
+                    </a>
+                    <a href="project-43.html" class="project-item available">
+                        <span class="project-number">#43</span>
+                        <span class="project-name">Fan Speed Controller</span>
+                        <span class="project-concept">PWM + potentiometer + DC motor</span>
+                    </a>
+                    <a href="project-44.html" class="project-item available">
+                        <span class="project-number">#44</span>
+                        <span class="project-name">Relay Module ON/OFF Control</span>
+                        <span class="project-concept">Relay basics + isolation</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Environmental Sensors -->
+            <div class="category-block">
+                <h3>🌡️ Environmental & Data Sensors</h3>
+                <p class="category-description">Core concepts: DHT library, one-wire, analog calibration</p>
+                <div class="project-list">
+                    <a href="project-45.html" class="project-item available">
+                        <span class="project-number">#45</span>
+                        <span class="project-name">DHT11 Temperature & Humidity</span>
+                        <span class="project-concept">DHT library basics</span>
+                    </a>
+                    <a href="project-46.html" class="project-item available">
+                        <span class="project-number">#46</span>
+                        <span class="project-name">DHT22 Weather Station (LCD)</span>
+                        <span class="project-concept">Multi-sensor display</span>
+                    </a>
+                    <a href="project-47.html" class="project-item available">
+                        <span class="project-number">#47</span>
+                        <span class="project-name">DS18B20 Waterproof Temp Sensor</span>
+                        <span class="project-concept">OneWire + DallasTemperature</span>
+                    </a>
+                    <a href="project-48.html" class="project-item available">
+                        <span class="project-number">#48</span>
+                        <span class="project-name">Soil Moisture Plant Monitor</span>
+                        <span class="project-concept">Capacitive soil sensor</span>
+                    </a>
+                    <a href="project-49.html" class="project-item available">
+                        <span class="project-number">#49</span>
+                        <span class="project-name">Rain Sensor Water Detection</span>
+                        <span class="project-concept">Analog rain sensor</span>
+                    </a>
+                    <a href="project-50.html" class="project-item available">
+                        <span class="project-number">#50</span>
+                        <span class="project-name">MQ-2 Gas/Smoke Detector</span>
+                        <span class="project-concept">Gas sensor + threshold alarm</span>
+                    </a>
+                    <a href="project-51.html" class="project-item available">
+                        <span class="project-number">#51</span>
+                        <span class="project-name">BMP180/280 Barometric Pressure</span>
+                        <span class="project-concept">Pressure/altitude sensing</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Time & Sound -->
+            <div class="category-block">
+                <h3>⏰ Time, Sound & Input Devices</h3>
+                <p class="category-description">Core concepts: RTC modules, IR remote, sound detection</p>
+                <div class="project-list">
+                    <a href="project-52.html" class="project-item available">
+                        <span class="project-number">#52</span>
+                        <span class="project-name">Real-Time Clock (DS3231) Display</span>
+                        <span class="project-concept">RTC library + I2C</span>
+                    </a>
+                    <a href="project-53.html" class="project-item available">
+                        <span class="project-number">#53</span>
+                        <span class="project-name">LCD Stopwatch with Buttons</span>
+                        <span class="project-concept">State machine + timing</span>
+                    </a>
+                    <a href="project-54.html" class="project-item available">
+                        <span class="project-number">#54</span>
+                        <span class="project-name">Countdown Timer with Buzzer Alarm</span>
+                        <span class="project-concept">Timer logic + alarm trigger</span>
+                    </a>
+                    <a href="project-55.html" class="project-item available">
+                        <span class="project-number">#55</span>
+                        <span class="project-name">Sound Sensor (KY-038) LED React</span>
+                        <span class="project-concept">Sound detection module</span>
+                    </a>
+                    <a href="project-56.html" class="project-item available">
+                        <span class="project-number">#56</span>
+                        <span class="project-name">Clap Switch (Sound-Activated)</span>
+                        <span class="project-concept">Sound pattern detection</span>
+                    </a>
+                    <a href="project-57.html" class="project-item available">
+                        <span class="project-number">#57</span>
+                        <span class="project-name">IR Remote Control Decoder</span>
+                        <span class="project-concept">IRremote library</span>
+                    </a>
+                    <a href="project-58.html" class="project-item available">
+                        <span class="project-number">#58</span>
+                        <span class="project-name">IR Remote Controlled LED</span>
+                        <span class="project-concept">IR commands to actions</span>
+                    </a>
+                    <a href="project-59.html" class="project-item available">
+                        <span class="project-number">#59</span>
+                        <span class="project-name">4x4 Keypad Password Lock</span>
+                        <span class="project-concept">Keypad library + string compare</span>
+                    </a>
+                    <a href="project-60.html" class="project-item available">
+                        <span class="project-number">#60</span>
+                        <span class="project-name">Rotary Encoder Basic Counter</span>
+                        <span class="project-concept">Encoder reading</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Communication -->
+            <div class="category-block">
+                <h3>📡 Basic Communication</h3>
+                <p class="category-description">Core concepts: Serial commands, basic parsing</p>
+                <div class="project-list">
+                    <a href="project-61.html" class="project-item available">
+                        <span class="project-number">#61</span>
+                        <span class="project-name">Serial LED Control (PC Commands)</span>
+                        <span class="project-concept">Serial.read() + parsing</span>
+                    </a>
+                    <a href="project-62.html" class="project-item available">
+                        <span class="project-number">#62</span>
+                        <span class="project-name">Serial Plotter Visualization</span>
+                        <span class="project-concept">Arduino IDE plotter</span>
+                    </a>
+                    <a href="project-63.html" class="project-item available">
+                        <span class="project-number">#63</span>
+                        <span class="project-name">Processing/P5.js Data Visualizer</span>
+                        <span class="project-concept">Arduino to PC graphics</span>
+                    </a>
+                    <a href="project-64.html" class="project-item available">
+                        <span class="project-number">#64</span>
+                        <span class="project-name">HC-05 Bluetooth Basic Connection</span>
+                        <span class="project-concept">Bluetooth module setup</span>
+                    </a>
+                    <a href="project-65.html" class="project-item available">
+                        <span class="project-number">#65</span>
+                        <span class="project-name">Bluetooth Controlled LED</span>
+                        <span class="project-concept">Phone app to Arduino</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== ADVANCED SECTION ==================== -->
+        <section class="difficulty-section">
+            <div class="difficulty-header advanced">
+                <span class="difficulty-badge advanced">ADVANCED</span>
+                <h2>Mastery Projects (66-100)</h2>
+            </div>
+            <p>Master communication protocols (I2C, SPI), IoT connectivity, interrupts, and complex system design.</p>
+
+            <!-- I2C Projects -->
+            <div class="category-block">
+                <h3>🔗 I2C Communication Protocol</h3>
+                <p class="category-description">Core concepts: Wire library, I2C addressing, multi-device bus</p>
+                <div class="project-list">
+                    <a href="project-66.html" class="project-item available">
+                        <span class="project-number">#66</span>
+                        <span class="project-name">I2C OLED Display (SSD1306)</span>
+                        <span class="project-concept">Adafruit SSD1306 library</span>
+                    </a>
+                    <a href="project-67.html" class="project-item available">
+                        <span class="project-number">#67</span>
+                        <span class="project-name">OLED Graphics & Animations</span>
+                        <span class="project-concept">Drawing primitives + bitmaps</span>
+                    </a>
+                    <a href="project-68.html" class="project-item available">
+                        <span class="project-number">#68</span>
+                        <span class="project-name">MPU-6050 Accelerometer/Gyro</span>
+                        <span class="project-concept">6-axis motion sensing</span>
+                    </a>
+                    <a href="project-69.html" class="project-item available">
+                        <span class="project-number">#69</span>
+                        <span class="project-name">MPU-6050 Tilt Angle Display</span>
+                        <span class="project-concept">Angle calculation + OLED</span>
+                    </a>
+                    <a href="project-70.html" class="project-item available">
+                        <span class="project-number">#70</span>
+                        <span class="project-name">I2C Scanner (Find All Devices)</span>
+                        <span class="project-concept">Wire library scanning</span>
+                    </a>
+                    <a href="project-71.html" class="project-item available">
+                        <span class="project-number">#71</span>
+                        <span class="project-name">PCA9685 PWM Driver (16 Servos)</span>
+                        <span class="project-concept">I2C PWM expansion</span>
+                    </a>
+                    <a href="project-72.html" class="project-item available">
+                        <span class="project-number">#72</span>
+                        <span class="project-name">PCF8574 I/O Expander</span>
+                        <span class="project-concept">I2C GPIO expansion</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- SPI Projects -->
+            <div class="category-block">
+                <h3>💾 SPI Communication & Data Logging</h3>
+                <p class="category-description">Core concepts: SPI library, SD card, EEPROM</p>
+                <div class="project-list">
+                    <a href="project-73.html" class="project-item available">
+                        <span class="project-number">#73</span>
+                        <span class="project-name">MicroSD Card Data Logger</span>
+                        <span class="project-concept">SD library + file writing</span>
+                    </a>
+                    <a href="project-74.html" class="project-item available">
+                        <span class="project-number">#74</span>
+                        <span class="project-name">CSV Temperature Logger</span>
+                        <span class="project-concept">Timestamped CSV format</span>
+                    </a>
+                    <a href="project-75.html" class="project-item available">
+                        <span class="project-number">#75</span>
+                        <span class="project-name">EEPROM Read/Write Settings</span>
+                        <span class="project-concept">EEPROM library + persistence</span>
+                    </a>
+                    <a href="project-76.html" class="project-item available">
+                        <span class="project-number">#76</span>
+                        <span class="project-name">RFID Reader (RC522)</span>
+                        <span class="project-concept">MFRC522 library + SPI</span>
+                    </a>
+                    <a href="project-77.html" class="project-item available">
+                        <span class="project-number">#77</span>
+                        <span class="project-name">RFID Access Control System</span>
+                        <span class="project-concept">Card UID matching + servo lock</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- IoT/WiFi Projects -->
+            <div class="category-block">
+                <h3>🌐 IoT & Wi-Fi (ESP8266/ESP32)</h3>
+                <p class="category-description">Core concepts: WiFi library, HTTP, web servers, cloud APIs</p>
+                <div class="project-list">
+                    <a href="project-78.html" class="project-item available">
+                        <span class="project-number">#78</span>
+                        <span class="project-name">ESP8266 Wi-Fi Connection Basics</span>
+                        <span class="project-concept">WiFi.begin() + status</span>
+                    </a>
+                    <a href="project-79.html" class="project-item available">
+                        <span class="project-number">#79</span>
+                        <span class="project-name">ESP8266 Web Server LED Control</span>
+                        <span class="project-concept">Web Server, GPIO Control</span>
+                    </a>
+                    <a href="project-80.html" class="project-item available">
+                        <span class="project-number">#80</span>
+                        <span class="project-name">ESP8266 Access Point (AP) Mode</span>
+                        <span class="project-concept">WiFi.softAP() + Hotspot</span>
+                    </a>
+                    <a href="project-81.html" class="project-item available">
+                        <span class="project-number">#81</span>
+                        <span class="project-name">NTP Clock (Internet Time)</span>
+                        <span class="project-concept">NTPClient + UDP</span>
+                    </a>
+                    <a href="project-82.html" class="project-item available">
+                        <span class="project-number">#82</span>
+                        <span class="project-name">Getting Weather Data (API)</span>
+                        <span class="project-concept">HTTP GET + JSON Parsing</span>
+                    </a>
+                    <a href="project-83.html" class="project-item available">
+                        <span class="project-number">#83</span>
+                        <span class="project-name">Sending Email from ESP8266</span>
+                        <span class="project-concept">SMTP + ESP-Mail-Client</span>
+                    </a>
+                    <a href="project-84.html" class="project-item available">
+                        <span class="project-number">#84</span>
+                        <span class="project-name">Blynk App LED Control</span>
+                        <span class="project-concept">Blynk IoT + Virtual Pins</span>
+                    </a>
+                    <a href="project-85.html" class="project-item available">
+                        <span class="project-number">#85</span>
+                        <span class="project-name">Blynk Sensor Data Monitoring</span>
+                        <span class="project-concept">BlynkTimer + virtualWrite</span>
+                    </a>
+                    <a href="project-86.html" class="project-item available">
+                        <span class="project-number">#86</span>
+                        <span class="project-name">MQTT Basics (PubSubClient)</span>
+                        <span class="project-concept">Broker, Topic, Publish/Subscribe</span>
+                    </a>
+                    <a href="project-87.html" class="project-item available">
+                        <span class="project-number">#87</span>
+                        <span class="project-name">MQTT Home Automation</span>
+                        <span class="project-concept">Two-way Communication</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Advanced Programming -->
+            <div class="category-block">
+                <h3>🧠 Advanced Programming Concepts</h3>
+                <p class="category-description">Core concepts: Interrupts, state machines, timers</p>
+                <div class="project-list">
+                    <a href="project-88.html" class="project-item available">
+                        <span class="project-number">#88</span>
+                        <span class="project-name">Bluetooth Module (HC-05) Basics</span>
+                        <span class="project-concept">SoftwareSerial + Pairing</span>
+                    </a>
+                    <a href="project-89.html" class="project-item available">
+                        <span class="project-number">#89</span>
+                        <span class="project-name">Bluetooth Controlled LED</span>
+                        <span class="project-concept">Wireless GPIO Control</span>
+                    </a>
+                    <a href="project-90.html" class="project-item available">
+                        <span class="project-number">#90</span>
+                        <span class="project-name">Bluetooth Robot Car Control</span>
+                        <span class="project-concept">L298N + HC-05 + Smartphone Control</span>
+                    </a>
+                    <a href="project-91.html" class="project-item available">
+                        <span class="project-number">#91</span>
+                        <span class="project-name">Timer Interrupts (Multitasking)</span>
+                        <span class="project-concept">Hardware Timers & ISR</span>
+                    </a>
+                    <a href="project-92.html" class="project-item available">
+                        <span class="project-number">#92</span>
+                        <span class="project-name">Rotary Encoder Menu System</span>
+                        <span class="project-concept">FSM + encoder navigation</span>
+                    </a>
+                    <a href="project-93.html" class="project-item available">
+                        <span class="project-number">#93</span>
+                        <span class="project-name">Watchdog Timer Reset</span>
+                        <span class="project-concept">Crash recovery</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Complete Projects -->
+            <div class="category-block">
+                <h3>🏆 Complete System Projects</h3>
+                <p class="category-description">Multi-component projects combining multiple concepts</p>
+                <div class="project-list">
+                    <a href="project-94.html" class="project-item available">
+                        <span class="project-number">#94</span>
+                        <span class="project-name">Line-Following Robot</span>
+                        <span class="project-concept">IR sensors + motor control</span>
+                    </a>
+                    <a href="project-95.html" class="project-item available">
+                        <span class="project-number">#95</span>
+                        <span class="project-name">Obstacle-Avoiding Robot</span>
+                        <span class="project-concept">Ultrasonic + servo + motors</span>
+                    </a>
+                    <a href="project-96.html" class="project-item available">
+                        <span class="project-number">#96</span>
+                        <span class="project-name">Smart Plant Watering System</span>
+                        <span class="project-concept">Moisture sensor + pump relay</span>
+                    </a>
+                    <a href="project-97.html" class="project-item available">
+                        <span class="project-number">#97</span>
+                        <span class="project-name">Security Alarm System</span>
+                        <span class="project-concept">PIR + keypad + buzzer + LCD</span>
+                    </a>
+                    <a href="project-98.html" class="project-item available">
+                        <span class="project-number">#98</span>
+                        <span class="project-name">Digital Thermometer (Complete)</span>
+                        <span class="project-concept">DHT + OLED + min/max memory</span>
+                    </a>
+                    <a href="project-99.html" class="project-item available">
+                        <span class="project-number">#99</span>
+                        <span class="project-name">GPS Speedometer</span>
+                        <span class="project-concept">NEO-6M GPS + TinyGPS++</span>
+                    </a>
+                    <a href="project-100.html" class="project-item available">
+                        <span class="project-number">#100</span>
+                        <span class="project-name">IoT Weather Station (Complete)</span>
+                        <span class="project-concept">Multi-sensor + WiFi + dashboard</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+</body>
+</html>

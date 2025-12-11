@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #23: Parking Assist (3-Zone LED) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #23: Parking Assist (3-Zone LED)</h1>
+                <p class="project-summary">Build a car parking sensor! Three colored LEDs indicate distance zones - green (safe), yellow (caution), red (stop!). Add a buzzer for that authentic parking sensor experience.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Using distance thresholds for zones</li>
+                <li>Multi-level visual feedback</li>
+                <li>Variable-rate audio alerts</li>
+                <li>Practical automotive applications</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) HC-SR04 Ultrasonic</li>
+<li>(1) Green LED</li>
+<li>(1) Yellow LED</li>
+<li>(1) Red LED</li>
+<li>(1) Piezo Buzzer</li>
+<li>(3) 220Ω Resistors</li>
+<li>(1) Breadboard</li>
+<li>(12+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/23.jpeg" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>5V</td><td>HC-SR04 VCC</td></tr>
+                <tr><td>GND</td><td>HC-SR04 GND, LEDs (-), Buzzer (-)</td></tr>
+                <tr><td>Pin 9</td><td>HC-SR04 Trig</td></tr>
+                <tr><td>Pin 10</td><td>HC-SR04 Echo</td></tr>
+                <tr><td>Pin 2</td><td>Green LED via 220Ω</td></tr>
+                <tr><td>Pin 3</td><td>Yellow LED via 220Ω</td></tr>
+                <tr><td>Pin 4</td><td>Red LED via 220Ω</td></tr>
+                <tr><td>Pin 8</td><td>Buzzer (+)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #23: Parking Assist (3-Zone LED)
+ * The Arduino Student Lab
+ * 
+ * Visual and audio feedback based on distance
+ * Green = Safe, Yellow = Caution, Red = Stop!
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int TRIG_PIN = 9;
+const int ECHO_PIN = 10;
+const int GREEN_LED = 2;
+const int YELLOW_LED = 3;
+const int RED_LED = 4;
+const int BUZZER_PIN = 8;
+
+// ============================================
+// DISTANCE ZONES (in centimeters)
+// ============================================
+const int ZONE_FAR = 100;     // Beyond this = all clear
+const int ZONE_CAUTION = 50;  // Yellow zone starts
+const int ZONE_DANGER = 20;   // Red zone starts
+const int ZONE_STOP = 10;     // Too close!
+
+// ============================================
+// BUZZER TIMING (beep intervals in ms)
+// ============================================
+const int BEEP_FAR = 1000;      // Slow beep when far
+const int BEEP_CAUTION = 500;   // Medium beep
+const int BEEP_DANGER = 200;    // Fast beep
+const int BEEP_STOP = 0;        // Continuous
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+unsigned long lastBeepTime = 0;
+bool buzzerOn = false;
+
+// ============================================
+// SETUP
+// ============================================
+void setup() {
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(YELLOW_LED, OUTPUT);
+  pinMode(RED_LED, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("=== PARKING ASSIST SYSTEM ===");
+  Serial.println("Zones: >100cm=Clear, 50-100=Caution, 20-50=Danger, <20=STOP!");
+  Serial.println("");
+}
+
+// ============================================
+// MAIN LOOP
+// ============================================
+void loop() {
+  // Measure distance
+  float distance = measureDistance();
+  
+  // Determine zone and update display
+  if (distance > ZONE_FAR) {
+    // All clear - far away
+    setLEDs(LOW, LOW, LOW);
+    noTone(BUZZER_PIN);
+    Serial.print("CLEAR: ");
+  }
+  else if (distance > ZONE_CAUTION) {
+    // Green zone - approaching
+    setLEDs(HIGH, LOW, LOW);
+    handleBeeper(BEEP_FAR);
+    Serial.print("GREEN: ");
+  }
+  else if (distance > ZONE_DANGER) {
+    // Yellow zone - caution
+    setLEDs(HIGH, HIGH, LOW);
+    handleBeeper(BEEP_CAUTION);
+    Serial.print("YELLOW: ");
+  }
+  else if (distance > ZONE_STOP) {
+    // Red zone - danger
+    setLEDs(HIGH, HIGH, HIGH);
+    handleBeeper(BEEP_DANGER);
+    Serial.print("RED: ");
+  }
+  else {
+    // Too close - STOP!
+    setLEDs(HIGH, HIGH, HIGH);  // All on
+    tone(BUZZER_PIN, 2000);     // Continuous alarm
+    Serial.print("STOP!: ");
+  }
+  
+  Serial.print(distance, 1);
+  Serial.println(" cm");
+  
+  delay(100);
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+float measureDistance() {
+  // Send trigger pulse
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  
+  // Measure echo pulse
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+  
+  // Convert to distance
+  float distance = duration * 0.0343 / 2.0;
+  
+  // Handle timeout
+  if (distance == 0 || distance > 400) {
+    distance = 999;  // Out of range
+  }
+  
+  return distance;
+}
+
+void setLEDs(bool green, bool yellow, bool red) {
+  digitalWrite(GREEN_LED, green);
+  digitalWrite(YELLOW_LED, yellow);
+  digitalWrite(RED_LED, red);
+}
+
+void handleBeeper(int interval) {
+  unsigned long currentTime = millis();
+  
+  if (currentTime - lastBeepTime >= interval) {
+    lastBeepTime = currentTime;
+    
+    if (buzzerOn) {
+      noTone(BUZZER_PIN);
+      buzzerOn = false;
+    } else {
+      tone(BUZZER_PIN, 1500, interval / 2);
+      buzzerOn = true;
+    }
+  }
+}
+
+/*
+ * PARKING SENSOR DESIGN NOTES
+ * 
+ * Zone Design:
+ *   CLEAR    |  GREEN  | YELLOW |  RED  | STOP!
+ *   >100cm   | 50-100  | 20-50  | 10-20 | <10cm
+ *            |    ●    |   ●●   |  ●●●  | ●●● + ALARM
+ *            |  beep   | beep   | beep  | BEEEEEP
+ *            |   .     |   ..   | ....  | ─────
+ * 
+ * Real parking sensors:
+ * - Use 4-8 ultrasonic sensors for coverage
+ * - Display distance on dashboard screen
+ * - Beep rate increases as you get closer
+ * - Many also have camera with overlay
+ * 
+ * IMPROVEMENTS:
+ * - Add second sensor for wider coverage
+ * - Use WS2812 LEDs for smoother color gradient
+ * - Add OLED display showing actual distance
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Distance Zones:</strong> Distance thresholds define 4 zones (clear, green, yellow, red).</li>
+                <li><strong>LED Stacking:</strong> More LEDs light as you get closer.</li>
+                <li><strong>Variable Beeping:</strong> Beep interval decreases with distance.</li>
+                <li><strong>Continuous Alarm:</strong> Solid tone when too close.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>LCD Display:</strong> Show numeric distance on a 16x2 LCD.</li>
+                <li><strong>Dual Sensors:</strong> Left and right sensors for corner detection.</li>
+                <li><strong>NeoPixel Bar:</strong> Smooth color gradient from green to red.</li>
+                <li><strong>Data Logging:</strong> Record minimum distances during parking sessions.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-22.html" class="btn">← Previous: #22 PIR Light</a>
+                <a href="project-24.html" class="btn">Next: #24 Radar Sweep →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

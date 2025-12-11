@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #7: Push-to-Toggle LED (Latching) - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #7: Push-to-Toggle LED (Latching)</h1>
+                <p class="project-summary">Create a toggle switch from a momentary button! Press once to turn ON, press again to turn OFF. This teaches state variables and the critical skill of button debouncing.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>Using <strong>state variables</strong> to remember LED status</li>
+                <li><strong>Edge detection</strong> - detecting button press vs. button held</li>
+                <li><strong>Button debouncing</strong> - preventing false triggers</li>
+                <li>Toggle logic with boolean variables</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) LED</li>
+<li>(1) Push Button</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) 10kΩ Resistor</li>
+<li>(1) Breadboard</li>
+<li>(6+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/7.jpeg" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>Pin 13</td><td>LED anode (+) via 220Ω resistor</td></tr>
+                <tr><td>Pin 2</td><td>Button output (one leg)</td></tr>
+                <tr><td>5V</td><td>Button input (other leg)</td></tr>
+                <tr><td>GND</td><td>LED cathode (-), 10kΩ to button output</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #7: Push-to-Toggle LED (Latching Button)
+ * The Arduino Student Lab
+ * 
+ * Press button once = LED ON
+ * Press button again = LED OFF
+ * Includes debouncing for reliable operation
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int BUTTON_PIN = 2;
+const int LED_PIN = 13;
+
+// ============================================
+// DEBOUNCE CONFIGURATION
+// ============================================
+const unsigned long DEBOUNCE_DELAY = 50;  // milliseconds
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+bool ledState = false;           // Current LED state (on/off)
+bool buttonState = false;        // Current debounced button reading
+bool lastButtonState = false;    // Previous button reading
+unsigned long lastDebounceTime = 0;  // Last time button changed
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(BUTTON_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  
+  // Ensure LED starts OFF
+  digitalWrite(LED_PIN, LOW);
+  
+  Serial.begin(9600);
+  Serial.println("Toggle Button Ready!");
+  Serial.println("Press to toggle LED state.");
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Read the current button state
+  bool reading = digitalRead(BUTTON_PIN);
+  
+  // Check if button state changed (noise or real press)
+  if (reading != lastButtonState) {
+    // Reset the debounce timer
+    lastDebounceTime = millis();
+  }
+  
+  // If enough time has passed, the reading is stable
+  if ((millis() - lastDebounceTime) > DEBOUNCE_DELAY) {
+    // If button state actually changed
+    if (reading != buttonState) {
+      buttonState = reading;
+      
+      // Only toggle on button PRESS (not release)
+      // This is called "edge detection"
+      if (buttonState == HIGH) {
+        // Toggle the LED state
+        ledState = !ledState;
+        
+        // Apply the new state
+        digitalWrite(LED_PIN, ledState);
+        
+        // Debug output
+        Serial.print("Button pressed! LED is now: ");
+        Serial.println(ledState ? "ON" : "OFF");
+      }
+    }
+  }
+  
+  // Save reading for next loop iteration
+  lastButtonState = reading;
+}
+
+/*
+ * WHY DEBOUNCING?
+ * 
+ * Mechanical buttons "bounce" when pressed - they rapidly
+ * connect/disconnect for a few milliseconds. Without debouncing,
+ * one press might register as 5-10 presses!
+ * 
+ * The debounce algorithm:
+ * 1. When button changes, start a timer
+ * 2. Wait for signal to be stable for DEBOUNCE_DELAY ms
+ * 3. Only then accept the new state
+ * 
+ * WHY EDGE DETECTION?
+ * 
+ * We only want to toggle once per press, not continuously
+ * while the button is held down. By checking if buttonState
+ * CHANGED to HIGH (rising edge), we only act once per press.
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>State Variables:</strong> <code>ledState</code> remembers if LED should be on/off between loop cycles.</li>
+                <li><strong>Debouncing:</strong> We wait 50ms after any change before accepting the new button state.</li>
+                <li><strong>Edge Detection:</strong> We only toggle when buttonState changes TO HIGH (press), not when released.</li>
+                <li><strong>Toggle Logic:</strong> <code>ledState = !ledState</code> flips true→false or false→true.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Long Press:</strong> Hold button for 2 seconds to blink LED rapidly.</li>
+                <li><strong>Multiple LEDs:</strong> Each press cycles through: OFF → LED1 → LED2 → LED3 → OFF.</li>
+                <li><strong>Double Click:</strong> Detect double-click to trigger a different action.</li>
+                <li><strong>Save State:</strong> Use EEPROM to remember LED state after power off.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="button-tutorial.html" class="btn">← Previous: #6 Push Button</a>
+                <a href="project-8.html" class="btn">Next: #8 Tilt Switch →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

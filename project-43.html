@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #43: Fan Speed Controller - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge intermediate">Intermediate</span>
+                <h1>Project #43: Fan Speed Controller</h1>
+                <p class="project-summary">In this project, we will build a simple temperature-controlled fan system. We will use a potentiometer to simulate a temperature sensor (or you can use a real one if you know how) and adjust the speed of a DC fan accordingly. This is the basic principle behind computer cooling fans.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will build a simple temperature-controlled fan system. We will use a potentiometer to simulate a temperature sensor (or you can use a real one if you know how) and adjust the speed of a DC fan accordingly. This is the basic principle behind computer cooling fans.</p>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+                    <li>Arduino Uno Board</li>
+                    <li>USB Cable</li>
+                    <li>DC Fan (5V or 12V)</li>
+                    <li>NPN Transistor (PN2222 or TIP120)</li>
+                    <li>Diode (1N4001)</li>
+                    <li>1kΩ Resistor</li>
+                    <li>Potentiometer (to simulate temperature)</li>
+                    <li>External Power Supply (if fan requires > 5V or high current)</li>
+                    <li>Jumper Wires</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <p>This circuit is very similar to the DC Motor Speed Control project:</p>
+                <ul>
+                    <li><strong>Transistor Collector</strong> to Fan Negative (-)</li>
+                    <li><strong>Transistor Emitter</strong> to GND</li>
+                    <li><strong>Transistor Base</strong> to 1kΩ Resistor, then to Arduino Pin <strong>3</strong> (PWM)</li>
+                    <li><strong>Fan Positive (+)</strong> to Power Supply Positive (+)</li>
+                    <li><strong>Power Supply Negative (-)</strong> to Arduino GND</li>
+                    <li><strong>Diode</strong> across Fan terminals (Cathode to Positive)</li>
+                    <li><strong>Potentiometer</strong> to 5V, GND, and Pin <strong>A0</strong></li>
+                </ul>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">
+int fanPin = 3;      // PWM pin for fan control
+int tempPin = A0;    // Potentiometer simulating temp sensor
+int tempVal = 0;     // Variable to hold temp reading
+int fanSpeed = 0;    // Variable to hold fan speed
+
+void setup() {
+  pinMode(fanPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  tempVal = analogRead(tempPin); // Read "temperature" (0-1023)
+  
+  // Let's assume 0-1023 represents 0°C to 100°C roughly
+  // We want the fan to start at 30°C (approx val 300) and max out at 70°C (approx val 700)
+  
+  if (tempVal < 300) {
+    fanSpeed = 0; // Too cold, fan off
+  } else if (tempVal >= 300 && tempVal <= 700) {
+    // Map the range 300-700 to PWM range 50-255
+    // We start at 50 because fans often need a minimum kick to start spinning
+    fanSpeed = map(tempVal, 300, 700, 50, 255);
+  } else {
+    fanSpeed = 255; // Too hot, max speed
+  }
+  
+  analogWrite(fanPin, fanSpeed);
+  
+  Serial.print("Temp Val: ");
+  Serial.print(tempVal);
+  Serial.print(" | Fan Speed: ");
+  Serial.println(fanSpeed);
+  
+  delay(500);
+}
+                    </pre>
+                </div>
+            </article>
+
+            <div class="project-navigation">
+                <a href="project-42.html" class="btn">← Previous: #42</a>
+                <a href="project-44.html" class="btn">Next: #44 →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

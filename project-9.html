@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #9: Magnetic Reed Switch Door Alarm - The Arduino Student Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">The Arduino Student Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">All 100 Projects</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Beginner</span>
+                <h1>Project #9: Magnetic Reed Switch Door Alarm</h1>
+                <p class="project-summary">Build a door/window security sensor! Reed switches activate when a magnet is nearby - the same technology used in real home security systems.</p>
+            </div>
+
+            <hr>
+
+            <article>
+                <h2>1. Concept and Description</h2>
+                <p>In this project, we will explore the following concepts:</p>
+                <ul>
+                    <li>How magnetic reed switches work</li>
+                <li>Building proximity detection circuits</li>
+                <li>Creating security/alarm systems</li>
+                <li>Using normally-open (NO) vs normally-closed (NC) switches</li>
+                </ul>
+            </article>
+
+            <article>
+                <h2>2. Components Needed</h2>
+                <ul>
+<li>(1) Arduino Uno</li>
+<li>(1) Reed Switch</li>
+<li>(1) Small Magnet</li>
+<li>(1) LED (Red)</li>
+<li>(1) Piezo Buzzer</li>
+<li>(1) 220Ω Resistor</li>
+<li>(1) 10kΩ Resistor</li>
+<li>(1) Breadboard</li>
+<li>(6+) Jumper Wires</li>
+</ul>
+            </article>
+
+            <article>
+                <h2>3. Physical Montage (Wiring Instructions)</h2>
+                <div class="montage-display">
+                    <div class="image-area">
+    <img src="assets/9.jpeg" alt="[ Wiring Diagram Placeholder ]" style="max-width: 100%; height: auto;">
+</div>
+                    <h3>Pin Connections:</h3>
+<table>
+                <tr><th>Arduino Pin</th><th>Component</th></tr>
+                <tr><td>Pin 2</td><td>Reed switch (one leg)</td></tr>
+                <tr><td>Pin 13</td><td>LED anode (+) via 220Ω resistor</td></tr>
+                <tr><td>Pin 8</td><td>Piezo Buzzer (+) - optional</td></tr>
+                <tr><td>5V</td><td>Reed switch (other leg)</td></tr>
+                <tr><td>GND</td><td>10kΩ to pin 2, LED cathode, Buzzer (-)</td></tr>
+            </table>
+                </div>
+            </article>
+
+            <article>
+                <h2>4. The Code (Arduino Sketch)</h2>
+                <p>Copy and paste the code below into your Arduino IDE.</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    <pre class="arduino-code" id="arduinoCode">/*
+ * Project #9: Magnetic Reed Switch Door Alarm
+ * The Arduino Student Lab
+ * 
+ * Detects when a magnet is removed (door opened)
+ * Triggers LED and optional buzzer alarm
+ */
+
+// ============================================
+// PIN DEFINITIONS
+// ============================================
+const int REED_PIN = 2;      // Reed switch input
+const int LED_PIN = 13;      // Alarm LED
+const int BUZZER_PIN = 8;    // Optional buzzer
+
+// ============================================
+// ALARM CONFIGURATION
+// ============================================
+const int ALARM_FREQUENCY = 2000;  // Buzzer frequency in Hz
+const int ALARM_DURATION = 100;    // Beep duration in ms
+
+// ============================================
+// STATE VARIABLES
+// ============================================
+bool doorClosed = true;      // Magnet present = door closed
+bool alarmArmed = true;      // Is alarm system active?
+
+// ============================================
+// SETUP - Runs once at startup
+// ============================================
+void setup() {
+  pinMode(REED_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("=== DOOR ALARM SYSTEM ===");
+  Serial.println("Place magnet near reed switch.");
+  Serial.println("Remove magnet to trigger alarm.");
+  Serial.println("");
+  
+  // Check initial state
+  doorClosed = digitalRead(REED_PIN);
+  if (doorClosed) {
+    Serial.println("STATUS: Door CLOSED (magnet detected)");
+  } else {
+    Serial.println("STATUS: Door OPEN (no magnet)");
+  }
+}
+
+// ============================================
+// MAIN LOOP - Runs repeatedly
+// ============================================
+void loop() {
+  // Read reed switch state
+  // HIGH = magnet present (door closed)
+  // LOW = magnet absent (door open)
+  bool currentState = digitalRead(REED_PIN);
+  
+  // Check for state change
+  if (currentState != doorClosed) {
+    doorClosed = currentState;
+    
+    if (doorClosed) {
+      // Door just closed
+      Serial.println(">> Door CLOSED - All clear");
+      digitalWrite(LED_PIN, LOW);
+      noTone(BUZZER_PIN);
+    } else {
+      // Door just opened!
+      Serial.println("!! ALERT: Door OPENED !!");
+      
+      if (alarmArmed) {
+        triggerAlarm();
+      }
+    }
+  }
+  
+  // While door is open and alarm is armed, keep alerting
+  if (!doorClosed && alarmArmed) {
+    // Blink LED
+    digitalWrite(LED_PIN, HIGH);
+    tone(BUZZER_PIN, ALARM_FREQUENCY, ALARM_DURATION);
+    delay(200);
+    digitalWrite(LED_PIN, LOW);
+    delay(200);
+  }
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+void triggerAlarm() {
+  Serial.println("** ALARM TRIGGERED **");
+  
+  // Initial alarm burst
+  for (int i = 0; i < 5; i++) {
+    digitalWrite(LED_PIN, HIGH);
+    tone(BUZZER_PIN, ALARM_FREQUENCY);
+    delay(100);
+    digitalWrite(LED_PIN, LOW);
+    noTone(BUZZER_PIN);
+    delay(100);
+  }
+}
+
+/*
+ * HOW REED SWITCHES WORK
+ * 
+ * Inside the glass tube are two flexible metal "reeds":
+ * 
+ *   Without Magnet:       With Magnet:
+ *   +-------------+       +-------------+
+ *   |   /    \    |       |   /----\    |
+ *   |  |      |   |  -->  |  |      |   |
+ *   |   \    /    |       |   \----/    |
+ *   +-------------+       +-------------+
+ *      Gap (open)           Touching (closed)
+ * 
+ * The magnetic field pulls the reeds together!
+ * 
+ * REAL-WORLD USES:
+ * - Door/window security sensors
+ * - Laptop lid detection
+ * - Bicycle speedometers
+ * - Position sensing in machinery
+ */</pre>
+                </div>
+            </article>
+
+            <article>
+                <h2>5. Explanation & Challenges</h2>
+                <h3>🔍 How It Works</h3>
+            <ol>
+                <li><strong>Reed Switch:</strong> Two metal contacts in a sealed glass tube respond to magnetic fields.</li>
+                <li><strong>Magnet Proximity:</strong> When magnet is close, contacts touch (circuit closed).</li>
+                <li><strong>Door Simulation:</strong> Magnet on door, switch on frame - separating them triggers alarm.</li>
+                <li><strong>Continuous Alert:</strong> While door is open, LED blinks and buzzer sounds.</li>
+            </ol>
+
+            <h3>🚀 Challenges</h3>
+            <ul>
+                <li><strong>Arm/Disarm:</strong> Add a button or keypad to arm/disarm the alarm.</li>
+                <li><strong>Entry Delay:</strong> Give 30 seconds to enter a code before alarm sounds.</li>
+                <li><strong>Multiple Zones:</strong> Add reed switches for multiple doors/windows.</li>
+                <li><strong>SMS Alert:</strong> Later, add WiFi to send text alerts when triggered.</li>
+            </ul>
+            </article>
+
+            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
+                <a href="project-8.html" class="btn">← Previous: #8 Tilt Switch</a>
+                <a href="project-10.html" class="btn">Next: #10 Vibration Sensor →</a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+    <div class="container">
+        <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
+        <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
+    </div>
+</footer>
+
+    <script>
+        function copyCode() {
+            const codeElement = document.getElementById('arduinoCode');
+            const codeText = codeElement.textContent;
+            
+            // Use the Clipboard API for modern browsers
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
