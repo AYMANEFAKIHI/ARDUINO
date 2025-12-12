@@ -79,89 +79,89 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #7: Push-to-Toggle LED (Latching Button)
  * The Arduino Student Lab
  * 
  * Press button once = LED ON
  * Press button again = LED OFF
  * Includes debouncing for reliable operation
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int BUTTON_PIN = 2;
-const int LED_PIN = 13;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BUTTON_PIN = <span class="constant">2</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;
 
-// ============================================
-// DEBOUNCE CONFIGURATION
-// ============================================
-const unsigned long DEBOUNCE_DELAY = 50;  // milliseconds
+<span class="comment">// ============================================</span>
+<span class="comment">// DEBOUNCE CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> DEBOUNCE_DELAY = <span class="constant">50</span>;  <span class="comment">// milliseconds</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-bool ledState = false;           // Current LED state (on/off)
-bool buttonState = false;        // Current debounced button reading
-bool lastButtonState = false;    // Previous button reading
-unsigned long lastDebounceTime = 0;  // Last time button changed
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">bool</span> ledState = <span class="keyword">false</span>;           <span class="comment">// Current LED state (on/off)</span>
+<span class="keyword">bool</span> buttonState = <span class="keyword">false</span>;        <span class="comment">// Current debounced button reading</span>
+<span class="keyword">bool</span> lastButtonState = <span class="keyword">false</span>;    <span class="comment">// Previous button reading</span>
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lastDebounceTime = <span class="constant">0</span>;  <span class="comment">// Last time button changed</span>
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(BUTTON_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(BUTTON_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
   
-  // Ensure LED starts OFF
-  digitalWrite(LED_PIN, LOW);
+  <span class="comment">// Ensure LED starts OFF</span>
+  <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
   
-  Serial.begin(9600);
-  Serial.println("Toggle Button Ready!");
-  Serial.println("Press to toggle LED state.");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Toggle Button Ready!"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Press to toggle LED state."</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Read the current button state
-  bool reading = digitalRead(BUTTON_PIN);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read the current button state</span>
+  <span class="keyword">bool</span> reading = <span class="function">digitalRead</span>(BUTTON_PIN);
   
-  // Check if button state changed (noise or real press)
-  if (reading != lastButtonState) {
-    // Reset the debounce timer
-    lastDebounceTime = millis();
+  <span class="comment">// Check if button state changed (noise or real press)</span>
+  <span class="keyword">if</span> (reading != lastButtonState) {
+    <span class="comment">// Reset the debounce timer</span>
+    lastDebounceTime = <span class="function">millis</span>();
   }
   
-  // If enough time has passed, the reading is stable
-  if ((millis() - lastDebounceTime) > DEBOUNCE_DELAY) {
-    // If button state actually changed
-    if (reading != buttonState) {
+  <span class="comment">// If enough time has passed, the reading is stable</span>
+  <span class="keyword">if</span> ((<span class="function">millis</span>() - lastDebounceTime) > DEBOUNCE_DELAY) {
+    <span class="comment">// If button state actually changed</span>
+    <span class="keyword">if</span> (reading != buttonState) {
       buttonState = reading;
       
-      // Only toggle on button PRESS (not release)
-      // This is called "edge detection"
-      if (buttonState == HIGH) {
-        // Toggle the LED state
+      <span class="comment">// Only toggle on button PRESS (not release)</span>
+      <span class="comment">// This is called "edge detection"</span>
+      <span class="keyword">if</span> (buttonState == <span class="keyword">HIGH</span>) {
+        <span class="comment">// Toggle the LED state</span>
         ledState = !ledState;
         
-        // Apply the new state
-        digitalWrite(LED_PIN, ledState);
+        <span class="comment">// Apply the new state</span>
+        <span class="function">digitalWrite</span>(LED_PIN, ledState);
         
-        // Debug output
-        Serial.print("Button pressed! LED is now: ");
-        Serial.println(ledState ? "ON" : "OFF");
+        <span class="comment">// Debug output</span>
+        <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Button pressed! LED is now: "</span>);
+        <span class="function">Serial</span>.<span class="function">println</span>(ledState ? <span class="string">"ON"</span> : <span class="string">"OFF"</span>);
       }
     }
   }
   
-  // Save reading for next loop iteration
+  <span class="comment">// Save reading for next loop iteration</span>
   lastButtonState = reading;
 }
 
-/*
+<span class="comment">/*
  * WHY DEBOUNCING?
  * 
  * Mechanical buttons "bounce" when pressed - they rapidly
@@ -178,7 +178,7 @@ void loop() {
  * We only want to toggle once per press, not continuously
  * while the button is held down. By checking if buttonState
  * CHANGED to HIGH (rising edge), we only act once per press.
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -201,10 +201,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="button-tutorial.html" class="btn">← Previous: #6 Push Button</a>
-                <a href="project-8.html" class="btn">Next: #8 Tilt Switch →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-6.html" class="btn">← Previous: Simple Push Button Input</a><a href="project-8.html" class="btn">Next: Project #8: Tilt Switch Orientation Sensor →</a></div>
+
+            
+
+            
 
         </section>
     </main>

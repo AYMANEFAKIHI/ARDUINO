@@ -76,27 +76,27 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-/*
+<span class="comment">/*
  * Project #34: 8x8 LED Matrix (MAX7219)
  * The Arduino Student Lab
  * 
  * Displays icons and animations on an 8x8 matrix
  * Requires "LedControl" library
- */
+ */</span>
+<span class="preprocessor">
+#include</span> &lt;LedControl.h&gt;
 
-#include &lt;LedControl.h&gt;
+<span class="comment">// Pin Definitions</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DIN_PIN = <span class="constant">12</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> CS_PIN = <span class="constant">11</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> CLK_PIN = <span class="constant">10</span>;
 
-// Pin Definitions
-const int DIN_PIN = 12;
-const int CS_PIN = 11;
-const int CLK_PIN = 10;
+<span class="comment">// Initialize LedControl</span>
+<span class="comment">// (DataPin, ClockPin, LoadPin, Number of Devices)</span>
+LedControl lc = LedControl(DIN_PIN, CLK_PIN, CS_PIN, <span class="constant">1</span>);
 
-// Initialize LedControl
-// (DataPin, ClockPin, LoadPin, Number of Devices)
-LedControl lc = LedControl(DIN_PIN, CLK_PIN, CS_PIN, 1);
-
-// Define Icons (1 = LED ON, 0 = LED OFF)
-byte heart[8] = {
+<span class="comment">// Define Icons (1 = LED ON, 0 = LED OFF)</span>
+<span class="keyword">byte</span> heart[<span class="constant">8</span>] = {
   0b00000000,
   0b01100110,
   0b11111111,
@@ -107,7 +107,7 @@ byte heart[8] = {
   0b00011000
 };
 
-byte smile[8] = {
+<span class="keyword">byte</span> smile[<span class="constant">8</span>] = {
   0b00111100,
   0b01000010,
   0b10100101,
@@ -118,39 +118,39 @@ byte smile[8] = {
   0b00111100
 };
 
-void setup() {
-  // Wake up the MAX7219 from power-saving mode
-  lc.shutdown(0, false);
-  // Set brightness (0-15)
-  lc.setIntensity(0, 8);
-  // Clear display
-  lc.clearDisplay(0);
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Wake up the MAX7219 from power-saving mode</span>
+  lc.shutdown(<span class="constant">0</span>, <span class="keyword">false</span>);
+  <span class="comment">// Set brightness (0-15)</span>
+  lc.setIntensity(<span class="constant">0</span>, <span class="constant">8</span>);
+  <span class="comment">// Clear display</span>
+  lc.clearDisplay(<span class="constant">0</span>);
 }
 
-void loop() {
-  // Display Heart
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Display Heart</span>
   displayImage(heart);
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
   
-  // Display Smiley
+  <span class="comment">// Display Smiley</span>
   displayImage(smile);
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
   
-  // Simple Animation: Single LED moving
-  lc.clearDisplay(0);
-  for (int row = 0; row < 8; row++) {
-    for (int col = 0; col < 8; col++) {
-      lc.setLed(0, row, col, true);
-      delay(50);
-      lc.setLed(0, row, col, false);
+  <span class="comment">// Simple Animation: Single LED moving</span>
+  lc.clearDisplay(<span class="constant">0</span>);
+  <span class="keyword">for</span> (<span class="keyword">int</span> row = <span class="constant">0</span>; row < <span class="constant">8</span>; row++) {
+    <span class="keyword">for</span> (<span class="keyword">int</span> col = <span class="constant">0</span>; col < <span class="constant">8</span>; col++) {
+      lc.setLed(<span class="constant">0</span>, row, col, <span class="keyword">true</span>);
+      <span class="function">delay</span>(<span class="constant">50</span>);
+      lc.setLed(<span class="constant">0</span>, row, col, <span class="keyword">false</span>);
     }
   }
 }
 
-// Helper function to display a byte array
-void displayImage(byte image[]) {
-  for (int i = 0; i < 8; i++) {
-    lc.setRow(0, i, image[i]);
+<span class="comment">// Helper function to display a byte array</span>
+<span class="keyword">void</span> displayImage(<span class="keyword">byte</span> image[]) {
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">8</span>; i++) {
+    lc.setRow(<span class="constant">0</span>, i, image[i]);
   }
 }
                     </pre>
@@ -168,10 +168,11 @@ void displayImage(byte image[]) {
                 </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-33.html" class="btn">← Previous: #33 LCD Custom Chars</a>
-                <a href="project-35.html" class="btn">Next: #35 NeoPixel Basics →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-33.html" class="btn">← Previous: Project #33: LCD Custom Characters</a><a href="project-35.html" class="btn">Next: Project #35: NeoPixel RGB LED Strip Basics →</a></div>
+
+            
+
+            
 
         </section>
     </main>

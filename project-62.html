@@ -56,23 +56,22 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-void setup() {
-  Serial.begin(9600);
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
 }
 
-void loop() {
-  int val = analogRead(A0);
-  Serial.println(val); // Plotter graphs this value
-  delay(50);
+<span class="keyword">void</span> loop() {
+  <span class="keyword">int</span> val = <span class="function">analogRead</span>(A0);
+  <span class="function">Serial</span>.<span class="function">println</span>(val); <span class="comment">// Plotter graphs this value</span>
+  <span class="function">delay</span>(<span class="constant">50</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-61.html" class="btn">← Previous: #61</a>
-                <a href="project-63.html" class="btn">Next: #63 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-61.html" class="btn">← Previous: Project #61: Serial LED Control (PC Commands)</a><a href="project-63.html" class="btn">Next: Project #63: Processing Data Visualizer →</a></div>
+
+            
 
         </section>
     </main>

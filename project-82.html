@@ -55,37 +55,36 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <ESP8266WiFi.h>
-#include <ESP8266HTTPClient.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <ESP8266WiFi.h>
+<span class="preprocessor">#include</span> <ESP8266HTTPClient.h>
 
-void setup() {
-  Serial.begin(115200);
-  WiFi.begin("SSID", "PASS");
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">115200</span>);
+  WiFi.<span class="function">begin</span>(<span class="string">"SSID"</span>, <span class="string">"PASS"</span>);
 }
 
-void loop() {
-  if (WiFi.status() == WL_CONNECTED) {
+<span class="keyword">void</span> loop() {
+  <span class="keyword">if</span> (WiFi.status() == WL_CONNECTED) {
     WiFiClient client;
     HTTPClient http;
-    http.begin(client, "http://api.openweathermap.org/data/2.5/weather?q=London&appid=YOUR_API_KEY");
-    int httpCode = http.GET();
-    if (httpCode > 0) {
+    http.<span class="function">begin</span>(client, "http:<span class="comment">//api.openweathermap.org/data/2.5/weather?q=London&appid=YOUR_API_KEY");</span>
+    <span class="keyword">int</span> httpCode = http.GET();
+    <span class="keyword">if</span> (httpCode > <span class="constant">0</span>) {
       String payload = http.getString();
-      Serial.println(payload);
+      <span class="function">Serial</span>.<span class="function">println</span>(payload);
     }
     http.end();
   }
-  delay(60000);
+  <span class="function">delay</span>(<span class="constant">60000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-81.html" class="btn">← Previous: #81</a>
-                <a href="project-83.html" class="btn">Next: #83 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-81.html" class="btn">← Previous: Project #81: NTP Clock (Internet Time)</a><a href="project-83.html" class="btn">Next: Project #83: Sending Email from ESP8266 →</a></div>
+
+            
 
         </section>
     </main>

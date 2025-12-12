@@ -55,38 +55,37 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Wire.h>
+<span class="preprocessor">#include</span> <Adafruit_GFX.h>
+<span class="preprocessor">#include</span> <Adafruit_SSD1306.h>
+<span class="preprocessor">
+#define</span> SCREEN_WIDTH <span class="constant">128</span>
+<span class="preprocessor">#define</span> SCREEN_HEIGHT <span class="constant">64</span>
 
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -<span class="constant">1</span>);
 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
-
-void setup() {
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;);
+<span class="keyword">void</span> setup() {
+  <span class="keyword">if</span>(!display.<span class="function">begin</span>(SSD1306_SWITCHCAPVCC, 0x3C)) { 
+    <span class="function">Serial</span>.<span class="function">println</span>(F(<span class="string">"SSD1306 allocation failed"</span>));
+    <span class="keyword">for</span>(;;);
   }
   display.clearDisplay();
-  display.setTextSize(1);
+  display.setTextSize(<span class="constant">1</span>);
   display.setTextColor(WHITE);
-  display.setCursor(0, 10);
-  display.println("Hello, World!");
+  display.setCursor(<span class="constant">0</span>, <span class="constant">10</span>);
+  display.<span class="function">println</span>(<span class="string">"Hello, World!"</span>);
   display.display();
 }
 
-void loop() {}
+<span class="keyword">void</span> loop() {}
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-65.html" class="btn">← Previous: #65</a>
-                <a href="project-67.html" class="btn">Next: #67 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-65.html" class="btn">← Previous: Project #65: Bluetooth Controlled LED</a><a href="project-67.html" class="btn">Next: Project #67: OLED Graphics & Animations →</a></div>
+
+            
 
         </section>
     </main>

@@ -76,47 +76,46 @@
                 <p>Copy and paste the code below into your Arduino IDE. You must install the "Adafruit NeoPixel" library via the Library Manager first.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include &lt;Adafruit_NeoPixel.h&gt;
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> &lt;Adafruit_NeoPixel.h&gt;
+<span class="preprocessor">
+#define</span> PIN        <span class="constant">6</span> 
+<span class="preprocessor">#define</span> NUMPIXELS  <span class="constant">8</span> <span class="comment">// Popular NeoPixel stick size</span>
 
-#define PIN        6 
-#define NUMPIXELS  8 // Popular NeoPixel stick size
-
-// Initialize the NeoPixel library
-// Parameter 1 = number of pixels in strip
-// Parameter 2 = Arduino pin number (most are valid)
-// Parameter 3 = pixel type flags, add together as needed:
-//   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
-//   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
+<span class="comment">// Initialize the NeoPixel library</span>
+<span class="comment">// Parameter 1 = number of pixels in strip</span>
+<span class="comment">// Parameter 2 = Arduino pin number (most are valid)</span>
+<span class="comment">// Parameter 3 = pixel type flags, add together as needed:</span>
+<span class="comment">//   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)</span>
+<span class="comment">//   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)</span>
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-void setup() {
-  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
-  pixels.setBrightness(50); // Set brightness to about 1/5 (max = 255)
+<span class="keyword">void</span> setup() {
+  pixels.<span class="function">begin</span>(); <span class="comment">// INITIALIZE NeoPixel strip object (REQUIRED)</span>
+  pixels.setBrightness(<span class="constant">50</span>); <span class="comment">// Set brightness to about 1/5 (max = 255)</span>
 }
 
-void loop() {
-  pixels.clear(); // Set all pixel colors to 'off'
+<span class="keyword">void</span> loop() {
+  pixels.clear(); <span class="comment">// Set all pixel colors to 'off'</span>
 
-  // The first NeoPixel is 0, second is 1, all the way up to the count of pixels minus one.
-  for(int i=0; i&lt;NUMPIXELS; i++) { 
+  <span class="comment">// The first NeoPixel is 0, second is 1, all the way up to the count of pixels minus one.</span>
+  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="constant">0</span>; i&lt;NUMPIXELS; i++) { 
 
-    // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
-    pixels.setPixelColor(i, pixels.Color(0, 150, 0)); // Moderately bright green color.
+    <span class="comment">// pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255</span>
+    pixels.setPixelColor(i, pixels.Color(<span class="constant">0</span>, <span class="constant">150</span>, <span class="constant">0</span>)); <span class="comment">// Moderately bright green color.</span>
 
-    pixels.show();   // Send the updated pixel colors to the hardware.
+    pixels.show();   <span class="comment">// Send the updated pixel colors to the hardware.</span>
 
-    delay(500); // Pause before next pass through loop
+    <span class="function">delay</span>(<span class="constant">500</span>); <span class="comment">// Pause before next pass through loop</span>
   }
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-34.html" class="btn">← Previous: #34</a>
-                <a href="project-36.html" class="btn">Next: #36 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-34.html" class="btn">← Previous: Project #34: 8x8 LED Matrix Display</a><a href="project-36.html" class="btn">Next: Project #36: NeoPixel Rainbow Cycle →</a></div>
+
+            
 
         </section>
     </main>

@@ -55,59 +55,58 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <LiquidCrystal.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <LiquidCrystal.h>
 
-LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
-const int startStopPin = 2;
-const int resetPin = 3;
+LiquidCrystal lcd(<span class="constant">7</span>, <span class="constant">8</span>, <span class="constant">9</span>, <span class="constant">10</span>, <span class="constant">11</span>, <span class="constant">12</span>);
+<span class="keyword">const</span> <span class="keyword">int</span> startStopPin = <span class="constant">2</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> resetPin = <span class="constant">3</span>;
 
-unsigned long startTime;
-unsigned long elapsedTime = 0;
-boolean running = false;
+<span class="keyword">unsigned</span> <span class="keyword">long</span> startTime;
+<span class="keyword">unsigned</span> <span class="keyword">long</span> elapsedTime = <span class="constant">0</span>;
+boolean running = <span class="keyword">false</span>;
 
-void setup() {
-  lcd.begin(16, 2);
-  pinMode(startStopPin, INPUT_PULLUP);
-  pinMode(resetPin, INPUT_PULLUP);
-  lcd.print("Stopwatch");
+<span class="keyword">void</span> setup() {
+  lcd.<span class="function">begin</span>(<span class="constant">16</span>, <span class="constant">2</span>);
+  <span class="function">pinMode</span>(startStopPin, <span class="keyword">INPUT_PULLUP</span>);
+  <span class="function">pinMode</span>(resetPin, <span class="keyword">INPUT_PULLUP</span>);
+  lcd.<span class="function">print</span>(<span class="string">"Stopwatch"</span>);
 }
 
-void loop() {
-  if (digitalRead(startStopPin) == LOW) {
-    delay(200); // Debounce
-    if (running) {
-      elapsedTime += millis() - startTime;
-      running = false;
-    } else {
-      startTime = millis();
-      running = true;
+<span class="keyword">void</span> loop() {
+  <span class="keyword">if</span> (<span class="function">digitalRead</span>(startStopPin) == <span class="keyword">LOW</span>) {
+    <span class="function">delay</span>(<span class="constant">200</span>); <span class="comment">// Debounce</span>
+    <span class="keyword">if</span> (running) {
+      elapsedTime += <span class="function">millis</span>() - startTime;
+      running = <span class="keyword">false</span>;
+    } <span class="keyword">else</span> {
+      startTime = <span class="function">millis</span>();
+      running = <span class="keyword">true</span>;
     }
   }
   
-  if (digitalRead(resetPin) == LOW) {
-    running = false;
-    elapsedTime = 0;
+  <span class="keyword">if</span> (<span class="function">digitalRead</span>(resetPin) == <span class="keyword">LOW</span>) {
+    running = <span class="keyword">false</span>;
+    elapsedTime = <span class="constant">0</span>;
     lcd.clear();
-    lcd.print("Stopwatch");
+    lcd.<span class="function">print</span>(<span class="string">"Stopwatch"</span>);
   }
   
-  if (running) {
-    unsigned long currentMillis = millis();
-    unsigned long totalTime = elapsedTime + (currentMillis - startTime);
+  <span class="keyword">if</span> (running) {
+    <span class="keyword">unsigned</span> <span class="keyword">long</span> currentMillis = <span class="function">millis</span>();
+    <span class="keyword">unsigned</span> <span class="keyword">long</span> totalTime = elapsedTime + (currentMillis - startTime);
     
-    lcd.setCursor(0, 1);
-    lcd.print(totalTime / 1000.0);
+    lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+    lcd.<span class="function">print</span>(totalTime / <span class="constant">1000</span>.<span class="constant">0</span>);
   }
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-52.html" class="btn">← Previous: #52</a>
-                <a href="project-54.html" class="btn">Next: #54 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-52.html" class="btn">← Previous: Project #52: Real-Time Clock (DS3231) Display</a><a href="project-54.html" class="btn">Next: Project #54: Countdown Timer with Buzzer Alarm →</a></div>
+
+            
 
         </section>
     </main>

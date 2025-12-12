@@ -76,50 +76,50 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-/*
+<span class="comment">/*
  * Project #31: LCD Temperature Display
  * The Arduino Student Lab
  * 
  * Reads temperature from LM35 on pin A0
  * Displays value in Celsius on I2C LCD
- */
+ */</span>
+<span class="preprocessor">
+#include</span> &lt;Wire.h&gt;
+<span class="preprocessor">#include</span> &lt;LiquidCrystal_I2C.h&gt;
 
-#include &lt;Wire.h&gt;
-#include &lt;LiquidCrystal_I2C.h&gt;
+<span class="comment">// Initialize LCD (Address 0x27, 16 columns, 2 rows)</span>
+LiquidCrystal_I2C lcd(0x27, <span class="constant">16</span>, <span class="constant">2</span>);
 
-// Initialize LCD (Address 0x27, 16 columns, 2 rows)
-LiquidCrystal_I2C lcd(0x27, 16, 2);
+<span class="keyword">const</span> <span class="keyword">int</span> sensorPin = A0; <span class="comment">// LM35 output pin</span>
 
-const int sensorPin = A0; // LM35 output pin
-
-void setup() {
-  // Initialize the LCD
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Initialize the LCD</span>
   lcd.init();
   lcd.backlight();
   
-  // Print static text once to avoid flickering
-  lcd.setCursor(0, 0);
-  lcd.print("Temp Monitor");
-  lcd.setCursor(0, 1);
-  lcd.print("Temp:      C");
+  <span class="comment">// Print static text once to avoid flickering</span>
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">0</span>);
+  lcd.<span class="function">print</span>(<span class="string">"Temp Monitor"</span>);
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+  lcd.<span class="function">print</span>(<span class="string">"Temp:      C"</span>);
 }
 
-void loop() {
-  // Read the raw analog value
-  int reading = analogRead(sensorPin);
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read the raw analog value</span>
+  <span class="keyword">int</span> reading = <span class="function">analogRead</span>(sensorPin);
   
-  // Convert to voltage (0-5V)
-  float voltage = reading * (5.0 / 1023.0);
+  <span class="comment">// Convert to voltage (0-5V)</span>
+  <span class="keyword">float</span> voltage = reading * (<span class="constant">5</span>.<span class="constant">0</span> / <span class="constant">1023</span>.<span class="constant">0</span>);
   
-  // Convert voltage to Celsius (10mV per degree)
-  float tempC = voltage * 100.0;
+  <span class="comment">// Convert voltage to Celsius (10mV per degree)</span>
+  <span class="keyword">float</span> tempC = voltage * <span class="constant">100</span>.<span class="constant">0</span>;
   
-  // Update only the number part
-  lcd.setCursor(6, 1);
-  lcd.print(tempC, 1); // Print with 1 decimal place
+  <span class="comment">// Update only the number part</span>
+  lcd.setCursor(<span class="constant">6</span>, <span class="constant">1</span>);
+  lcd.<span class="function">print</span>(tempC, <span class="constant">1</span>); <span class="comment">// Print with 1 decimal place</span>
   
-  // Small delay for stability
-  delay(1000);
+  <span class="comment">// Small delay for stability</span>
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
@@ -131,10 +131,11 @@ void loop() {
                 <p><strong>Troubleshooting:</strong> If the reading is unstable, check your connections. If the LCD is blank, adjust the potentiometer on the back of the I2C module.</p>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-30.html" class="btn">← Previous: #30 I2C LCD</a>
-                <a href="project-32.html" class="btn">Next: #32 LCD Scrolling Text →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-30.html" class="btn">← Previous: Project #30: I2C LCD Display</a><a href="project-32.html" class="btn">Next: Project #32: LCD Scrolling Marquee Text →</a></div>
+
+            
+
+            
 
         </section>
     </main>

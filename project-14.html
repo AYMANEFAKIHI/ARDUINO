@@ -82,110 +82,110 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #14: 5-LED Volume/Level Meter
  * The Arduino Student Lab
  * 
  * Displays analog input level as a bar graph
  * using 5 LEDs (like a VU meter)
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int POT_PIN = A0;        // Potentiometer input
-const int NUM_LEDS = 5;        // Number of LEDs in bar graph
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> POT_PIN = A0;        <span class="comment">// Potentiometer input</span>
+<span class="keyword">const</span> <span class="keyword">int</span> NUM_LEDS = <span class="constant">5</span>;        <span class="comment">// Number of LEDs in bar graph</span>
 
-// LED pins in order from lowest to highest
-const int LED_PINS[NUM_LEDS] = {2, 3, 4, 5, 6};
+<span class="comment">// LED pins in order from lowest to highest</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PINS[NUM_LEDS] = {<span class="constant">2</span>, <span class="constant">3</span>, <span class="constant">4</span>, <span class="constant">5</span>, <span class="constant">6</span>};
 
-// ============================================
-// THRESHOLD VALUES
-// ============================================
-// Divide 0-1023 range into 5 equal segments
-// Each segment is ~205 units wide
-const int THRESHOLDS[NUM_LEDS] = {205, 410, 615, 820, 1000};
+<span class="comment">// ============================================</span>
+<span class="comment">// THRESHOLD VALUES</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// Divide 0-1023 range into 5 equal segments</span>
+<span class="comment">// Each segment is ~205 units wide</span>
+<span class="keyword">const</span> <span class="keyword">int</span> THRESHOLDS[NUM_LEDS] = {<span class="constant">205</span>, <span class="constant">410</span>, <span class="constant">615</span>, <span class="constant">820</span>, <span class="constant">1000</span>};
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  // Set all LED pins as outputs
-  for (int i = 0; i < NUM_LEDS; i++) {
-    pinMode(LED_PINS[i], OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Set all LED pins as outputs</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < NUM_LEDS; i++) {
+    <span class="function">pinMode</span>(LED_PINS[i], <span class="keyword">OUTPUT</span>);
   }
   
-  Serial.begin(9600);
-  Serial.println("=== 5-LED LEVEL METER ===");
-  Serial.println("Turn the potentiometer to see LEDs respond!");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== 5-LED LEVEL METER ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Turn the potentiometer to see LEDs respond!"</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Read potentiometer value (0-1023)
-  int sensorValue = analogRead(POT_PIN);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read potentiometer value (0-1023)</span>
+  <span class="keyword">int</span> sensorValue = <span class="function">analogRead</span>(POT_PIN);
   
-  // Determine how many LEDs should be lit
-  int ledsToLight = 0;
-  for (int i = 0; i < NUM_LEDS; i++) {
-    if (sensorValue >= THRESHOLDS[i]) {
-      ledsToLight = i + 1;
+  <span class="comment">// Determine how many LEDs should be lit</span>
+  <span class="keyword">int</span> ledsToLight = <span class="constant">0</span>;
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < NUM_LEDS; i++) {
+    <span class="keyword">if</span> (sensorValue >= THRESHOLDS[i]) {
+      ledsToLight = i + <span class="constant">1</span>;
     }
   }
   
-  // Update LEDs
+  <span class="comment">// Update LEDs</span>
   updateLEDs(ledsToLight);
   
-  // Debug output
-  Serial.print("Value: ");
-  Serial.print(sensorValue);
-  Serial.print(" | Level: ");
-  Serial.print(ledsToLight);
-  Serial.print("/5 ");
+  <span class="comment">// Debug output</span>
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Value: "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(sensorValue);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" | Level: "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(ledsToLight);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"/5 "</span>);
   printBar(ledsToLight);
-  Serial.println();
+  <span class="function">Serial</span>.<span class="function">println</span>();
   
-  delay(50);  // Small delay for stable readings
+  <span class="function">delay</span>(<span class="constant">50</span>);  <span class="comment">// Small delay for stable readings</span>
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-/*
+<span class="comment">/*
  * updateLEDs(count)
  * Lights up 'count' LEDs from the bottom up
  * Turns off LEDs above that count
- */
-void updateLEDs(int count) {
-  for (int i = 0; i < NUM_LEDS; i++) {
-    if (i < count) {
-      digitalWrite(LED_PINS[i], HIGH);  // Light this LED
-    } else {
-      digitalWrite(LED_PINS[i], LOW);   // Turn off this LED
+ */</span>
+<span class="keyword">void</span> updateLEDs(<span class="keyword">int</span> count) {
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < NUM_LEDS; i++) {
+    <span class="keyword">if</span> (i < count) {
+      <span class="function">digitalWrite</span>(LED_PINS[i], <span class="keyword">HIGH</span>);  <span class="comment">// Light this LED</span>
+    } <span class="keyword">else</span> {
+      <span class="function">digitalWrite</span>(LED_PINS[i], <span class="keyword">LOW</span>);   <span class="comment">// Turn off this LED</span>
     }
   }
 }
 
-/*
+<span class="comment">/*
  * printBar(level)
  * Prints a text-based bar graph to Serial Monitor
- */
-void printBar(int level) {
-  Serial.print("[");
-  for (int i = 0; i < NUM_LEDS; i++) {
-    if (i < level) {
-      Serial.print("█");  // Filled block
-    } else {
-      Serial.print("░");  // Empty block
+ */</span>
+<span class="keyword">void</span> printBar(<span class="keyword">int</span> level) {
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"["</span>);
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < NUM_LEDS; i++) {
+    <span class="keyword">if</span> (i < level) {
+      <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"█"</span>);  <span class="comment">// Filled block</span>
+    } <span class="keyword">else</span> {
+      <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"░"</span>);  <span class="comment">// Empty block</span>
     }
   }
-  Serial.print("]");
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"]"</span>);
 }
 
-/*
+<span class="comment">/*
  * UNDERSTANDING THE THRESHOLDS:
  * 
  * Analog range: 0 to 1023
@@ -201,7 +201,7 @@ void printBar(int level) {
  * LED 5 lights when value >= 820 (80%)
  * 
  * You can adjust thresholds for non-linear response!
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -224,10 +224,11 @@ void printBar(int level) {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-13.html" class="btn">← Previous: #13 Temperature Monitor</a>
-                <a href="project-15.html" class="btn">Next: #15 Breathing LED →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-13.html" class="btn">← Previous: Project #13: LM35 Temperature Monitor</a><a href="project-15.html" class="btn">Next: Project #15: Breathing LED (Smooth Fade) →</a></div>
+
+            
+
+            
 
         </section>
     </main>

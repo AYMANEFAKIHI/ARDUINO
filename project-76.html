@@ -55,41 +55,40 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <SPI.h>
-#include <MFRC522.h>
-
-#define SS_PIN 10
-#define RST_PIN 9
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <SPI.h>
+<span class="preprocessor">#include</span> <MFRC522.h>
+<span class="preprocessor">
+#define</span> SS_PIN <span class="constant">10</span>
+<span class="preprocessor">#define</span> RST_PIN <span class="constant">9</span>
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-void setup() {
-  Serial.begin(9600);
-  SPI.begin();
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  SPI.<span class="function">begin</span>();
   mfrc522.PCD_Init();
 }
 
-void loop() {
-  if ( ! mfrc522.PICC_IsNewCardPresent()) return;
-  if ( ! mfrc522.PICC_ReadCardSerial()) return;
+<span class="keyword">void</span> loop() {
+  <span class="keyword">if</span> ( ! mfrc522.PICC_IsNewCardPresent()) <span class="keyword">return</span>;
+  <span class="keyword">if</span> ( ! mfrc522.PICC_ReadCardSerial()) <span class="keyword">return</span>;
 
-  Serial.print("UID tag :");
-  String content= "";
-  for (byte i = 0; i < mfrc522.uid.size; i++) {
-     Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
-     Serial.print(mfrc522.uid.uidByte[i], HEX);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"UID tag :"</span>);
+  String content= <span class="string">""</span>;
+  <span class="keyword">for</span> (<span class="keyword">byte</span> i = <span class="constant">0</span>; i < mfrc522.uid.size; i++) {
+     <span class="function">Serial</span>.<span class="function">print</span>(mfrc522.uid.uidByte[i] < 0x10 ? <span class="string">" 0"</span> : <span class="string">" "</span>);
+     <span class="function">Serial</span>.<span class="function">print</span>(mfrc522.uid.uidByte[i], HEX);
   }
-  Serial.println();
-  delay(1000);
+  <span class="function">Serial</span>.<span class="function">println</span>();
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-75.html" class="btn">← Previous: #75</a>
-                <a href="project-77.html" class="btn">Next: #77 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-75.html" class="btn">← Previous: Project #75: EEPROM Read/Write Settings</a><a href="project-77.html" class="btn">Next: Project #77: RFID Access Control System →</a></div>
+
+            
 
         </section>
     </main>

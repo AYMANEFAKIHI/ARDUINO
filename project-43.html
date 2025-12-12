@@ -75,49 +75,48 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-int fanPin = 3;      // PWM pin for fan control
-int tempPin = A0;    // Potentiometer simulating temp sensor
-int tempVal = 0;     // Variable to hold temp reading
-int fanSpeed = 0;    // Variable to hold fan speed
+<span class="keyword">int</span> fanPin = <span class="constant">3</span>;      <span class="comment">// PWM pin for fan control</span>
+<span class="keyword">int</span> tempPin = A0;    <span class="comment">// Potentiometer simulating temp sensor</span>
+<span class="keyword">int</span> tempVal = <span class="constant">0</span>;     <span class="comment">// Variable to hold temp reading</span>
+<span class="keyword">int</span> fanSpeed = <span class="constant">0</span>;    <span class="comment">// Variable to hold fan speed</span>
 
-void setup() {
-  pinMode(fanPin, OUTPUT);
-  Serial.begin(9600);
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(fanPin, <span class="keyword">OUTPUT</span>);
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
 }
 
-void loop() {
-  tempVal = analogRead(tempPin); // Read "temperature" (0-1023)
+<span class="keyword">void</span> loop() {
+  tempVal = <span class="function">analogRead</span>(tempPin); <span class="comment">// Read "temperature" (0-1023)</span>
   
-  // Let's assume 0-1023 represents 0°C to 100°C roughly
-  // We want the fan to start at 30°C (approx val 300) and max out at 70°C (approx val 700)
+  <span class="comment">// Let's assume 0-1023 represents 0°C to 100°C roughly</span>
+  <span class="comment">// We want the fan to start at 30°C (approx val 300) and max out at 70°C (approx val 700)</span>
   
-  if (tempVal < 300) {
-    fanSpeed = 0; // Too cold, fan off
-  } else if (tempVal >= 300 && tempVal <= 700) {
-    // Map the range 300-700 to PWM range 50-255
-    // We start at 50 because fans often need a minimum kick to start spinning
-    fanSpeed = map(tempVal, 300, 700, 50, 255);
-  } else {
-    fanSpeed = 255; // Too hot, max speed
+  <span class="keyword">if</span> (tempVal < <span class="constant">300</span>) {
+    fanSpeed = <span class="constant">0</span>; <span class="comment">// Too cold, fan off</span>
+  } <span class="keyword">else</span> <span class="keyword">if</span> (tempVal >= <span class="constant">300</span> && tempVal <= <span class="constant">700</span>) {
+    <span class="comment">// Map the range 300-700 to PWM range 50-255</span>
+    <span class="comment">// We start at 50 because fans often need a minimum kick to start spinning</span>
+    fanSpeed = <span class="function">map</span>(tempVal, <span class="constant">300</span>, <span class="constant">700</span>, <span class="constant">50</span>, <span class="constant">255</span>);
+  } <span class="keyword">else</span> {
+    fanSpeed = <span class="constant">255</span>; <span class="comment">// Too hot, max speed</span>
   }
   
-  analogWrite(fanPin, fanSpeed);
+  <span class="function">analogWrite</span>(fanPin, fanSpeed);
   
-  Serial.print("Temp Val: ");
-  Serial.print(tempVal);
-  Serial.print(" | Fan Speed: ");
-  Serial.println(fanSpeed);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Temp Val: "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(tempVal);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" | Fan Speed: "</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(fanSpeed);
   
-  delay(500);
+  <span class="function">delay</span>(<span class="constant">500</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-42.html" class="btn">← Previous: #42</a>
-                <a href="project-44.html" class="btn">Next: #44 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-42.html" class="btn">← Previous: Project #42: Stepper Motor Basic Steps (28BYJ-48)</a><a href="project-44.html" class="btn">Next: Project #44: Relay Module ON/OFF Control →</a></div>
+
+            
 
         </section>
     </main>

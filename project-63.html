@@ -56,24 +56,24 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-// Arduino Code
-void setup() {
-  Serial.begin(9600);
+<span class="comment">// Arduino Code</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
 }
 
-void loop() {
-  Serial.write(analogRead(A0) / 4); // Send byte (0-255)
-  delay(50);
+<span class="keyword">void</span> loop() {
+  <span class="function">Serial</span>.<span class="function">write</span>(<span class="function">analogRead</span>(A0) / <span class="constant">4</span>); <span class="comment">// Send byte (0-255)</span>
+  <span class="function">delay</span>(<span class="constant">50</span>);
 }
 
-/* Processing Code (Run in Processing IDE):
+<span class="comment">/* Processing Code (Run in Processing IDE):
 import processing.serial.*;
 Serial myPort;
 int val;
 
 void setup() {
   size(200, 200);
-  myPort = new Serial(this, "COM3", 9600); // Check your COM port
+  myPort = new Serial(this, "COM3", 9600); ___PH_2___
 }
 
 void draw() {
@@ -84,15 +84,14 @@ void draw() {
   fill(0);
   rect(50, 200-val, 100, val);
 }
-*/
+*/</span>
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-62.html" class="btn">← Previous: #62</a>
-                <a href="project-64.html" class="btn">Next: #64 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-62.html" class="btn">← Previous: Project #62: Serial Plotter Visualization</a><a href="project-64.html" class="btn">Next: Project #64: HC-05 Bluetooth Basic Connection →</a></div>
+
+            
 
         </section>
     </main>

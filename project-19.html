@@ -77,114 +77,114 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #19: Potentiometer Theremin
  * The Arduino Student Lab
  * 
  * Turn the knob to change pitch
  * Simple electronic musical instrument
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int POT_PIN = A0;
-const int BUZZER_PIN = 8;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> POT_PIN = A0;
+<span class="keyword">const</span> <span class="keyword">int</span> BUZZER_PIN = <span class="constant">8</span>;
 
-// ============================================
-// FREQUENCY RANGE
-// ============================================
-// Human hearing: 20 Hz to 20,000 Hz
-// Musical range: ~100 Hz to ~2000 Hz is most pleasant
-const int MIN_FREQ = 100;    // Low pitch
-const int MAX_FREQ = 2000;   // High pitch
+<span class="comment">// ============================================</span>
+<span class="comment">// FREQUENCY RANGE</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// Human hearing: 20 Hz to 20,000 Hz</span>
+<span class="comment">// Musical range: ~100 Hz to ~2000 Hz is most pleasant</span>
+<span class="keyword">const</span> <span class="keyword">int</span> MIN_FREQ = <span class="constant">100</span>;    <span class="comment">// Low pitch</span>
+<span class="keyword">const</span> <span class="keyword">int</span> MAX_FREQ = <span class="constant">2000</span>;   <span class="comment">// High pitch</span>
 
-// Threshold for silence (avoid noise at low pot values)
-const int SILENCE_THRESHOLD = 10;
+<span class="comment">// Threshold for silence (avoid noise at low pot values)</span>
+<span class="keyword">const</span> <span class="keyword">int</span> SILENCE_THRESHOLD = <span class="constant">10</span>;
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(BUZZER_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(BUZZER_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== POTENTIOMETER THEREMIN ===");
-  Serial.println("Turn the knob to play!");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== POTENTIOMETER THEREMIN ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Turn the knob to play!"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Read potentiometer (0-1023)
-  int potValue = analogRead(POT_PIN);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read potentiometer (0-1023)</span>
+  <span class="keyword">int</span> potValue = <span class="function">analogRead</span>(POT_PIN);
   
-  // Map pot value to frequency range
-  int frequency = map(potValue, 0, 1023, MIN_FREQ, MAX_FREQ);
+  <span class="comment">// Map pot value to frequency range</span>
+  <span class="keyword">int</span> frequency = <span class="function">map</span>(potValue, <span class="constant">0</span>, <span class="constant">1023</span>, MIN_FREQ, MAX_FREQ);
   
-  // If pot is near minimum, stay silent
-  if (potValue < SILENCE_THRESHOLD) {
-    noTone(BUZZER_PIN);
-    Serial.println("Silent (pot at minimum)");
-  } else {
-    // Play the tone
-    tone(BUZZER_PIN, frequency);
+  <span class="comment">// If pot is near minimum, stay silent</span>
+  <span class="keyword">if</span> (potValue < SILENCE_THRESHOLD) {
+    <span class="function">noTone</span>(BUZZER_PIN);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Silent (pot at minimum)"</span>);
+  } <span class="keyword">else</span> {
+    <span class="comment">// Play the tone</span>
+    <span class="function">tone</span>(BUZZER_PIN, frequency);
     
-    // Debug output
-    Serial.print("Pot: ");
-    Serial.print(potValue);
-    Serial.print(" | Freq: ");
-    Serial.print(frequency);
-    Serial.print(" Hz | Note: ");
-    Serial.println(frequencyToNote(frequency));
+    <span class="comment">// Debug output</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Pot: "</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(potValue);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" | Freq: "</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(frequency);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" Hz | Note: "</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(frequencyToNote(frequency));
   }
   
-  delay(10);  // Small delay for stability
+  <span class="function">delay</span>(<span class="constant">10</span>);  <span class="comment">// Small delay for stability</span>
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-/*
+<span class="comment">/*
  * frequencyToNote(freq)
  * Returns approximate musical note name for a frequency
- */
-String frequencyToNote(int freq) {
-  // Approximate note frequencies
-  if (freq < 139) return "C3";
-  if (freq < 156) return "D3";
-  if (freq < 175) return "E3";
-  if (freq < 185) return "F3";
-  if (freq < 208) return "G3";
-  if (freq < 233) return "A3";
-  if (freq < 262) return "B3";
-  if (freq < 294) return "C4";
-  if (freq < 330) return "D4";
-  if (freq < 349) return "E4";
-  if (freq < 392) return "F4";
-  if (freq < 440) return "G4";
-  if (freq < 494) return "A4";
-  if (freq < 523) return "B4";
-  if (freq < 587) return "C5";
-  if (freq < 659) return "D5";
-  if (freq < 698) return "E5";
-  if (freq < 784) return "F5";
-  if (freq < 880) return "G5";
-  if (freq < 988) return "A5";
-  if (freq < 1047) return "B5";
-  if (freq < 1175) return "C6";
-  if (freq < 1319) return "D6";
-  if (freq < 1397) return "E6";
-  if (freq < 1568) return "F6";
-  if (freq < 1760) return "G6";
-  if (freq < 1976) return "A6";
-  return "B6+";
+ */</span>
+String frequencyToNote(<span class="keyword">int</span> freq) {
+  <span class="comment">// Approximate note frequencies</span>
+  <span class="keyword">if</span> (freq < <span class="constant">139</span>) <span class="keyword">return</span> <span class="string">"C3"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">156</span>) <span class="keyword">return</span> <span class="string">"D3"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">175</span>) <span class="keyword">return</span> <span class="string">"E3"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">185</span>) <span class="keyword">return</span> <span class="string">"F3"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">208</span>) <span class="keyword">return</span> <span class="string">"G3"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">233</span>) <span class="keyword">return</span> <span class="string">"A3"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">262</span>) <span class="keyword">return</span> <span class="string">"B3"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">294</span>) <span class="keyword">return</span> <span class="string">"C4"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">330</span>) <span class="keyword">return</span> <span class="string">"D4"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">349</span>) <span class="keyword">return</span> <span class="string">"E4"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">392</span>) <span class="keyword">return</span> <span class="string">"F4"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">440</span>) <span class="keyword">return</span> <span class="string">"G4"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">494</span>) <span class="keyword">return</span> <span class="string">"A4"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">523</span>) <span class="keyword">return</span> <span class="string">"B4"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">587</span>) <span class="keyword">return</span> <span class="string">"C5"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">659</span>) <span class="keyword">return</span> <span class="string">"D5"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">698</span>) <span class="keyword">return</span> <span class="string">"E5"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">784</span>) <span class="keyword">return</span> <span class="string">"F5"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">880</span>) <span class="keyword">return</span> <span class="string">"G5"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">988</span>) <span class="keyword">return</span> <span class="string">"A5"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">1047</span>) <span class="keyword">return</span> <span class="string">"B5"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">1175</span>) <span class="keyword">return</span> <span class="string">"C6"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">1319</span>) <span class="keyword">return</span> <span class="string">"D6"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">1397</span>) <span class="keyword">return</span> <span class="string">"E6"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">1568</span>) <span class="keyword">return</span> <span class="string">"F6"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">1760</span>) <span class="keyword">return</span> <span class="string">"G6"</span>;
+  <span class="keyword">if</span> (freq < <span class="constant">1976</span>) <span class="keyword">return</span> <span class="string">"A6"</span>;
+  <span class="keyword">return</span> <span class="string">"B6+"</span>;
 }
 
-/*
+<span class="comment">/*
  * ABOUT THE THEREMIN
  * 
  * The theremin (invented 1920) is one of the earliest
@@ -205,7 +205,7 @@ String frequencyToNote(int freq) {
  * - An octave = doubling the frequency
  * - A4 = 440 Hz, A5 = 880 Hz (sounds same distance apart)
  * - Our linear mapping isn't "musical" but works!
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -228,10 +228,11 @@ String frequencyToNote(int freq) {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-18.html" class="btn">← Previous: #18 Serial Logger</a>
-                <a href="project-20.html" class="btn">Next: #20 Touch Sensor →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-18.html" class="btn">← Previous: Project #18: Serial Monitor Temperature Logger</a><a href="project-20.html" class="btn">Next: Project #20: Capacitive Touch Sensor (TTP223) →</a></div>
+
+            
+
+            
 
         </section>
     </main>

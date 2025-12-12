@@ -75,23 +75,23 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-/*
+<span class="comment">/*
  * Project #33: LCD Custom Characters
  * The Arduino Student Lab
  * 
  * Creates custom icons (Pacman, Ghost, Battery)
  * and animates them.
- */
+ */</span>
+<span class="preprocessor">
+#include</span> &lt;Wire.h&gt;
+<span class="preprocessor">#include</span> &lt;LiquidCrystal_I2C.h&gt;
 
-#include &lt;Wire.h&gt;
-#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27, <span class="constant">16</span>, <span class="constant">2</span>);
 
-LiquidCrystal_I2C lcd(0x27, 16, 2);
+<span class="comment">// Define Custom Characters (5x8 grid)</span>
+<span class="comment">// 1 = Pixel ON, 0 = Pixel OFF</span>
 
-// Define Custom Characters (5x8 grid)
-// 1 = Pixel ON, 0 = Pixel OFF
-
-byte pacmanOpen[8] = {
+<span class="keyword">byte</span> pacmanOpen[<span class="constant">8</span>] = {
   0b01110,
   0b11101,
   0b11111,
@@ -102,7 +102,7 @@ byte pacmanOpen[8] = {
   0b00000
 };
 
-byte pacmanClosed[8] = {
+<span class="keyword">byte</span> pacmanClosed[<span class="constant">8</span>] = {
   0b01110,
   0b11111,
   0b11111,
@@ -113,7 +113,7 @@ byte pacmanClosed[8] = {
   0b00000
 };
 
-byte ghost[8] = {
+<span class="keyword">byte</span> ghost[<span class="constant">8</span>] = {
   0b01110,
   0b11111,
   0b10101,
@@ -124,39 +124,39 @@ byte ghost[8] = {
   0b00000
 };
 
-void setup() {
+<span class="keyword">void</span> setup() {
   lcd.init();
   lcd.backlight();
   
-  // Register custom characters (0-7 allowed)
-  lcd.createChar(0, pacmanOpen);
-  lcd.createChar(1, pacmanClosed);
-  lcd.createChar(2, ghost);
+  <span class="comment">// Register custom characters (0-7 allowed)</span>
+  lcd.createChar(<span class="constant">0</span>, pacmanOpen);
+  lcd.createChar(<span class="constant">1</span>, pacmanClosed);
+  lcd.createChar(<span class="constant">2</span>, ghost);
   
-  lcd.setCursor(0, 0);
-  lcd.print("Custom Chars!");
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">0</span>);
+  lcd.<span class="function">print</span>(<span class="string">"Custom Chars!"</span>);
 }
 
-void loop() {
-  // Animation Loop
-  for (int i = 0; i < 16; i++) {
-    lcd.setCursor(i, 1);
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Animation Loop</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">16</span>; i++) {
+    lcd.setCursor(i, <span class="constant">1</span>);
     
-    // Frame 1: Open Mouth
-    lcd.write(0); 
-    delay(200);
+    <span class="comment">// Frame 1: Open Mouth</span>
+    lcd.<span class="function">write</span>(<span class="constant">0</span>); 
+    <span class="function">delay</span>(<span class="constant">200</span>);
     
-    // Frame 2: Closed Mouth
-    lcd.setCursor(i, 1);
-    lcd.write(1);
-    delay(200);
+    <span class="comment">// Frame 2: Closed Mouth</span>
+    lcd.setCursor(i, <span class="constant">1</span>);
+    lcd.<span class="function">write</span>(<span class="constant">1</span>);
+    <span class="function">delay</span>(<span class="constant">200</span>);
     
-    // Clear the character behind (unless it's the start)
-    lcd.setCursor(i, 1);
-    lcd.print(" ");
+    <span class="comment">// Clear the character behind (unless it's the start)</span>
+    lcd.setCursor(i, <span class="constant">1</span>);
+    lcd.<span class="function">print</span>(<span class="string">" "</span>);
   }
   
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
@@ -173,10 +173,11 @@ void loop() {
                 </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-32.html" class="btn">← Previous: #32 LCD Scrolling</a>
-                <a href="project-34.html" class="btn">Next: #34 8x8 LED Matrix →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-32.html" class="btn">← Previous: Project #32: LCD Scrolling Marquee Text</a><a href="project-34.html" class="btn">Next: Project #34: 8x8 LED Matrix Display →</a></div>
+
+            
+
+            
 
         </section>
     </main>

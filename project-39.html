@@ -73,46 +73,45 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Servo.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Servo.h>
 
-Servo panServo;  // create servo object for Pan (Left/Right)
-Servo tiltServo; // create servo object for Tilt (Up/Down)
+Servo panServo;  <span class="comment">// create servo object for Pan (Left/Right)</span>
+Servo tiltServo; <span class="comment">// create servo object for Tilt (Up/Down)</span>
 
-int joyX = A0;   // Joystick X-axis connected to A0
-int joyY = A1;   // Joystick Y-axis connected to A1
+<span class="keyword">int</span> joyX = A0;   <span class="comment">// Joystick X-axis connected to A0</span>
+<span class="keyword">int</span> joyY = A1;   <span class="comment">// Joystick Y-axis connected to A1</span>
 
-int xVal, yVal;  // variables to read the values
+<span class="keyword">int</span> xVal, yVal;  <span class="comment">// variables to read the values</span>
 
-void setup() {
-  panServo.attach(9);  // attaches the pan servo on pin 9
-  tiltServo.attach(10); // attaches the tilt servo on pin 10
+<span class="keyword">void</span> setup() {
+  panServo.attach(<span class="constant">9</span>);  <span class="comment">// attaches the pan servo on pin 9</span>
+  tiltServo.attach(<span class="constant">10</span>); <span class="comment">// attaches the tilt servo on pin 10</span>
 }
 
-void loop() {
-  // Read joystick values (0-1023)
-  xVal = analogRead(joyX);
-  yVal = analogRead(joyY);
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read joystick values (0-1023)</span>
+  xVal = <span class="function">analogRead</span>(joyX);
+  yVal = <span class="function">analogRead</span>(joyY);
   
-  // Map joystick values to servo angles (0-180)
-  // Note: You might need to swap 0 and 180 if the servo moves in the wrong direction
-  int panAngle = map(xVal, 0, 1023, 0, 180);
-  int tiltAngle = map(yVal, 0, 1023, 0, 180);
+  <span class="comment">// Map joystick values to servo angles (0-180)</span>
+  <span class="comment">// Note: You might need to swap 0 and 180 if the servo moves in the wrong direction</span>
+  <span class="keyword">int</span> panAngle = <span class="function">map</span>(xVal, <span class="constant">0</span>, <span class="constant">1023</span>, <span class="constant">0</span>, <span class="constant">180</span>);
+  <span class="keyword">int</span> tiltAngle = <span class="function">map</span>(yVal, <span class="constant">0</span>, <span class="constant">1023</span>, <span class="constant">0</span>, <span class="constant">180</span>);
   
-  // Write angles to servos
-  panServo.write(panAngle);
-  tiltServo.write(tiltAngle);
+  <span class="comment">// Write angles to servos</span>
+  panServo.<span class="function">write</span>(panAngle);
+  tiltServo.<span class="function">write</span>(tiltAngle);
   
-  delay(15); // Short delay for stability
+  <span class="function">delay</span>(<span class="constant">15</span>); <span class="comment">// Short delay for stability</span>
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-38.html" class="btn">← Previous: #38</a>
-                <a href="project-40.html" class="btn">Next: #40 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-38.html" class="btn">← Previous: Project #38: Servo Control with Potentiometer</a><a href="project-40.html" class="btn">Next: Project #40: DC Motor Speed Control (PWM) →</a></div>
+
+            
 
         </section>
     </main>

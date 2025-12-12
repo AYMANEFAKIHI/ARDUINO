@@ -56,39 +56,38 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-const int sensorPin = A0;
-const int redLed = 13;
-const int greenLed = 12;
-int sensorValue = 0;
+<span class="keyword">const</span> <span class="keyword">int</span> sensorPin = A0;
+<span class="keyword">const</span> <span class="keyword">int</span> redLed = <span class="constant">13</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> greenLed = <span class="constant">12</span>;
+<span class="keyword">int</span> sensorValue = <span class="constant">0</span>;
 
-void setup() {
-  pinMode(redLed, OUTPUT);
-  pinMode(greenLed, OUTPUT);
-  Serial.begin(9600);
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(redLed, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(greenLed, <span class="keyword">OUTPUT</span>);
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
 }
 
-void loop() {
-  sensorValue = analogRead(sensorPin);
-  Serial.println(sensorValue);
+<span class="keyword">void</span> loop() {
+  sensorValue = <span class="function">analogRead</span>(sensorPin);
+  <span class="function">Serial</span>.<span class="function">println</span>(sensorValue);
   
-  // Adjust threshold based on your sensor (usually 0-1023, lower is wetter)
-  if(sensorValue > 800) { // Dry soil
-    digitalWrite(redLed, HIGH);
-    digitalWrite(greenLed, LOW);
-  } else { // Wet soil
-    digitalWrite(redLed, LOW);
-    digitalWrite(greenLed, HIGH);
+  <span class="comment">// Adjust threshold based on your sensor (usually 0-1023, lower is wetter)</span>
+  <span class="keyword">if</span>(sensorValue > <span class="constant">800</span>) { <span class="comment">// Dry soil</span>
+    <span class="function">digitalWrite</span>(redLed, <span class="keyword">HIGH</span>);
+    <span class="function">digitalWrite</span>(greenLed, <span class="keyword">LOW</span>);
+  } <span class="keyword">else</span> { <span class="comment">// Wet soil</span>
+    <span class="function">digitalWrite</span>(redLed, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(greenLed, <span class="keyword">HIGH</span>);
   }
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-47.html" class="btn">← Previous: #47</a>
-                <a href="project-49.html" class="btn">Next: #49 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-47.html" class="btn">← Previous: Project #47: DS18B20 Waterproof Temp Sensor</a><a href="project-49.html" class="btn">Next: Project #49: Rain Sensor Water Detection →</a></div>
+
+            
 
         </section>
     </main>

@@ -55,31 +55,30 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#define BLYNK_PRINT Serial
-#include <ESP8266WiFi.h>
-#include <BlynkSimpleEsp8266.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#define</span> BLYNK_PRINT <span class="function">Serial</span>
+<span class="preprocessor">#include</span> <ESP8266WiFi.h>
+<span class="preprocessor">#include</span> <BlynkSimpleEsp8266.h>
 
-char auth[] = "YourAuthToken";
-char ssid[] = "YourNetworkName";
-char pass[] = "YourPassword";
+<span class="keyword">char</span> auth[] = <span class="string">"YourAuthToken"</span>;
+<span class="keyword">char</span> ssid[] = <span class="string">"YourNetworkName"</span>;
+<span class="keyword">char</span> pass[] = <span class="string">"YourPassword"</span>;
 
-void setup() {
-  Serial.begin(9600);
-  Blynk.begin(auth, ssid, pass);
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  Blynk.<span class="function">begin</span>(auth, ssid, pass);
 }
 
-void loop() {
+<span class="keyword">void</span> loop() {
   Blynk.run();
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-83.html" class="btn">← Previous: #83</a>
-                <a href="project-85.html" class="btn">Next: #85 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-83.html" class="btn">← Previous: Project #83: Sending Email from ESP8266</a><a href="project-85.html" class="btn">Next: Project #85: Blynk Sensor Data Monitoring →</a></div>
+
+            
 
         </section>
     </main>

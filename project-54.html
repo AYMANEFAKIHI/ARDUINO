@@ -55,42 +55,41 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <LiquidCrystal.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <LiquidCrystal.h>
 
-LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
-int timeLeft = 60; // Seconds
+LiquidCrystal lcd(<span class="constant">7</span>, <span class="constant">8</span>, <span class="constant">9</span>, <span class="constant">10</span>, <span class="constant">11</span>, <span class="constant">12</span>);
+<span class="keyword">int</span> timeLeft = <span class="constant">60</span>; <span class="comment">// Seconds</span>
 
-void setup() {
-  lcd.begin(16, 2);
-  pinMode(8, OUTPUT);
+<span class="keyword">void</span> setup() {
+  lcd.<span class="function">begin</span>(<span class="constant">16</span>, <span class="constant">2</span>);
+  <span class="function">pinMode</span>(<span class="constant">8</span>, <span class="keyword">OUTPUT</span>);
 }
 
-void loop() {
-  if (timeLeft > 0) {
-    lcd.setCursor(0, 0);
-    lcd.print("Time Left: ");
-    lcd.print(timeLeft);
-    lcd.print(" s  ");
-    delay(1000);
+<span class="keyword">void</span> loop() {
+  <span class="keyword">if</span> (timeLeft > <span class="constant">0</span>) {
+    lcd.setCursor(<span class="constant">0</span>, <span class="constant">0</span>);
+    lcd.<span class="function">print</span>(<span class="string">"Time Left: "</span>);
+    lcd.<span class="function">print</span>(timeLeft);
+    lcd.<span class="function">print</span>(<span class="string">" s  "</span>);
+    <span class="function">delay</span>(<span class="constant">1000</span>);
     timeLeft--;
-  } else {
-    lcd.setCursor(0, 0);
-    lcd.print("Time's Up!    ");
-    digitalWrite(8, HIGH);
-    delay(500);
-    digitalWrite(8, LOW);
-    delay(500);
+  } <span class="keyword">else</span> {
+    lcd.setCursor(<span class="constant">0</span>, <span class="constant">0</span>);
+    lcd.<span class="function">print</span>(<span class="string">"Time's Up!    "</span>);
+    <span class="function">digitalWrite</span>(<span class="constant">8</span>, <span class="keyword">HIGH</span>);
+    <span class="function">delay</span>(<span class="constant">500</span>);
+    <span class="function">digitalWrite</span>(<span class="constant">8</span>, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="constant">500</span>);
   }
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-53.html" class="btn">← Previous: #53</a>
-                <a href="project-55.html" class="btn">Next: #55 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-53.html" class="btn">← Previous: Project #53: LCD Stopwatch with Buttons</a><a href="project-55.html" class="btn">Next: Project #55: Sound Sensor (KY-038) LED React →</a></div>
+
+            
 
         </section>
     </main>

@@ -73,152 +73,152 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #27: 7-Segment Countdown Timer
  * The Arduino Student Lab
  * 
  * Displays 9 down to 0 with buzzer alarm at end
  * Button starts/resets the countdown
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-// Segment pins (a-g) connected to Arduino pins 2-8
-const int SEGMENT_A = 2;
-const int SEGMENT_B = 3;
-const int SEGMENT_C = 4;
-const int SEGMENT_D = 5;
-const int SEGMENT_E = 6;
-const int SEGMENT_F = 7;
-const int SEGMENT_G = 8;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// Segment pins (a-g) connected to Arduino pins 2-8</span>
+<span class="keyword">const</span> <span class="keyword">int</span> SEGMENT_A = <span class="constant">2</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> SEGMENT_B = <span class="constant">3</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> SEGMENT_C = <span class="constant">4</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> SEGMENT_D = <span class="constant">5</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> SEGMENT_E = <span class="constant">6</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> SEGMENT_F = <span class="constant">7</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> SEGMENT_G = <span class="constant">8</span>;
 
-const int BUTTON_PIN = 9;
-const int BUZZER_PIN = 10;
+<span class="keyword">const</span> <span class="keyword">int</span> BUTTON_PIN = <span class="constant">9</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> BUZZER_PIN = <span class="constant">10</span>;
 
-// ============================================
-// SEGMENT PATTERNS
-// ============================================
-// Each byte represents segments: 0bGFEDCBA
-// 1 = segment ON, 0 = segment OFF
-const byte DIGITS[] = {
-  0b0111111,  // 0: A,B,C,D,E,F on
-  0b0000110,  // 1: B,C on
-  0b1011011,  // 2: A,B,D,E,G on
-  0b1001111,  // 3: A,B,C,D,G on
-  0b1100110,  // 4: B,C,F,G on
-  0b1101101,  // 5: A,C,D,F,G on
-  0b1111101,  // 6: A,C,D,E,F,G on
-  0b0000111,  // 7: A,B,C on
-  0b1111111,  // 8: All on
-  0b1101111   // 9: A,B,C,D,F,G on
+<span class="comment">// ============================================</span>
+<span class="comment">// SEGMENT PATTERNS</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// Each byte represents segments: 0bGFEDCBA</span>
+<span class="comment">// 1 = segment ON, 0 = segment OFF</span>
+<span class="keyword">const</span> <span class="keyword">byte</span> DIGITS[] = {
+  0b0111111,  <span class="comment">// 0: A,B,C,D,E,F on</span>
+  0b0000110,  <span class="comment">// 1: B,C on</span>
+  0b1011011,  <span class="comment">// 2: A,B,D,E,G on</span>
+  0b1001111,  <span class="comment">// 3: A,B,C,D,G on</span>
+  0b1100110,  <span class="comment">// 4: B,C,F,G on</span>
+  0b1101101,  <span class="comment">// 5: A,C,D,F,G on</span>
+  0b1111101,  <span class="comment">// 6: A,C,D,E,F,G on</span>
+  0b0000111,  <span class="comment">// 7: A,B,C on</span>
+  0b1111111,  <span class="comment">// 8: All on</span>
+  0b1101111   <span class="comment">// 9: A,B,C,D,F,G on</span>
 };
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-int currentDigit = 9;
-bool countdownActive = false;
-bool lastButtonState = false;
-unsigned long lastCountTime = 0;
-const unsigned long COUNT_INTERVAL = 1000;  // 1 second
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">int</span> currentDigit = <span class="constant">9</span>;
+<span class="keyword">bool</span> countdownActive = <span class="keyword">false</span>;
+<span class="keyword">bool</span> lastButtonState = <span class="keyword">false</span>;
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lastCountTime = <span class="constant">0</span>;
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> COUNT_INTERVAL = <span class="constant">1000</span>;  <span class="comment">// 1 second</span>
 
-// ============================================
-// SETUP
-// ============================================
-void setup() {
-  // Set segment pins as outputs
-  for (int pin = 2; pin <= 8; pin++) {
-    pinMode(pin, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Set segment pins as outputs</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> pin = <span class="constant">2</span>; pin <= <span class="constant">8</span>; pin++) {
+    <span class="function">pinMode</span>(pin, <span class="keyword">OUTPUT</span>);
   }
   
-  pinMode(BUTTON_PIN, INPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
+  <span class="function">pinMode</span>(BUTTON_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(BUZZER_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== 7-SEGMENT COUNTDOWN TIMER ===");
-  Serial.println("Press button to start/reset");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== 7-SEGMENT COUNTDOWN TIMER ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Press button to start/reset"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
   
-  // Display starting digit
+  <span class="comment">// Display starting digit</span>
   displayDigit(currentDigit);
 }
 
-// ============================================
-// MAIN LOOP
-// ============================================
-void loop() {
-  // Handle button press
-  bool buttonState = digitalRead(BUTTON_PIN);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Handle button press</span>
+  <span class="keyword">bool</span> buttonState = <span class="function">digitalRead</span>(BUTTON_PIN);
   
-  if (buttonState && !lastButtonState) {
-    // Button just pressed - start/reset countdown
-    currentDigit = 9;
-    countdownActive = true;
-    lastCountTime = millis();
+  <span class="keyword">if</span> (buttonState && !lastButtonState) {
+    <span class="comment">// Button just pressed - start/reset countdown</span>
+    currentDigit = <span class="constant">9</span>;
+    countdownActive = <span class="keyword">true</span>;
+    lastCountTime = <span class="function">millis</span>();
     displayDigit(currentDigit);
-    noTone(BUZZER_PIN);
-    Serial.println("Countdown started!");
+    <span class="function">noTone</span>(BUZZER_PIN);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Countdown started!"</span>);
   }
   lastButtonState = buttonState;
   
-  // Handle countdown
-  if (countdownActive) {
-    unsigned long currentTime = millis();
+  <span class="comment">// Handle countdown</span>
+  <span class="keyword">if</span> (countdownActive) {
+    <span class="keyword">unsigned</span> <span class="keyword">long</span> currentTime = <span class="function">millis</span>();
     
-    if (currentTime - lastCountTime >= COUNT_INTERVAL) {
+    <span class="keyword">if</span> (currentTime - lastCountTime >= COUNT_INTERVAL) {
       lastCountTime = currentTime;
       
-      if (currentDigit > 0) {
+      <span class="keyword">if</span> (currentDigit > <span class="constant">0</span>) {
         currentDigit--;
         displayDigit(currentDigit);
         
-        // Tick sound
-        tone(BUZZER_PIN, 800, 50);
+        <span class="comment">// Tick sound</span>
+        <span class="function">tone</span>(BUZZER_PIN, <span class="constant">800</span>, <span class="constant">50</span>);
         
-        Serial.print("Countdown: ");
-        Serial.println(currentDigit);
-      } else {
-        // Countdown finished!
-        countdownActive = false;
+        <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Countdown: "</span>);
+        <span class="function">Serial</span>.<span class="function">println</span>(currentDigit);
+      } <span class="keyword">else</span> {
+        <span class="comment">// Countdown finished!</span>
+        countdownActive = <span class="keyword">false</span>;
         finaleAlarm();
-        Serial.println("TIME'S UP!");
+        <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"TIME'S UP!"</span>);
       }
     }
   }
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-void displayDigit(int digit) {
-  if (digit < 0 || digit > 9) return;
+<span class="keyword">void</span> displayDigit(<span class="keyword">int</span> digit) {
+  <span class="keyword">if</span> (digit < <span class="constant">0</span> || digit > <span class="constant">9</span>) <span class="keyword">return</span>;
   
-  byte pattern = DIGITS[digit];
+  <span class="keyword">byte</span> pattern = DIGITS[digit];
   
-  // Write each segment
-  digitalWrite(SEGMENT_A, pattern & 0b0000001);
-  digitalWrite(SEGMENT_B, pattern & 0b0000010);
-  digitalWrite(SEGMENT_C, pattern & 0b0000100);
-  digitalWrite(SEGMENT_D, pattern & 0b0001000);
-  digitalWrite(SEGMENT_E, pattern & 0b0010000);
-  digitalWrite(SEGMENT_F, pattern & 0b0100000);
-  digitalWrite(SEGMENT_G, pattern & 0b1000000);
+  <span class="comment">// Write each segment</span>
+  <span class="function">digitalWrite</span>(SEGMENT_A, pattern & 0b0000001);
+  <span class="function">digitalWrite</span>(SEGMENT_B, pattern & 0b0000010);
+  <span class="function">digitalWrite</span>(SEGMENT_C, pattern & 0b0000100);
+  <span class="function">digitalWrite</span>(SEGMENT_D, pattern & 0b0001000);
+  <span class="function">digitalWrite</span>(SEGMENT_E, pattern & 0b0010000);
+  <span class="function">digitalWrite</span>(SEGMENT_F, pattern & 0b0100000);
+  <span class="function">digitalWrite</span>(SEGMENT_G, pattern & 0b1000000);
 }
 
-void finaleAlarm() {
-  // Play alarm sequence
-  for (int i = 0; i < 5; i++) {
-    tone(BUZZER_PIN, 1500, 200);
-    delay(300);
+<span class="keyword">void</span> finaleAlarm() {
+  <span class="comment">// Play alarm sequence</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">5</span>; i++) {
+    <span class="function">tone</span>(BUZZER_PIN, <span class="constant">1500</span>, <span class="constant">200</span>);
+    <span class="function">delay</span>(<span class="constant">300</span>);
   }
   
-  // Final long beep
-  tone(BUZZER_PIN, 2000, 1000);
+  <span class="comment">// Final long beep</span>
+  <span class="function">tone</span>(BUZZER_PIN, <span class="constant">2000</span>, <span class="constant">1000</span>);
 }
 
-/*
+<span class="comment">/*
  * 7-SEGMENT DISPLAY EXPLAINED
  * 
  *    --A--
@@ -253,7 +253,7 @@ void finaleAlarm() {
  *   HIGH = segment ON
  * - Common Anode: All anodes tied to VCC
  *   LOW = segment ON (inverted logic!)
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -276,10 +276,11 @@ void finaleAlarm() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-26.html" class="btn">← Previous: #26 IR Obstacle</a>
-                <a href="project-28.html" class="btn">Next: #28 4-Digit Clock →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-26.html" class="btn">← Previous: Project #26: IR Obstacle Detector</a><a href="project-28.html" class="btn">Next: Project #28: 4-Digit Clock Display (TM1637) →</a></div>
+
+            
+
+            
 
         </section>
     </main>

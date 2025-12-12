@@ -75,107 +75,107 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #18: Serial Monitor Temperature Logger
  * The Arduino Student Lab
  * 
  * Logs temperature readings with timestamps
  * Demonstrates Serial communication for debugging
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int TEMP_PIN = A0;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> TEMP_PIN = A0;
 
-// ============================================
-// LOGGING CONFIGURATION
-// ============================================
-const unsigned long LOG_INTERVAL = 2000;  // Log every 2 seconds
-unsigned long lastLogTime = 0;
-unsigned long readingNumber = 0;
+<span class="comment">// ============================================</span>
+<span class="comment">// LOGGING CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> LOG_INTERVAL = <span class="constant">2000</span>;  <span class="comment">// Log every 2 seconds</span>
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lastLogTime = <span class="constant">0</span>;
+<span class="keyword">unsigned</span> <span class="keyword">long</span> readingNumber = <span class="constant">0</span>;
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  // Initialize Serial at 9600 baud
-  Serial.begin(9600);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Initialize Serial at 9600 baud</span>
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
   
-  // Wait for Serial to connect (important for some boards)
-  while (!Serial) {
-    ; // Wait
+  <span class="comment">// Wait for Serial to connect (important for some boards)</span>
+  <span class="keyword">while</span> (!<span class="function">Serial</span>) {
+    ; <span class="comment">// Wait</span>
   }
   
-  // Print header
-  Serial.println("==========================================");
-  Serial.println("     TEMPERATURE DATA LOGGER");
-  Serial.println("==========================================");
-  Serial.println("");
-  Serial.println("Reading#  Time(s)   Raw    Voltage   Temp(C)  Temp(F)");
-  Serial.println("--------  -------   ---    -------   -------  -------");
+  <span class="comment">// Print header</span>
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=========================================="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"     TEMPERATURE DATA LOGGER"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=========================================="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Reading#  Time(s)   Raw    Voltage   Temp(C)  Temp(F)"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"--------  -------   ---    -------   -------  -------"</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  unsigned long currentTime = millis();
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="keyword">unsigned</span> <span class="keyword">long</span> currentTime = <span class="function">millis</span>();
   
-  // Check if it's time to log
-  if (currentTime - lastLogTime >= LOG_INTERVAL) {
+  <span class="comment">// Check if it's time to log</span>
+  <span class="keyword">if</span> (currentTime - lastLogTime >= LOG_INTERVAL) {
     lastLogTime = currentTime;
     readingNumber++;
     
-    // Take temperature reading
-    int rawValue = analogRead(TEMP_PIN);
-    float voltage = (rawValue / 1024.0) * 5.0;
-    float tempC = voltage * 100.0;
-    float tempF = (tempC * 9.0 / 5.0) + 32.0;
+    <span class="comment">// Take temperature reading</span>
+    <span class="keyword">int</span> rawValue = <span class="function">analogRead</span>(TEMP_PIN);
+    <span class="keyword">float</span> voltage = (rawValue / <span class="constant">1024</span>.<span class="constant">0</span>) * <span class="constant">5</span>.<span class="constant">0</span>;
+    <span class="keyword">float</span> tempC = voltage * <span class="constant">100</span>.<span class="constant">0</span>;
+    <span class="keyword">float</span> tempF = (tempC * <span class="constant">9</span>.<span class="constant">0</span> / <span class="constant">5</span>.<span class="constant">0</span>) + <span class="constant">32</span>.<span class="constant">0</span>;
     
-    // Calculate runtime in seconds
-    float runtimeSeconds = currentTime / 1000.0;
+    <span class="comment">// Calculate runtime in seconds</span>
+    <span class="keyword">float</span> runtimeSeconds = currentTime / <span class="constant">1000</span>.<span class="constant">0</span>;
     
-    // Log data in formatted columns
-    // Using print() for same line, println() for new line
+    <span class="comment">// Log data in formatted columns</span>
+    <span class="comment">// Using print() for same line, println() for new line</span>
     
-    // Reading number (padded)
-    Serial.print("#");
-    if (readingNumber < 10) Serial.print("  ");
-    else if (readingNumber < 100) Serial.print(" ");
-    Serial.print(readingNumber);
-    Serial.print("     ");
+    <span class="comment">// Reading number (padded)</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"#"</span>);
+    <span class="keyword">if</span> (readingNumber < <span class="constant">10</span>) <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"  "</span>);
+    <span class="keyword">else</span> <span class="keyword">if</span> (readingNumber < <span class="constant">100</span>) <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" "</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(readingNumber);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"     "</span>);
     
-    // Time in seconds
-    Serial.print(runtimeSeconds, 1);
-    Serial.print("s    ");
+    <span class="comment">// Time in seconds</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(runtimeSeconds, <span class="constant">1</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"s    "</span>);
     
-    // Raw ADC value
-    if (rawValue < 100) Serial.print(" ");
-    if (rawValue < 10) Serial.print(" ");
-    Serial.print(rawValue);
-    Serial.print("    ");
+    <span class="comment">// Raw ADC value</span>
+    <span class="keyword">if</span> (rawValue < <span class="constant">100</span>) <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" "</span>);
+    <span class="keyword">if</span> (rawValue < <span class="constant">10</span>) <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" "</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(rawValue);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"    "</span>);
     
-    // Voltage
-    Serial.print(voltage, 3);
-    Serial.print("V    ");
+    <span class="comment">// Voltage</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(voltage, <span class="constant">3</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"V    "</span>);
     
-    // Temperature Celsius
-    Serial.print(tempC, 1);
-    Serial.print("C    ");
+    <span class="comment">// Temperature Celsius</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(tempC, <span class="constant">1</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"C    "</span>);
     
-    // Temperature Fahrenheit
-    Serial.print(tempF, 1);
-    Serial.println("F");
+    <span class="comment">// Temperature Fahrenheit</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(tempF, <span class="constant">1</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"F"</span>);
     
-    // Every 10 readings, add a separator
-    if (readingNumber % 10 == 0) {
-      Serial.println("--------------------------------------------------");
+    <span class="comment">// Every 10 readings, add a separator</span>
+    <span class="keyword">if</span> (readingNumber % <span class="constant">10</span> == <span class="constant">0</span>) {
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"--------------------------------------------------"</span>);
     }
   }
 }
 
-/*
+<span class="comment">/*
  * SERIAL COMMUNICATION BASICS
  * 
  * Serial.begin(9600):
@@ -202,7 +202,7 @@ void loop() {
  * COPYING DATA:
  *   You can select and copy text from Serial Monitor
  *   Paste into Excel/Sheets for analysis!
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -225,10 +225,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-17.html" class="btn">← Previous: #17 Doorbell</a>
-                <a href="project-19.html" class="btn">Next: #19 Theremin →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-17.html" class="btn">← Previous: Project #17: Button-Activated Doorbell</a><a href="project-19.html" class="btn">Next: Project #19: Potentiometer Theremin →</a></div>
+
+            
+
+            
 
         </section>
     </main>

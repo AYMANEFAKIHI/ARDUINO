@@ -78,111 +78,111 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #24: Radar Sweep (Serial Plotter)
  * The Arduino Student Lab
  * 
  * Servo sweeps ultrasonic sensor 180 degrees
  * Data output formatted for Serial Plotter
- */
+ */</span>
+<span class="preprocessor">
+#include</span> &lt;Servo.h&gt;
 
-#include &lt;Servo.h&gt;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> TRIG_PIN = <span class="constant">9</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> ECHO_PIN = <span class="constant">10</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> SERVO_PIN = <span class="constant">6</span>;
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int TRIG_PIN = 9;
-const int ECHO_PIN = 10;
-const int SERVO_PIN = 6;
+<span class="comment">// ============================================</span>
+<span class="comment">// CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> SWEEP_MIN = <span class="constant">15</span>;     <span class="comment">// Minimum angle (degrees)</span>
+<span class="keyword">const</span> <span class="keyword">int</span> SWEEP_MAX = <span class="constant">165</span>;    <span class="comment">// Maximum angle (degrees)</span>
+<span class="keyword">const</span> <span class="keyword">int</span> SWEEP_STEP = <span class="constant">1</span>;     <span class="comment">// Degrees per step</span>
+<span class="keyword">const</span> <span class="keyword">int</span> SWEEP_DELAY = <span class="constant">30</span>;   <span class="comment">// Delay between steps (ms)</span>
 
-// ============================================
-// CONFIGURATION
-// ============================================
-const int SWEEP_MIN = 15;     // Minimum angle (degrees)
-const int SWEEP_MAX = 165;    // Maximum angle (degrees)
-const int SWEEP_STEP = 1;     // Degrees per step
-const int SWEEP_DELAY = 30;   // Delay between steps (ms)
-
-// ============================================
-// OBJECTS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// OBJECTS</span>
+<span class="comment">// ============================================</span>
 Servo radarServo;
 
-// ============================================
-// SETUP
-// ============================================
-void setup() {
-  pinMode(TRIG_PIN, OUTPUT);
-  pinMode(ECHO_PIN, INPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(TRIG_PIN, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(ECHO_PIN, <span class="keyword">INPUT</span>);
   
   radarServo.attach(SERVO_PIN);
-  radarServo.write(90);  // Start at center
+  radarServo.<span class="function">write</span>(<span class="constant">90</span>);  <span class="comment">// Start at center</span>
   
-  Serial.begin(9600);
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
   
-  // Wait for servo to reach position
-  delay(1000);
+  <span class="comment">// Wait for servo to reach position</span>
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
 
-// ============================================
-// MAIN LOOP
-// ============================================
-void loop() {
-  // Sweep from left to right
-  for (int angle = SWEEP_MIN; angle <= SWEEP_MAX; angle += SWEEP_STEP) {
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Sweep from left to right</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> angle = SWEEP_MIN; angle <= SWEEP_MAX; angle += SWEEP_STEP) {
     scanAtAngle(angle);
   }
   
-  // Sweep from right to left
-  for (int angle = SWEEP_MAX; angle >= SWEEP_MIN; angle -= SWEEP_STEP) {
+  <span class="comment">// Sweep from right to left</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> angle = SWEEP_MAX; angle >= SWEEP_MIN; angle -= SWEEP_STEP) {
     scanAtAngle(angle);
   }
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-void scanAtAngle(int angle) {
-  // Move servo to angle
-  radarServo.write(angle);
-  delay(SWEEP_DELAY);
+<span class="keyword">void</span> scanAtAngle(<span class="keyword">int</span> angle) {
+  <span class="comment">// Move servo to angle</span>
+  radarServo.<span class="function">write</span>(angle);
+  <span class="function">delay</span>(SWEEP_DELAY);
   
-  // Measure distance
-  float distance = measureDistance();
+  <span class="comment">// Measure distance</span>
+  <span class="keyword">float</span> distance = measureDistance();
   
-  // Clamp distance for display (0-200cm range)
-  if (distance > 200) distance = 200;
-  if (distance < 0) distance = 0;
+  <span class="comment">// Clamp distance for display (0-200cm range)</span>
+  <span class="keyword">if</span> (distance > <span class="constant">200</span>) distance = <span class="constant">200</span>;
+  <span class="keyword">if</span> (distance < <span class="constant">0</span>) distance = <span class="constant">0</span>;
   
-  // Output format for Serial Plotter
-  // Format: angle,distance
-  Serial.print(angle);
-  Serial.print(",");
-  Serial.println(distance);
+  <span class="comment">// Output format for Serial Plotter</span>
+  <span class="comment">// Format: angle,distance</span>
+  <span class="function">Serial</span>.<span class="function">print</span>(angle);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">","</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(distance);
 }
 
-float measureDistance() {
-  // Send trigger pulse
-  digitalWrite(TRIG_PIN, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
+<span class="keyword">float</span> measureDistance() {
+  <span class="comment">// Send trigger pulse</span>
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">LOW</span>);
+  <span class="function">delayMicroseconds</span>(<span class="constant">2</span>);
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">HIGH</span>);
+  <span class="function">delayMicroseconds</span>(<span class="constant">10</span>);
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">LOW</span>);
   
-  // Measure echo
-  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+  <span class="comment">// Measure echo</span>
+  <span class="keyword">long</span> duration = <span class="function">pulseIn</span>(ECHO_PIN, <span class="keyword">HIGH</span>, <span class="constant">30000</span>);
   
-  // Calculate distance
-  float distance = duration * 0.0343 / 2.0;
+  <span class="comment">// Calculate distance</span>
+  <span class="keyword">float</span> distance = duration * <span class="constant">0</span>.<span class="constant">0343</span> / <span class="constant">2</span>.<span class="constant">0</span>;
   
-  // Handle no-echo
-  if (duration == 0) distance = 200;
+  <span class="comment">// Handle no-echo</span>
+  <span class="keyword">if</span> (duration == <span class="constant">0</span>) distance = <span class="constant">200</span>;
   
-  return distance;
+  <span class="keyword">return</span> distance;
 }
 
-/*
+<span class="comment">/*
  * USING THE SERIAL PLOTTER
  * 
  * 1. Upload this code
@@ -199,7 +199,7 @@ float measureDistance() {
  * to create a proper radar sweep visualization!
  * 
  * Processing code available at:
- * https://github.com/arduino-student-lab/radar
+ * https:___PH_35___
  * 
  * MOUNTING THE SENSOR:
  *   +--------+
@@ -214,7 +214,7 @@ float measureDistance() {
  *     BASE
  * 
  * Use hot glue, tape, or a 3D-printed mount
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -237,10 +237,11 @@ float measureDistance() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-23.html" class="btn">← Previous: #23 Parking Assist</a>
-                <a href="project-25.html" class="btn">Next: #25 Proximity Buzzer →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-23.html" class="btn">← Previous: Project #23: Parking Assist (3-Zone LED)</a><a href="project-25.html" class="btn">Next: Project #25: Proximity Alert Buzzer →</a></div>
+
+            
+
+            
 
         </section>
     </main>

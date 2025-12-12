@@ -55,36 +55,35 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Wire.h>
-#include <Adafruit_PWMServoDriver.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Wire.h>
+<span class="preprocessor">#include</span> <Adafruit_PWMServoDriver.h>
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
-void setup() {
-  pwm.begin();
-  pwm.setPWMFreq(60);
+<span class="keyword">void</span> setup() {
+  pwm.<span class="function">begin</span>();
+  pwm.setPWMFreq(<span class="constant">60</span>);
 }
 
-void loop() {
-  // Drive servo on channel 0
-  for (uint16_t pulselen = 150; pulselen < 600; pulselen++) {
-    pwm.setPWM(0, 0, pulselen);
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Drive servo on channel 0</span>
+  <span class="keyword">for</span> (uint16_t pulselen = <span class="constant">150</span>; pulselen < <span class="constant">600</span>; pulselen++) {
+    pwm.setPWM(<span class="constant">0</span>, <span class="constant">0</span>, pulselen);
   }
-  delay(500);
-  for (uint16_t pulselen = 600; pulselen > 150; pulselen--) {
-    pwm.setPWM(0, 0, pulselen);
+  <span class="function">delay</span>(<span class="constant">500</span>);
+  <span class="keyword">for</span> (uint16_t pulselen = <span class="constant">600</span>; pulselen > <span class="constant">150</span>; pulselen--) {
+    pwm.setPWM(<span class="constant">0</span>, <span class="constant">0</span>, pulselen);
   }
-  delay(500);
+  <span class="function">delay</span>(<span class="constant">500</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-70.html" class="btn">← Previous: #70</a>
-                <a href="project-72.html" class="btn">Next: #72 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-70.html" class="btn">← Previous: Project #70: I2C Scanner (Find All Devices)</a><a href="project-72.html" class="btn">Next: Project #72: PCF8574 I/O Expander →</a></div>
+
+            
 
         </section>
     </main>

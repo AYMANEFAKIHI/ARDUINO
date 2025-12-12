@@ -55,31 +55,30 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Wire.h>
-#include "PCF8574.h" // Library required
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Wire.h>
+<span class="preprocessor">#include</span> <span class="string">"PCF8574.h"</span> <span class="comment">// Library required</span>
 
-PCF8574 pcf8574(0x20); // Check address
+PCF8574 pcf8574(0x20); <span class="comment">// Check address</span>
 
-void setup() {
-  pcf8574.begin();
-  pcf8574.pinMode(P0, OUTPUT);
+<span class="keyword">void</span> setup() {
+  pcf8574.<span class="function">begin</span>();
+  pcf8574.<span class="function">pinMode</span>(P0, <span class="keyword">OUTPUT</span>);
 }
 
-void loop() {
-  pcf8574.digitalWrite(P0, HIGH);
-  delay(1000);
-  pcf8574.digitalWrite(P0, LOW);
-  delay(1000);
+<span class="keyword">void</span> loop() {
+  pcf8574.<span class="function">digitalWrite</span>(P0, <span class="keyword">HIGH</span>);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
+  pcf8574.<span class="function">digitalWrite</span>(P0, <span class="keyword">LOW</span>);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-71.html" class="btn">← Previous: #71</a>
-                <a href="project-73.html" class="btn">Next: #73 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-71.html" class="btn">← Previous: Project #71: PCA9685 PWM Driver (16 Servos)</a><a href="project-73.html" class="btn">Next: Project #73: MicroSD Card Data Logger →</a></div>
+
+            
 
         </section>
     </main>

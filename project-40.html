@@ -74,37 +74,36 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-int motorPin = 3; // Must be a PWM pin (marked with ~)
+<span class="keyword">int</span> motorPin = <span class="constant">3</span>; <span class="comment">// Must be a PWM pin (marked with ~)</span>
 
-void setup() {
-  pinMode(motorPin, OUTPUT);
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(motorPin, <span class="keyword">OUTPUT</span>);
 }
 
-void loop() {
-  // Accelerate from 0 to max speed (255)
-  for (int speed = 0; speed <= 255; speed++) {
-    analogWrite(motorPin, speed);
-    delay(10); // Wait a bit to see the effect
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Accelerate from 0 to max speed (255)</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> speed = <span class="constant">0</span>; speed <= <span class="constant">255</span>; speed++) {
+    <span class="function">analogWrite</span>(motorPin, speed);
+    <span class="function">delay</span>(<span class="constant">10</span>); <span class="comment">// Wait a bit to see the effect</span>
   }
   
-  delay(1000); // Hold at full speed for 1 second
+  <span class="function">delay</span>(<span class="constant">1000</span>); <span class="comment">// Hold at full speed for 1 second</span>
   
-  // Decelerate from max speed to 0
-  for (int speed = 255; speed >= 0; speed--) {
-    analogWrite(motorPin, speed);
-    delay(10);
+  <span class="comment">// Decelerate from max speed to 0</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> speed = <span class="constant">255</span>; speed >= <span class="constant">0</span>; speed--) {
+    <span class="function">analogWrite</span>(motorPin, speed);
+    <span class="function">delay</span>(<span class="constant">10</span>);
   }
   
-  delay(1000); // Stay stopped for 1 second
+  <span class="function">delay</span>(<span class="constant">1000</span>); <span class="comment">// Stay stopped for 1 second</span>
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-39.html" class="btn">← Previous: #39</a>
-                <a href="project-41.html" class="btn">Next: #41 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-39.html" class="btn">← Previous: Project #39: Joystick-Controlled Pan/Tilt</a><a href="project-41.html" class="btn">Next: Project #41: DC Motor Direction (H-Bridge L298N) →</a></div>
+
+            
 
         </section>
     </main>

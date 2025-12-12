@@ -87,27 +87,27 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #29: LCD Hello World (16x2)
  * The Arduino Student Lab
  * 
  * Displays text on a 16x2 LCD display
  * Demonstrates positioning, scrolling, and custom chars
- */
+ */</span>
+<span class="preprocessor">
+#include</span> &lt;LiquidCrystal.h&gt;
 
-#include &lt;LiquidCrystal.h&gt;
+<span class="comment">// ============================================</span>
+<span class="comment">// LCD PIN CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// LiquidCrystal(RS, E, D4, D5, D6, D7)</span>
+LiquidCrystal lcd(<span class="constant">12</span>, <span class="constant">11</span>, <span class="constant">5</span>, <span class="constant">4</span>, <span class="constant">3</span>, <span class="constant">2</span>);
 
-// ============================================
-// LCD PIN CONFIGURATION
-// ============================================
-// LiquidCrystal(RS, E, D4, D5, D6, D7)
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-
-// ============================================
-// CUSTOM CHARACTER DEFINITIONS
-// ============================================
-// Each character is 5x8 pixels (5 columns, 8 rows)
-byte smiley[8] = {
+<span class="comment">// ============================================</span>
+<span class="comment">// CUSTOM CHARACTER DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// Each character is 5x8 pixels (5 columns, 8 rows)</span>
+<span class="keyword">byte</span> smiley[<span class="constant">8</span>] = {
   0b00000,
   0b01010,
   0b01010,
@@ -118,7 +118,7 @@ byte smiley[8] = {
   0b00000
 };
 
-byte heart[8] = {
+<span class="keyword">byte</span> heart[<span class="constant">8</span>] = {
   0b00000,
   0b01010,
   0b11111,
@@ -129,96 +129,96 @@ byte heart[8] = {
   0b00000
 };
 
-// ============================================
-// SETUP
-// ============================================
-void setup() {
-  // Initialize LCD (16 columns, 2 rows)
-  lcd.begin(16, 2);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Initialize LCD (16 columns, 2 rows)</span>
+  lcd.<span class="function">begin</span>(<span class="constant">16</span>, <span class="constant">2</span>);
   
-  // Create custom characters (indices 0-7)
-  lcd.createChar(0, smiley);
-  lcd.createChar(1, heart);
+  <span class="comment">// Create custom characters (indices 0-7)</span>
+  lcd.createChar(<span class="constant">0</span>, smiley);
+  lcd.createChar(<span class="constant">1</span>, heart);
   
-  Serial.begin(9600);
-  Serial.println("=== LCD HELLO WORLD ===");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== LCD HELLO WORLD ==="</span>);
   
-  // Show startup message
-  lcd.print("Hello, Arduino!");
-  lcd.setCursor(0, 1);
-  lcd.print("LCD Display ");
-  lcd.write(byte(0));  // Smiley
+  <span class="comment">// Show startup message</span>
+  lcd.<span class="function">print</span>(<span class="string">"Hello, Arduino!"</span>);
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+  lcd.<span class="function">print</span>(<span class="string">"LCD Display "</span>);
+  lcd.<span class="function">write</span>(<span class="keyword">byte</span>(<span class="constant">0</span>));  <span class="comment">// Smiley</span>
   
-  delay(3000);
+  <span class="function">delay</span>(<span class="constant">3000</span>);
 }
 
-// ============================================
-// MAIN LOOP
-// ============================================
-void loop() {
-  // Demo 1: Basic text
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Demo 1: Basic text</span>
   lcd.clear();
-  lcd.print("Demo 1: Text");
-  lcd.setCursor(0, 1);
-  lcd.print("16 chars x 2 row");
-  delay(2000);
+  lcd.<span class="function">print</span>(<span class="string">"Demo 1: Text"</span>);
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+  lcd.<span class="function">print</span>(<span class="string">"16 chars x 2 row"</span>);
+  <span class="function">delay</span>(<span class="constant">2000</span>);
   
-  // Demo 2: Cursor positioning
+  <span class="comment">// Demo 2: Cursor positioning</span>
   lcd.clear();
-  lcd.print("Demo 2: Position");
-  delay(1000);
+  lcd.<span class="function">print</span>(<span class="string">"Demo 2: Position"</span>);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
   
-  lcd.setCursor(0, 1);  // Column 0, Row 1
-  for (int col = 0; col < 16; col++) {
-    lcd.setCursor(col, 1);
-    lcd.print("*");
-    delay(100);
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);  <span class="comment">// Column 0, Row 1</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> col = <span class="constant">0</span>; col < <span class="constant">16</span>; col++) {
+    lcd.setCursor(col, <span class="constant">1</span>);
+    lcd.<span class="function">print</span>(<span class="string">"*"</span>);
+    <span class="function">delay</span>(<span class="constant">100</span>);
   }
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
   
-  // Demo 3: Scrolling
+  <span class="comment">// Demo 3: Scrolling</span>
   lcd.clear();
-  lcd.print("Demo 3: Scroll");
-  lcd.setCursor(0, 1);
-  lcd.print("Watch this!");
-  delay(1000);
+  lcd.<span class="function">print</span>(<span class="string">"Demo 3: Scroll"</span>);
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+  lcd.<span class="function">print</span>(<span class="string">"Watch this!"</span>);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
   
-  // Scroll left
-  for (int i = 0; i < 5; i++) {
+  <span class="comment">// Scroll left</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">5</span>; i++) {
     lcd.scrollDisplayLeft();
-    delay(300);
+    <span class="function">delay</span>(<span class="constant">300</span>);
   }
-  // Scroll right
-  for (int i = 0; i < 5; i++) {
+  <span class="comment">// Scroll right</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">5</span>; i++) {
     lcd.scrollDisplayRight();
-    delay(300);
+    <span class="function">delay</span>(<span class="constant">300</span>);
   }
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
   
-  // Demo 4: Custom characters
+  <span class="comment">// Demo 4: Custom characters</span>
   lcd.clear();
-  lcd.print("Demo 4: Custom");
-  lcd.setCursor(0, 1);
-  lcd.print("I ");
-  lcd.write(byte(1));  // Heart
-  lcd.print(" Arduino ");
-  lcd.write(byte(0));  // Smiley
-  delay(3000);
+  lcd.<span class="function">print</span>(<span class="string">"Demo 4: Custom"</span>);
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+  lcd.<span class="function">print</span>(<span class="string">"I "</span>);
+  lcd.<span class="function">write</span>(<span class="keyword">byte</span>(<span class="constant">1</span>));  <span class="comment">// Heart</span>
+  lcd.<span class="function">print</span>(<span class="string">" Arduino "</span>);
+  lcd.<span class="function">write</span>(<span class="keyword">byte</span>(<span class="constant">0</span>));  <span class="comment">// Smiley</span>
+  <span class="function">delay</span>(<span class="constant">3000</span>);
   
-  // Demo 5: Counter
+  <span class="comment">// Demo 5: Counter</span>
   lcd.clear();
-  lcd.print("Demo 5: Counter");
-  for (int i = 0; i <= 100; i += 10) {
-    lcd.setCursor(0, 1);
-    lcd.print("Value: ");
-    lcd.print(i);
-    lcd.print("%  ");  // Extra spaces clear old chars
-    delay(300);
+  lcd.<span class="function">print</span>(<span class="string">"Demo 5: Counter"</span>);
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i <= <span class="constant">100</span>; i += <span class="constant">10</span>) {
+    lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+    lcd.<span class="function">print</span>(<span class="string">"Value: "</span>);
+    lcd.<span class="function">print</span>(i);
+    lcd.<span class="function">print</span>(<span class="string">"%  "</span>);  <span class="comment">// Extra spaces clear old chars</span>
+    <span class="function">delay</span>(<span class="constant">300</span>);
   }
-  delay(2000);
+  <span class="function">delay</span>(<span class="constant">2000</span>);
 }
 
-/*
+<span class="comment">/*
  * LCD LIBRARY REFERENCE
  * 
  * INITIALIZATION:
@@ -254,7 +254,7 @@ void loop() {
  * +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
  * |00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15| Row 1
  * +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -277,10 +277,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-28.html" class="btn">← Previous: #28 4-Digit Clock</a>
-                <a href="project-30.html" class="btn">Next: #30 I2C LCD →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-28.html" class="btn">← Previous: Project #28: 4-Digit Clock Display (TM1637)</a><a href="project-30.html" class="btn">Next: Project #30: I2C LCD Display →</a></div>
+
+            
+
+            
 
         </section>
     </main>

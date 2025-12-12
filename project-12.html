@@ -79,73 +79,73 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #12: Photoresistor (LDR) Night Light
  * The Arduino Student Lab
  * 
  * Automatically turns on LED when room gets dark
  * Uses analog light sensing with threshold detection
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int LDR_PIN = A0;      // Analog input for light sensor
-const int LED_PIN = 9;       // PWM pin for LED (allows dimming)
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LDR_PIN = A0;      <span class="comment">// Analog input for light sensor</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">9</span>;       <span class="comment">// PWM pin for LED (allows dimming)</span>
 
-// ============================================
-// THRESHOLD CONFIGURATION
-// ============================================
-// Adjust these values based on your lighting conditions!
-// Use Serial Monitor to find the right values for your setup
-const int DARK_THRESHOLD = 300;   // Below this = turn LED ON
-const int LIGHT_THRESHOLD = 500;  // Above this = turn LED OFF
-// The gap between thresholds prevents flickering (hysteresis)
+<span class="comment">// ============================================</span>
+<span class="comment">// THRESHOLD CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// Adjust these values based on your lighting conditions!</span>
+<span class="comment">// Use Serial Monitor to find the right values for your setup</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DARK_THRESHOLD = <span class="constant">300</span>;   <span class="comment">// Below this = turn LED ON</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LIGHT_THRESHOLD = <span class="constant">500</span>;  <span class="comment">// Above this = turn LED OFF</span>
+<span class="comment">// The gap between thresholds prevents flickering (hysteresis)</span>
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(LED_PIN, OUTPUT);
-  // Note: Analog pins don't need pinMode for input
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
+  <span class="comment">// Note: Analog pins don't need pinMode for input</span>
   
-  Serial.begin(9600);
-  Serial.println("=== AUTOMATIC NIGHT LIGHT ===");
-  Serial.println("Cover the LDR to activate the light!");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== AUTOMATIC NIGHT LIGHT ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Cover the LDR to activate the light!"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Read light level (0-1023)
-  // Low values = dark, High values = bright
-  int lightLevel = analogRead(LDR_PIN);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read light level (0-1023)</span>
+  <span class="comment">// Low values = dark, High values = bright</span>
+  <span class="keyword">int</span> lightLevel = <span class="function">analogRead</span>(LDR_PIN);
   
-  // Print current reading
-  Serial.print("Light level: ");
-  Serial.print(lightLevel);
+  <span class="comment">// Print current reading</span>
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Light level: "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(lightLevel);
   
-  // Decide whether to turn light on or off
-  if (lightLevel < DARK_THRESHOLD) {
-    digitalWrite(LED_PIN, HIGH);
-    Serial.println(" - DARK (LED ON)");
+  <span class="comment">// Decide whether to turn light on or off</span>
+  <span class="keyword">if</span> (lightLevel < DARK_THRESHOLD) {
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" - DARK (LED ON)"</span>);
   } 
-  else if (lightLevel > LIGHT_THRESHOLD) {
-    digitalWrite(LED_PIN, LOW);
-    Serial.println(" - BRIGHT (LED OFF)");
+  <span class="keyword">else</span> <span class="keyword">if</span> (lightLevel > LIGHT_THRESHOLD) {
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" - BRIGHT (LED OFF)"</span>);
   }
-  else {
-    // In the "hysteresis zone" - keep current state
-    Serial.println(" - (no change)");
+  <span class="keyword">else</span> {
+    <span class="comment">// In the "hysteresis zone" - keep current state</span>
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" - (no change)"</span>);
   }
   
-  // Small delay for stable readings
-  delay(100);
+  <span class="comment">// Small delay for stable readings</span>
+  <span class="function">delay</span>(<span class="constant">100</span>);
 }
 
-/*
+<span class="comment">/*
  * HOW PHOTORESISTORS (LDRs) WORK
  * 
  * LDR = Light Dependent Resistor
@@ -174,7 +174,7 @@ void loop() {
  *   Must get darker than 300 to turn ON
  *   Must get brighter than 500 to turn OFF
  *   Stable operation in the middle range
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -197,10 +197,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="pot-fade-tutorial.html" class="btn">← Previous: #11 Potentiometer</a>
-                <a href="project-13.html" class="btn">Next: #13 Temperature Monitor →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-11.html" class="btn">← Previous: Fading LED with Potentiometer</a><a href="project-13.html" class="btn">Next: Project #13: LM35 Temperature Monitor →</a></div>
+
+            
+
+            
 
         </section>
     </main>

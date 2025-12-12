@@ -85,157 +85,157 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #23: Parking Assist (3-Zone LED)
  * The Arduino Student Lab
  * 
  * Visual and audio feedback based on distance
  * Green = Safe, Yellow = Caution, Red = Stop!
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int TRIG_PIN = 9;
-const int ECHO_PIN = 10;
-const int GREEN_LED = 2;
-const int YELLOW_LED = 3;
-const int RED_LED = 4;
-const int BUZZER_PIN = 8;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> TRIG_PIN = <span class="constant">9</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> ECHO_PIN = <span class="constant">10</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> GREEN_LED = <span class="constant">2</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> YELLOW_LED = <span class="constant">3</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> RED_LED = <span class="constant">4</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> BUZZER_PIN = <span class="constant">8</span>;
 
-// ============================================
-// DISTANCE ZONES (in centimeters)
-// ============================================
-const int ZONE_FAR = 100;     // Beyond this = all clear
-const int ZONE_CAUTION = 50;  // Yellow zone starts
-const int ZONE_DANGER = 20;   // Red zone starts
-const int ZONE_STOP = 10;     // Too close!
+<span class="comment">// ============================================</span>
+<span class="comment">// DISTANCE ZONES (in centimeters)</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> ZONE_FAR = <span class="constant">100</span>;     <span class="comment">// Beyond this = all clear</span>
+<span class="keyword">const</span> <span class="keyword">int</span> ZONE_CAUTION = <span class="constant">50</span>;  <span class="comment">// Yellow zone starts</span>
+<span class="keyword">const</span> <span class="keyword">int</span> ZONE_DANGER = <span class="constant">20</span>;   <span class="comment">// Red zone starts</span>
+<span class="keyword">const</span> <span class="keyword">int</span> ZONE_STOP = <span class="constant">10</span>;     <span class="comment">// Too close!</span>
 
-// ============================================
-// BUZZER TIMING (beep intervals in ms)
-// ============================================
-const int BEEP_FAR = 1000;      // Slow beep when far
-const int BEEP_CAUTION = 500;   // Medium beep
-const int BEEP_DANGER = 200;    // Fast beep
-const int BEEP_STOP = 0;        // Continuous
+<span class="comment">// ============================================</span>
+<span class="comment">// BUZZER TIMING (beep intervals in ms)</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BEEP_FAR = <span class="constant">1000</span>;      <span class="comment">// Slow beep when far</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BEEP_CAUTION = <span class="constant">500</span>;   <span class="comment">// Medium beep</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BEEP_DANGER = <span class="constant">200</span>;    <span class="comment">// Fast beep</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BEEP_STOP = <span class="constant">0</span>;        <span class="comment">// Continuous</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-unsigned long lastBeepTime = 0;
-bool buzzerOn = false;
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lastBeepTime = <span class="constant">0</span>;
+<span class="keyword">bool</span> buzzerOn = <span class="keyword">false</span>;
 
-// ============================================
-// SETUP
-// ============================================
-void setup() {
-  pinMode(TRIG_PIN, OUTPUT);
-  pinMode(ECHO_PIN, INPUT);
-  pinMode(GREEN_LED, OUTPUT);
-  pinMode(YELLOW_LED, OUTPUT);
-  pinMode(RED_LED, OUTPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(TRIG_PIN, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(ECHO_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(GREEN_LED, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(YELLOW_LED, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(RED_LED, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(BUZZER_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== PARKING ASSIST SYSTEM ===");
-  Serial.println("Zones: >100cm=Clear, 50-100=Caution, 20-50=Danger, <20=STOP!");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== PARKING ASSIST SYSTEM ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Zones: >100cm=Clear, 50-100=Caution, 20-50=Danger, <20=STOP!"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
 }
 
-// ============================================
-// MAIN LOOP
-// ============================================
-void loop() {
-  // Measure distance
-  float distance = measureDistance();
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Measure distance</span>
+  <span class="keyword">float</span> distance = measureDistance();
   
-  // Determine zone and update display
-  if (distance > ZONE_FAR) {
-    // All clear - far away
-    setLEDs(LOW, LOW, LOW);
-    noTone(BUZZER_PIN);
-    Serial.print("CLEAR: ");
+  <span class="comment">// Determine zone and update display</span>
+  <span class="keyword">if</span> (distance > ZONE_FAR) {
+    <span class="comment">// All clear - far away</span>
+    setLEDs(<span class="keyword">LOW</span>, <span class="keyword">LOW</span>, <span class="keyword">LOW</span>);
+    <span class="function">noTone</span>(BUZZER_PIN);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"CLEAR: "</span>);
   }
-  else if (distance > ZONE_CAUTION) {
-    // Green zone - approaching
-    setLEDs(HIGH, LOW, LOW);
+  <span class="keyword">else</span> <span class="keyword">if</span> (distance > ZONE_CAUTION) {
+    <span class="comment">// Green zone - approaching</span>
+    setLEDs(<span class="keyword">HIGH</span>, <span class="keyword">LOW</span>, <span class="keyword">LOW</span>);
     handleBeeper(BEEP_FAR);
-    Serial.print("GREEN: ");
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"GREEN: "</span>);
   }
-  else if (distance > ZONE_DANGER) {
-    // Yellow zone - caution
-    setLEDs(HIGH, HIGH, LOW);
+  <span class="keyword">else</span> <span class="keyword">if</span> (distance > ZONE_DANGER) {
+    <span class="comment">// Yellow zone - caution</span>
+    setLEDs(<span class="keyword">HIGH</span>, <span class="keyword">HIGH</span>, <span class="keyword">LOW</span>);
     handleBeeper(BEEP_CAUTION);
-    Serial.print("YELLOW: ");
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"YELLOW: "</span>);
   }
-  else if (distance > ZONE_STOP) {
-    // Red zone - danger
-    setLEDs(HIGH, HIGH, HIGH);
+  <span class="keyword">else</span> <span class="keyword">if</span> (distance > ZONE_STOP) {
+    <span class="comment">// Red zone - danger</span>
+    setLEDs(<span class="keyword">HIGH</span>, <span class="keyword">HIGH</span>, <span class="keyword">HIGH</span>);
     handleBeeper(BEEP_DANGER);
-    Serial.print("RED: ");
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"RED: "</span>);
   }
-  else {
-    // Too close - STOP!
-    setLEDs(HIGH, HIGH, HIGH);  // All on
-    tone(BUZZER_PIN, 2000);     // Continuous alarm
-    Serial.print("STOP!: ");
-  }
-  
-  Serial.print(distance, 1);
-  Serial.println(" cm");
-  
-  delay(100);
-}
-
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-float measureDistance() {
-  // Send trigger pulse
-  digitalWrite(TRIG_PIN, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
-  
-  // Measure echo pulse
-  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
-  
-  // Convert to distance
-  float distance = duration * 0.0343 / 2.0;
-  
-  // Handle timeout
-  if (distance == 0 || distance > 400) {
-    distance = 999;  // Out of range
+  <span class="keyword">else</span> {
+    <span class="comment">// Too close - STOP!</span>
+    setLEDs(<span class="keyword">HIGH</span>, <span class="keyword">HIGH</span>, <span class="keyword">HIGH</span>);  <span class="comment">// All on</span>
+    <span class="function">tone</span>(BUZZER_PIN, <span class="constant">2000</span>);     <span class="comment">// Continuous alarm</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"STOP!: "</span>);
   }
   
-  return distance;
-}
-
-void setLEDs(bool green, bool yellow, bool red) {
-  digitalWrite(GREEN_LED, green);
-  digitalWrite(YELLOW_LED, yellow);
-  digitalWrite(RED_LED, red);
-}
-
-void handleBeeper(int interval) {
-  unsigned long currentTime = millis();
+  <span class="function">Serial</span>.<span class="function">print</span>(distance, <span class="constant">1</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" cm"</span>);
   
-  if (currentTime - lastBeepTime >= interval) {
+  <span class="function">delay</span>(<span class="constant">100</span>);
+}
+
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
+
+<span class="keyword">float</span> measureDistance() {
+  <span class="comment">// Send trigger pulse</span>
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">LOW</span>);
+  <span class="function">delayMicroseconds</span>(<span class="constant">2</span>);
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">HIGH</span>);
+  <span class="function">delayMicroseconds</span>(<span class="constant">10</span>);
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">LOW</span>);
+  
+  <span class="comment">// Measure echo pulse</span>
+  <span class="keyword">long</span> duration = <span class="function">pulseIn</span>(ECHO_PIN, <span class="keyword">HIGH</span>, <span class="constant">30000</span>);
+  
+  <span class="comment">// Convert to distance</span>
+  <span class="keyword">float</span> distance = duration * <span class="constant">0</span>.<span class="constant">0343</span> / <span class="constant">2</span>.<span class="constant">0</span>;
+  
+  <span class="comment">// Handle timeout</span>
+  <span class="keyword">if</span> (distance == <span class="constant">0</span> || distance > <span class="constant">400</span>) {
+    distance = <span class="constant">999</span>;  <span class="comment">// Out of range</span>
+  }
+  
+  <span class="keyword">return</span> distance;
+}
+
+<span class="keyword">void</span> setLEDs(<span class="keyword">bool</span> green, <span class="keyword">bool</span> yellow, <span class="keyword">bool</span> red) {
+  <span class="function">digitalWrite</span>(GREEN_LED, green);
+  <span class="function">digitalWrite</span>(YELLOW_LED, yellow);
+  <span class="function">digitalWrite</span>(RED_LED, red);
+}
+
+<span class="keyword">void</span> handleBeeper(<span class="keyword">int</span> interval) {
+  <span class="keyword">unsigned</span> <span class="keyword">long</span> currentTime = <span class="function">millis</span>();
+  
+  <span class="keyword">if</span> (currentTime - lastBeepTime >= interval) {
     lastBeepTime = currentTime;
     
-    if (buzzerOn) {
-      noTone(BUZZER_PIN);
-      buzzerOn = false;
-    } else {
-      tone(BUZZER_PIN, 1500, interval / 2);
-      buzzerOn = true;
+    <span class="keyword">if</span> (buzzerOn) {
+      <span class="function">noTone</span>(BUZZER_PIN);
+      buzzerOn = <span class="keyword">false</span>;
+    } <span class="keyword">else</span> {
+      <span class="function">tone</span>(BUZZER_PIN, <span class="constant">1500</span>, interval / <span class="constant">2</span>);
+      buzzerOn = <span class="keyword">true</span>;
     }
   }
 }
 
-/*
+<span class="comment">/*
  * PARKING SENSOR DESIGN NOTES
  * 
  * Zone Design:
@@ -255,7 +255,7 @@ void handleBeeper(int interval) {
  * - Add second sensor for wider coverage
  * - Use WS2812 LEDs for smoother color gradient
  * - Add OLED display showing actual distance
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -278,10 +278,11 @@ void handleBeeper(int interval) {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-22.html" class="btn">← Previous: #22 PIR Light</a>
-                <a href="project-24.html" class="btn">Next: #24 Radar Sweep →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-22.html" class="btn">← Previous: Project #22: PIR Motion-Activated Light</a><a href="project-24.html" class="btn">Next: Project #24: Radar Sweep (Serial Plotter) →</a></div>
+
+            
+
+            
 
         </section>
     </main>

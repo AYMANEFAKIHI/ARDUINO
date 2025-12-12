@@ -71,30 +71,29 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-int relayPin = 7;
+<span class="keyword">int</span> relayPin = <span class="constant">7</span>;
 
-void setup() {
-  pinMode(relayPin, OUTPUT);
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(relayPin, <span class="keyword">OUTPUT</span>);
 }
 
-void loop() {
-  // Turn Relay ON
-  // Note: Most relay modules are Active LOW
-  digitalWrite(relayPin, LOW); 
-  delay(2000);
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Turn Relay ON</span>
+  <span class="comment">// Note: Most relay modules are Active LOW</span>
+  <span class="function">digitalWrite</span>(relayPin, <span class="keyword">LOW</span>); 
+  <span class="function">delay</span>(<span class="constant">2000</span>);
   
-  // Turn Relay OFF
-  digitalWrite(relayPin, HIGH);
-  delay(2000);
+  <span class="comment">// Turn Relay OFF</span>
+  <span class="function">digitalWrite</span>(relayPin, <span class="keyword">HIGH</span>);
+  <span class="function">delay</span>(<span class="constant">2000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-43.html" class="btn">← Previous: #43</a>
-                <a href="project-45.html" class="btn">Next: #45 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-43.html" class="btn">← Previous: Project #43: Fan Speed Controller</a><a href="project-45.html" class="btn">Next: Project #45: DHT11 Temperature & Humidity →</a></div>
+
+            
 
         </section>
     </main>

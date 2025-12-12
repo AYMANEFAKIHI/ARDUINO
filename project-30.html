@@ -75,28 +75,28 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-/*
+<span class="comment">/*
  * Project #30: I2C LCD (PCF8574 Backpack)
  * The Arduino Student Lab
  * 
  * Control 16x2 LCD with just 2 data wires using I2C
  * Address scanner included if display doesn't work
- */
+ */</span>
+<span class="preprocessor">
+#include</span> &lt;Wire.h&gt;
+<span class="preprocessor">#include</span> &lt;LiquidCrystal_I2C.h&gt;
 
-#include &lt;Wire.h&gt;
-#include &lt;LiquidCrystal_I2C.h&gt;
+<span class="comment">// ============================================</span>
+<span class="comment">// LCD CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// Common I2C addresses: 0x27 or 0x3F</span>
+<span class="comment">// If display doesn't work, run the I2C scanner below</span>
+LiquidCrystal_I2C lcd(0x27, <span class="constant">16</span>, <span class="constant">2</span>);
 
-// ============================================
-// LCD CONFIGURATION
-// ============================================
-// Common I2C addresses: 0x27 or 0x3F
-// If display doesn't work, run the I2C scanner below
-LiquidCrystal_I2C lcd(0x27, 16, 2);
-
-// ============================================
-// CUSTOM CHARACTERS
-// ============================================
-byte thermometer[8] = {
+<span class="comment">// ============================================</span>
+<span class="comment">// CUSTOM CHARACTERS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">byte</span> thermometer[<span class="constant">8</span>] = {
   0b00100,
   0b01010,
   0b01010,
@@ -107,7 +107,7 @@ byte thermometer[8] = {
   0b01110
 };
 
-byte droplet[8] = {
+<span class="keyword">byte</span> droplet[<span class="constant">8</span>] = {
   0b00100,
   0b00100,
   0b01010,
@@ -118,80 +118,80 @@ byte droplet[8] = {
   0b01110
 };
 
-// ============================================
-// SETUP
-// ============================================
-void setup() {
-  Serial.begin(9600);
-  Serial.println("=== I2C LCD DISPLAY ===");
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== I2C LCD DISPLAY ==="</span>);
   
-  // Initialize I2C LCD
+  <span class="comment">// Initialize I2C LCD</span>
   lcd.init();
-  lcd.backlight();  // Turn on backlight
+  lcd.backlight();  <span class="comment">// Turn on backlight</span>
   
-  // Create custom characters
-  lcd.createChar(0, thermometer);
-  lcd.createChar(1, droplet);
+  <span class="comment">// Create custom characters</span>
+  lcd.createChar(<span class="constant">0</span>, thermometer);
+  lcd.createChar(<span class="constant">1</span>, droplet);
   
-  // Startup message
-  lcd.setCursor(0, 0);
-  lcd.print("I2C LCD Ready!");
-  lcd.setCursor(0, 1);
-  lcd.print("Only 4 wires!");
+  <span class="comment">// Startup message</span>
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">0</span>);
+  lcd.<span class="function">print</span>(<span class="string">"I2C LCD Ready!"</span>);
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+  lcd.<span class="function">print</span>(<span class="string">"Only 4 wires!"</span>);
   
-  Serial.println("LCD Initialized at address 0x27");
-  Serial.println("If blank, run I2C scanner");
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"LCD Initialized at address 0x27"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"If blank, run I2C scanner"</span>);
   
-  delay(2000);
+  <span class="function">delay</span>(<span class="constant">2000</span>);
 }
 
-// ============================================
-// MAIN LOOP
-// ============================================
-void loop() {
-  // Demo: Simulated sensor display
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Demo: Simulated sensor display</span>
   lcd.clear();
   
-  // Temperature display
-  lcd.setCursor(0, 0);
-  lcd.write(byte(0));  // Thermometer icon
-  lcd.print(" Temp: ");
-  float temp = 22.5 + (random(-10, 10) / 10.0);
-  lcd.print(temp, 1);
-  lcd.print((char)223);  // Degree symbol
-  lcd.print("C");
+  <span class="comment">// Temperature display</span>
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">0</span>);
+  lcd.<span class="function">write</span>(<span class="keyword">byte</span>(<span class="constant">0</span>));  <span class="comment">// Thermometer icon</span>
+  lcd.<span class="function">print</span>(<span class="string">" Temp: "</span>);
+  <span class="keyword">float</span> temp = <span class="constant">22</span>.<span class="constant">5</span> + (<span class="function">random</span>(-<span class="constant">10</span>, <span class="constant">10</span>) / <span class="constant">10</span>.<span class="constant">0</span>);
+  lcd.<span class="function">print</span>(temp, <span class="constant">1</span>);
+  lcd.<span class="function">print</span>((<span class="keyword">char</span>)<span class="constant">223</span>);  <span class="comment">// Degree symbol</span>
+  lcd.<span class="function">print</span>(<span class="string">"C"</span>);
   
-  // Humidity display
-  lcd.setCursor(0, 1);
-  lcd.write(byte(1));  // Droplet icon
-  lcd.print(" Humid: ");
-  int humid = 45 + random(-5, 5);
-  lcd.print(humid);
-  lcd.print("%");
+  <span class="comment">// Humidity display</span>
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+  lcd.<span class="function">write</span>(<span class="keyword">byte</span>(<span class="constant">1</span>));  <span class="comment">// Droplet icon</span>
+  lcd.<span class="function">print</span>(<span class="string">" Humid: "</span>);
+  <span class="keyword">int</span> humid = <span class="constant">45</span> + <span class="function">random</span>(-<span class="constant">5</span>, <span class="constant">5</span>);
+  lcd.<span class="function">print</span>(humid);
+  lcd.<span class="function">print</span>(<span class="string">"%"</span>);
   
-  delay(2000);
+  <span class="function">delay</span>(<span class="constant">2000</span>);
   
-  // Scrolling message demo
+  <span class="comment">// Scrolling message demo</span>
   lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("Scrolling Text:");
+  lcd.setCursor(<span class="constant">0</span>, <span class="constant">0</span>);
+  lcd.<span class="function">print</span>(<span class="string">"Scrolling Text:"</span>);
   
-  String message = "I2C makes wiring so much easier! ";
+  String message = <span class="string">"I2C makes wiring so much easier! "</span>;
   
-  for (int pos = 0; pos < message.length(); pos++) {
-    lcd.setCursor(0, 1);
-    // Show 16 characters starting at current position
-    for (int i = 0; i < 16; i++) {
-      int charIndex = (pos + i) % message.length();
-      lcd.print(message[charIndex]);
+  <span class="keyword">for</span> (<span class="keyword">int</span> pos = <span class="constant">0</span>; pos < message.length(); pos++) {
+    lcd.setCursor(<span class="constant">0</span>, <span class="constant">1</span>);
+    <span class="comment">// Show 16 characters starting at current position</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">16</span>; i++) {
+      <span class="keyword">int</span> charIndex = (pos + i) % message.length();
+      lcd.<span class="function">print</span>(message[charIndex]);
     }
-    delay(250);
+    <span class="function">delay</span>(<span class="constant">250</span>);
   }
   
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
 
-/*
+<span class="comment">/*
  * I2C ADDRESS SCANNER
  * 
  * If your LCD stays blank, upload this code to find the address:
@@ -229,7 +229,7 @@ void loop() {
  *   
  *   delay(5000);
  * }
- */
+ */</span>
                     </pre>
                 </div>
             </article>
@@ -245,10 +245,11 @@ void loop() {
                 </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-29.html" class="btn">← Previous: #29 Shift Register</a>
-                <a href="project-31.html" class="btn">Next: #31 LCD Temp Display →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-29.html" class="btn">← Previous: Project #29: LCD Hello World (16x2)</a><a href="project-31.html" class="btn">Next: Project #31: LCD Temperature Display →</a></div>
+
+            
+
+            
 
         </section>
     </main>

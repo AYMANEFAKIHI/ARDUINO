@@ -78,76 +78,76 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #20: Capacitive Touch Sensor (TTP223)
  * The Arduino Student Lab
  * 
  * Touch the sensor to toggle the LED on/off
  * Demonstrates capacitive touch input
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int TOUCH_PIN = 2;    // Touch sensor output
-const int LED_PIN = 13;     // LED to control
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> TOUCH_PIN = <span class="constant">2</span>;    <span class="comment">// Touch sensor output</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;     <span class="comment">// LED to control</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-bool ledState = false;           // Current LED state
-bool lastTouchState = LOW;       // Previous touch reading
-unsigned long lastTouchTime = 0; // For debouncing
-const unsigned long DEBOUNCE_DELAY = 200;  // 200ms debounce
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">bool</span> ledState = <span class="keyword">false</span>;           <span class="comment">// Current LED state</span>
+<span class="keyword">bool</span> lastTouchState = <span class="keyword">LOW</span>;       <span class="comment">// Previous touch reading</span>
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lastTouchTime = <span class="constant">0</span>; <span class="comment">// For debouncing</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> DEBOUNCE_DELAY = <span class="constant">200</span>;  <span class="comment">// 200ms debounce</span>
 
-// Touch counter for fun statistics
-int touchCount = 0;
+<span class="comment">// Touch counter for fun statistics</span>
+<span class="keyword">int</span> touchCount = <span class="constant">0</span>;
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(TOUCH_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(TOUCH_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
   
-  digitalWrite(LED_PIN, LOW);
+  <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== CAPACITIVE TOUCH SENSOR ===");
-  Serial.println("Touch the sensor to toggle the LED!");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== CAPACITIVE TOUCH SENSOR ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Touch the sensor to toggle the LED!"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Read touch sensor
-  bool touchState = digitalRead(TOUCH_PIN);
-  unsigned long currentTime = millis();
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read touch sensor</span>
+  <span class="keyword">bool</span> touchState = <span class="function">digitalRead</span>(TOUCH_PIN);
+  <span class="keyword">unsigned</span> <span class="keyword">long</span> currentTime = <span class="function">millis</span>();
   
-  // Detect touch (rising edge with debounce)
-  if (touchState == HIGH && lastTouchState == LOW) {
-    if (currentTime - lastTouchTime > DEBOUNCE_DELAY) {
+  <span class="comment">// Detect touch (rising edge with debounce)</span>
+  <span class="keyword">if</span> (touchState == <span class="keyword">HIGH</span> && lastTouchState == <span class="keyword">LOW</span>) {
+    <span class="keyword">if</span> (currentTime - lastTouchTime > DEBOUNCE_DELAY) {
       lastTouchTime = currentTime;
       touchCount++;
       
-      // Toggle LED
+      <span class="comment">// Toggle LED</span>
       ledState = !ledState;
-      digitalWrite(LED_PIN, ledState);
+      <span class="function">digitalWrite</span>(LED_PIN, ledState);
       
-      // Report
-      Serial.print("Touch #");
-      Serial.print(touchCount);
-      Serial.print(" - LED is now: ");
-      Serial.println(ledState ? "ON" : "OFF");
+      <span class="comment">// Report</span>
+      <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Touch #"</span>);
+      <span class="function">Serial</span>.<span class="function">print</span>(touchCount);
+      <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" - LED is now: "</span>);
+      <span class="function">Serial</span>.<span class="function">println</span>(ledState ? <span class="string">"ON"</span> : <span class="string">"OFF"</span>);
     }
   }
   
   lastTouchState = touchState;
 }
 
-/*
+<span class="comment">/*
  * HOW CAPACITIVE TOUCH WORKS
  * 
  * Your body is like a capacitor (stores electrical charge).
@@ -181,7 +181,7 @@ void loop() {
  * - Can work through thin materials
  * - Sleek, modern interface
  * - Water resistant options available
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -217,10 +217,11 @@ void loop() {
             </div>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-19.html" class="btn">← Previous: #19 Theremin</a>
-                <a href="distance-tutorial.html" class="btn">Next: #21 Distance Sensor →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-19.html" class="btn">← Previous: Project #19: Potentiometer Theremin</a><a href="project-21.html" class="btn">Next: HC-SR04 Distance Finder →</a></div>
+
+            
+
+            
 
         </section>
     </main>

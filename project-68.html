@@ -55,40 +55,39 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Wire.h>
-const int MPU_addr=0x68;
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Wire.h>
+<span class="keyword">const</span> <span class="keyword">int</span> MPU_addr=0x68;
 int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
 
-void setup(){
-  Wire.begin();
+<span class="keyword">void</span> setup(){
+  Wire.<span class="function">begin</span>();
   Wire.beginTransmission(MPU_addr);
-  Wire.write(0x6B); 
-  Wire.write(0); 
-  Wire.endTransmission(true);
-  Serial.begin(9600);
+  Wire.<span class="function">write</span>(0x6B); 
+  Wire.<span class="function">write</span>(<span class="constant">0</span>); 
+  Wire.endTransmission(<span class="keyword">true</span>);
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
 }
 
-void loop(){
+<span class="keyword">void</span> loop(){
   Wire.beginTransmission(MPU_addr);
-  Wire.write(0x3B); 
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU_addr,14,true);
-  AcX=Wire.read()<<8|Wire.read();
-  AcY=Wire.read()<<8|Wire.read();
-  AcZ=Wire.read()<<8|Wire.read();
-  // ... read others ...
-  Serial.print("AcX = "); Serial.println(AcX);
-  delay(333);
+  Wire.<span class="function">write</span>(0x3B); 
+  Wire.endTransmission(<span class="keyword">false</span>);
+  Wire.requestFrom(MPU_addr,<span class="constant">14</span>,<span class="keyword">true</span>);
+  AcX=Wire.<span class="function">read</span>()<<<span class="constant">8</span>|Wire.<span class="function">read</span>();
+  AcY=Wire.<span class="function">read</span>()<<<span class="constant">8</span>|Wire.<span class="function">read</span>();
+  AcZ=Wire.<span class="function">read</span>()<<<span class="constant">8</span>|Wire.<span class="function">read</span>();
+  <span class="comment">// ... read others ...</span>
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"AcX = "</span>); <span class="function">Serial</span>.<span class="function">println</span>(AcX);
+  <span class="function">delay</span>(<span class="constant">333</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-67.html" class="btn">← Previous: #67</a>
-                <a href="project-69.html" class="btn">Next: #69 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-67.html" class="btn">← Previous: Project #67: OLED Graphics & Animations</a><a href="project-69.html" class="btn">Next: Project #69: MPU-6050 Tilt Angle Display →</a></div>
+
+            
 
         </section>
     </main>

@@ -72,80 +72,79 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-// Motor A connections
-int enA = 10;
-int in1 = 9;
-int in2 = 8;
+<span class="comment">// Motor A connections</span>
+<span class="keyword">int</span> enA = <span class="constant">10</span>;
+<span class="keyword">int</span> in1 = <span class="constant">9</span>;
+<span class="keyword">int</span> in2 = <span class="constant">8</span>;
 
-void setup() {
-  // Set all the motor control pins to outputs
-  pinMode(enA, OUTPUT);
-  pinMode(in1, OUTPUT);
-  pinMode(in2, OUTPUT);
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Set all the motor control pins to outputs</span>
+  <span class="function">pinMode</span>(enA, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(in1, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(in2, <span class="keyword">OUTPUT</span>);
   
-  // Turn off motors - Initial state
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, LOW);
+  <span class="comment">// Turn off motors - Initial state</span>
+  <span class="function">digitalWrite</span>(in1, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(in2, <span class="keyword">LOW</span>);
 }
 
-void loop() {
+<span class="keyword">void</span> loop() {
   directionControl();
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
   speedControl();
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
 
-// This function lets you control spinning direction of motors
-void directionControl() {
-  // Set motors to maximum speed
-  // For PWM maximum possible values are 0 to 255
-  analogWrite(enA, 255);
+<span class="comment">// This function lets you control spinning direction of motors</span>
+<span class="keyword">void</span> directionControl() {
+  <span class="comment">// Set motors to maximum speed</span>
+  <span class="comment">// For PWM maximum possible values are 0 to 255</span>
+  <span class="function">analogWrite</span>(enA, <span class="constant">255</span>);
 
-  // Turn on motor A & B
-  digitalWrite(in1, HIGH);
-  digitalWrite(in2, LOW);
-  delay(2000);
+  <span class="comment">// Turn on motor A & B</span>
+  <span class="function">digitalWrite</span>(in1, <span class="keyword">HIGH</span>);
+  <span class="function">digitalWrite</span>(in2, <span class="keyword">LOW</span>);
+  <span class="function">delay</span>(<span class="constant">2000</span>);
   
-  // Now change motor directions
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, HIGH);
-  delay(2000);
+  <span class="comment">// Now change motor directions</span>
+  <span class="function">digitalWrite</span>(in1, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(in2, <span class="keyword">HIGH</span>);
+  <span class="function">delay</span>(<span class="constant">2000</span>);
   
-  // Turn off motors
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, LOW);
+  <span class="comment">// Turn off motors</span>
+  <span class="function">digitalWrite</span>(in1, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(in2, <span class="keyword">LOW</span>);
 }
 
-// This function lets you control speed of the motors
-void speedControl() {
-  // Turn on motors
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, HIGH);
+<span class="comment">// This function lets you control speed of the motors</span>
+<span class="keyword">void</span> speedControl() {
+  <span class="comment">// Turn on motors</span>
+  <span class="function">digitalWrite</span>(in1, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(in2, <span class="keyword">HIGH</span>);
   
-  // Accelerate from zero to maximum speed
-  for (int i = 0; i < 256; i++) {
-    analogWrite(enA, i);
-    delay(20);
+  <span class="comment">// Accelerate from zero to maximum speed</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">256</span>; i++) {
+    <span class="function">analogWrite</span>(enA, i);
+    <span class="function">delay</span>(<span class="constant">20</span>);
   }
   
-  // Decelerate from maximum speed to zero
-  for (int i = 255; i >= 0; --i) {
-    analogWrite(enA, i);
-    delay(20);
+  <span class="comment">// Decelerate from maximum speed to zero</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">255</span>; i >= <span class="constant">0</span>; --i) {
+    <span class="function">analogWrite</span>(enA, i);
+    <span class="function">delay</span>(<span class="constant">20</span>);
   }
   
-  // Now turn off motors
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, LOW);
+  <span class="comment">// Now turn off motors</span>
+  <span class="function">digitalWrite</span>(in1, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(in2, <span class="keyword">LOW</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-40.html" class="btn">← Previous: #40</a>
-                <a href="project-42.html" class="btn">Next: #42 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-40.html" class="btn">← Previous: Project #40: DC Motor Speed Control (PWM)</a><a href="project-42.html" class="btn">Next: Project #42: Stepper Motor Basic Steps (28BYJ-48) →</a></div>
+
+            
 
         </section>
     </main>

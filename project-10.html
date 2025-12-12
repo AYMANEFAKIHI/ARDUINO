@@ -80,98 +80,98 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #10: Vibration Sensor (SW-420) Alert
  * The Arduino Student Lab
  * 
  * Detects vibrations, knocks, and impacts
  * Counts events and triggers alerts
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int VIBRATION_PIN = 2;   // Vibration sensor digital output
-const int LED_PIN = 13;        // Alert LED
-const int BUZZER_PIN = 8;      // Alert buzzer (optional)
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> VIBRATION_PIN = <span class="constant">2</span>;   <span class="comment">// Vibration sensor digital output</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;        <span class="comment">// Alert LED</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BUZZER_PIN = <span class="constant">8</span>;      <span class="comment">// Alert buzzer (optional)</span>
 
-// ============================================
-// CONFIGURATION
-// ============================================
-const unsigned long ALERT_DURATION = 500;    // How long LED stays on (ms)
-const unsigned long DEBOUNCE_TIME = 50;      // Ignore rapid triggers (ms)
+<span class="comment">// ============================================</span>
+<span class="comment">// CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> ALERT_DURATION = <span class="constant">500</span>;    <span class="comment">// How long LED stays on (ms)</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> DEBOUNCE_TIME = <span class="constant">50</span>;      <span class="comment">// Ignore rapid triggers (ms)</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-int vibrationCount = 0;              // Total vibrations detected
-unsigned long lastVibrationTime = 0; // For debouncing
-unsigned long alertStartTime = 0;    // When alert began
-bool alertActive = false;            // Is alert LED on?
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">int</span> vibrationCount = <span class="constant">0</span>;              <span class="comment">// Total vibrations detected</span>
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lastVibrationTime = <span class="constant">0</span>; <span class="comment">// For debouncing</span>
+<span class="keyword">unsigned</span> <span class="keyword">long</span> alertStartTime = <span class="constant">0</span>;    <span class="comment">// When alert began</span>
+<span class="keyword">bool</span> alertActive = <span class="keyword">false</span>;            <span class="comment">// Is alert LED on?</span>
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(VIBRATION_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(VIBRATION_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(BUZZER_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== VIBRATION SENSOR READY ===");
-  Serial.println("Tap, knock, or shake the sensor!");
-  Serial.println("Adjust the potentiometer on the module");
-  Serial.println("to change sensitivity.");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== VIBRATION SENSOR READY ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Tap, knock, or shake the sensor!"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Adjust the potentiometer on the module"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"to change sensitivity."</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  unsigned long currentTime = millis();
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="keyword">unsigned</span> <span class="keyword">long</span> currentTime = <span class="function">millis</span>();
   
-  // Read vibration sensor
-  // LOW when vibration detected (module pulls low)
-  bool vibrationDetected = (digitalRead(VIBRATION_PIN) == LOW);
+  <span class="comment">// Read vibration sensor</span>
+  <span class="comment">// LOW when vibration detected (module pulls low)</span>
+  <span class="keyword">bool</span> vibrationDetected = (<span class="function">digitalRead</span>(VIBRATION_PIN) == <span class="keyword">LOW</span>);
   
-  // Check for new vibration (with debounce)
-  if (vibrationDetected && (currentTime - lastVibrationTime > DEBOUNCE_TIME)) {
+  <span class="comment">// Check for new vibration (with debounce)</span>
+  <span class="keyword">if</span> (vibrationDetected && (currentTime - lastVibrationTime > DEBOUNCE_TIME)) {
     lastVibrationTime = currentTime;
     
-    // Increment counter
+    <span class="comment">// Increment counter</span>
     vibrationCount++;
     
-    // Start alert
-    alertActive = true;
+    <span class="comment">// Start alert</span>
+    alertActive = <span class="keyword">true</span>;
     alertStartTime = currentTime;
-    digitalWrite(LED_PIN, HIGH);
-    tone(BUZZER_PIN, 1000, 100);  // Short beep
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);
+    <span class="function">tone</span>(BUZZER_PIN, <span class="constant">1000</span>, <span class="constant">100</span>);  <span class="comment">// Short beep</span>
     
-    // Report to Serial
-    Serial.print("VIBRATION #");
-    Serial.print(vibrationCount);
-    Serial.println(" detected!");
+    <span class="comment">// Report to Serial</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"VIBRATION #"</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(vibrationCount);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" detected!"</span>);
   }
   
-  // Turn off alert after duration
-  if (alertActive && (currentTime - alertStartTime >= ALERT_DURATION)) {
-    alertActive = false;
-    digitalWrite(LED_PIN, LOW);
+  <span class="comment">// Turn off alert after duration</span>
+  <span class="keyword">if</span> (alertActive && (currentTime - alertStartTime >= ALERT_DURATION)) {
+    alertActive = <span class="keyword">false</span>;
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
   }
   
-  // Every 10 seconds, report total count
-  static unsigned long lastReportTime = 0;
-  if (currentTime - lastReportTime >= 10000) {
+  <span class="comment">// Every 10 seconds, report total count</span>
+  static <span class="keyword">unsigned</span> <span class="keyword">long</span> lastReportTime = <span class="constant">0</span>;
+  <span class="keyword">if</span> (currentTime - lastReportTime >= <span class="constant">10000</span>) {
     lastReportTime = currentTime;
-    Serial.print("-- Total vibrations in last 10s: ");
-    static int lastCount = 0;
-    Serial.println(vibrationCount - lastCount);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"-- Total vibrations in last 10s: "</span>);
+    static <span class="keyword">int</span> lastCount = <span class="constant">0</span>;
+    <span class="function">Serial</span>.<span class="function">println</span>(vibrationCount - lastCount);
     lastCount = vibrationCount;
   }
 }
 
-/*
+<span class="comment">/*
  * SW-420 VIBRATION SENSOR MODULE
  * 
  * The module contains:
@@ -195,7 +195,7 @@ void loop() {
  * - Earthquake early warning
  * - Knock detection (secret knock door lock)
  * - Machine monitoring (detect malfunction)
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -219,10 +219,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-9.html" class="btn">← Previous: #9 Reed Switch</a>
-                <a href="pot-fade-tutorial.html" class="btn">Next: #11 Potentiometer →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-9.html" class="btn">← Previous: Project #9: Magnetic Reed Switch Door Alarm</a><a href="project-11.html" class="btn">Next: Fading LED with Potentiometer →</a></div>
+
+            
+
+            
 
         </section>
     </main>

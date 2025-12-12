@@ -80,75 +80,75 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #26: IR Obstacle Detector
  * The Arduino Student Lab
  * 
  * Detects obstacles using IR proximity sensor
  * Provides LED and buzzer feedback
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int IR_SENSOR_PIN = 2;   // Digital input from sensor
-const int LED_PIN = 13;        // Visual indicator
-const int BUZZER_PIN = 8;      // Audio alert
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> IR_SENSOR_PIN = <span class="constant">2</span>;   <span class="comment">// Digital input from sensor</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;        <span class="comment">// Visual indicator</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BUZZER_PIN = <span class="constant">8</span>;      <span class="comment">// Audio alert</span>
 
-// ============================================
-// STATE TRACKING
-// ============================================
-bool lastState = false;
-unsigned long detectionCount = 0;
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE TRACKING</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">bool</span> lastState = <span class="keyword">false</span>;
+<span class="keyword">unsigned</span> <span class="keyword">long</span> detectionCount = <span class="constant">0</span>;
 
-// ============================================
-// SETUP
-// ============================================
-void setup() {
-  pinMode(IR_SENSOR_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(IR_SENSOR_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(BUZZER_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== IR OBSTACLE DETECTOR ===");
-  Serial.println("Adjust potentiometer on sensor to set range");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== IR OBSTACLE DETECTOR ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Adjust potentiometer on sensor to set range"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
 }
 
-// ============================================
-// MAIN LOOP
-// ============================================
-void loop() {
-  // Read IR sensor (LOW = obstacle detected)
-  bool obstacleDetected = (digitalRead(IR_SENSOR_PIN) == LOW);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read IR sensor (LOW = obstacle detected)</span>
+  <span class="keyword">bool</span> obstacleDetected = (<span class="function">digitalRead</span>(IR_SENSOR_PIN) == <span class="keyword">LOW</span>);
   
-  // Update outputs based on detection
-  if (obstacleDetected) {
-    digitalWrite(LED_PIN, HIGH);    // LED on
-    tone(BUZZER_PIN, 1000);         // Buzzer on
+  <span class="comment">// Update outputs based on detection</span>
+  <span class="keyword">if</span> (obstacleDetected) {
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);    <span class="comment">// LED on</span>
+    <span class="function">tone</span>(BUZZER_PIN, <span class="constant">1000</span>);         <span class="comment">// Buzzer on</span>
     
-    // Only print on state change (to avoid flooding serial)
-    if (!lastState) {
+    <span class="comment">// Only print on state change (to avoid flooding serial)</span>
+    <span class="keyword">if</span> (!lastState) {
       detectionCount++;
-      Serial.print("OBSTACLE DETECTED! (#");
-      Serial.print(detectionCount);
-      Serial.println(")");
+      <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"OBSTACLE DETECTED! (#"</span>);
+      <span class="function">Serial</span>.<span class="function">print</span>(detectionCount);
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">")"</span>);
     }
-  } else {
-    digitalWrite(LED_PIN, LOW);     // LED off
-    noTone(BUZZER_PIN);             // Buzzer off
+  } <span class="keyword">else</span> {
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);     <span class="comment">// LED off</span>
+    <span class="function">noTone</span>(BUZZER_PIN);             <span class="comment">// Buzzer off</span>
     
-    if (lastState) {
-      Serial.println("Clear.");
-      Serial.println("");
+    <span class="keyword">if</span> (lastState) {
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Clear."</span>);
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
     }
   }
   
   lastState = obstacleDetected;
-  delay(50);
+  <span class="function">delay</span>(<span class="constant">50</span>);
 }
 
-/*
+<span class="comment">/*
  * HOW IR OBSTACLE SENSORS WORK
  * 
  * Components inside the module:
@@ -191,7 +191,7 @@ void loop() {
  * - Edge detection (table edge = no reflection)
  * - Touch-free switches
  * - Object counters
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -214,10 +214,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-25.html" class="btn">← Previous: #25 Proximity Buzzer</a>
-                <a href="project-27.html" class="btn">Next: #27 7-Segment Countdown →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-25.html" class="btn">← Previous: Project #25: Proximity Alert Buzzer</a><a href="project-27.html" class="btn">Next: Project #27: 7-Segment Countdown Timer →</a></div>
+
+            
+
+            
 
         </section>
     </main>

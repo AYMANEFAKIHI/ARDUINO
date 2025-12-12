@@ -56,21 +56,21 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-void setup() {
-  pinMode(13, OUTPUT);
-  Serial.begin(9600);
-  Serial.println("Type '1' to turn ON, '0' to turn OFF");
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(<span class="constant">13</span>, <span class="keyword">OUTPUT</span>);
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Type '1' to turn ON, '0' to turn OFF"</span>);
 }
 
-void loop() {
-  if (Serial.available() > 0) {
-    char command = Serial.read();
-    if (command == '1') {
-      digitalWrite(13, HIGH);
-      Serial.println("LED ON");
-    } else if (command == '0') {
-      digitalWrite(13, LOW);
-      Serial.println("LED OFF");
+<span class="keyword">void</span> loop() {
+  <span class="keyword">if</span> (<span class="function">Serial</span>.<span class="function">available</span>() > <span class="constant">0</span>) {
+    <span class="keyword">char</span> command = <span class="function">Serial</span>.<span class="function">read</span>();
+    <span class="keyword">if</span> (command == '<span class="constant">1</span>') {
+      <span class="function">digitalWrite</span>(<span class="constant">13</span>, <span class="keyword">HIGH</span>);
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"LED ON"</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command == '<span class="constant">0</span>') {
+      <span class="function">digitalWrite</span>(<span class="constant">13</span>, <span class="keyword">LOW</span>);
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"LED OFF"</span>);
     }
   }
 }
@@ -78,10 +78,9 @@ void loop() {
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-60.html" class="btn">← Previous: #60</a>
-                <a href="project-62.html" class="btn">Next: #62 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-60.html" class="btn">← Previous: Project #60: Rotary Encoder Basic Counter</a><a href="project-62.html" class="btn">Next: Project #62: Serial Plotter Visualization →</a></div>
+
+            
 
         </section>
     </main>

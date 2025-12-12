@@ -75,142 +75,142 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #28: 4-Digit Clock Display (TM1637)
  * The Arduino Student Lab
  * 
  * Simple clock using TM1637 display module
  * Shows hours:minutes with blinking colon
- */
+ */</span>
+<span class="preprocessor">
+#include</span> &lt;TM1637Display.h&gt;
 
-#include &lt;TM1637Display.h&gt;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> CLK_PIN = <span class="constant">2</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> DIO_PIN = <span class="constant">3</span>;
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int CLK_PIN = 2;
-const int DIO_PIN = 3;
-
-// ============================================
-// CREATE DISPLAY OBJECT
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// CREATE DISPLAY OBJECT</span>
+<span class="comment">// ============================================</span>
 TM1637Display display(CLK_PIN, DIO_PIN);
 
-// ============================================
-// TIME VARIABLES
-// ============================================
-int hours = 12;
-int minutes = 0;
-int seconds = 0;
-unsigned long lastSecond = 0;
-bool colonOn = true;
+<span class="comment">// ============================================</span>
+<span class="comment">// TIME VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">int</span> hours = <span class="constant">12</span>;
+<span class="keyword">int</span> minutes = <span class="constant">0</span>;
+<span class="keyword">int</span> seconds = <span class="constant">0</span>;
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lastSecond = <span class="constant">0</span>;
+<span class="keyword">bool</span> colonOn = <span class="keyword">true</span>;
 
-// ============================================
-// SETUP
-// ============================================
-void setup() {
-  // Set brightness (0-7)
-  display.setBrightness(5);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Set brightness (0-7)</span>
+  display.setBrightness(<span class="constant">5</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== TM1637 CLOCK DISPLAY ===");
-  Serial.println("Time starts at 12:00");
-  Serial.println("Use Serial Monitor to set time:");
-  Serial.println("Send 'H+' or 'H-' for hours");
-  Serial.println("Send 'M+' or 'M-' for minutes");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== TM1637 CLOCK DISPLAY ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Time starts at 12:00"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Use Serial Monitor to set time:"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Send 'H+' or 'H-' for hours"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Send 'M+' or 'M-' for minutes"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
   
   updateDisplay();
 }
 
-// ============================================
-// MAIN LOOP
-// ============================================
-void loop() {
-  unsigned long currentMillis = millis();
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="keyword">unsigned</span> <span class="keyword">long</span> currentMillis = <span class="function">millis</span>();
   
-  // Update every second
-  if (currentMillis - lastSecond >= 1000) {
+  <span class="comment">// Update every second</span>
+  <span class="keyword">if</span> (currentMillis - lastSecond >= <span class="constant">1000</span>) {
     lastSecond = currentMillis;
     
-    // Increment time
+    <span class="comment">// Increment time</span>
     seconds++;
-    if (seconds >= 60) {
-      seconds = 0;
+    <span class="keyword">if</span> (seconds >= <span class="constant">60</span>) {
+      seconds = <span class="constant">0</span>;
       minutes++;
       
-      if (minutes >= 60) {
-        minutes = 0;
+      <span class="keyword">if</span> (minutes >= <span class="constant">60</span>) {
+        minutes = <span class="constant">0</span>;
         hours++;
         
-        if (hours >= 24) {
-          hours = 0;
+        <span class="keyword">if</span> (hours >= <span class="constant">24</span>) {
+          hours = <span class="constant">0</span>;
         }
       }
       
       updateDisplay();
     }
     
-    // Toggle colon every second
+    <span class="comment">// Toggle colon every second</span>
     colonOn = !colonOn;
     updateDisplay();
     
-    // Print time to serial
+    <span class="comment">// Print time to serial</span>
     printTime();
   }
   
-  // Handle serial commands for time setting
-  if (Serial.available()) {
-    String cmd = Serial.readStringUntil('\n');
+  <span class="comment">// Handle serial commands for time setting</span>
+  <span class="keyword">if</span> (<span class="function">Serial</span>.<span class="function">available</span>()) {
+    String cmd = <span class="function">Serial</span>.readStringUntil('\n');
     cmd.trim();
     
-    if (cmd == "H+") {
-      hours = (hours + 1) % 24;
+    <span class="keyword">if</span> (cmd == <span class="string">"H+"</span>) {
+      hours = (hours + <span class="constant">1</span>) % <span class="constant">24</span>;
       updateDisplay();
     }
-    else if (cmd == "H-") {
-      hours = (hours + 23) % 24;
+    <span class="keyword">else</span> <span class="keyword">if</span> (cmd == <span class="string">"H-"</span>) {
+      hours = (hours + <span class="constant">23</span>) % <span class="constant">24</span>;
       updateDisplay();
     }
-    else if (cmd == "M+") {
-      minutes = (minutes + 1) % 60;
-      seconds = 0;
+    <span class="keyword">else</span> <span class="keyword">if</span> (cmd == <span class="string">"M+"</span>) {
+      minutes = (minutes + <span class="constant">1</span>) % <span class="constant">60</span>;
+      seconds = <span class="constant">0</span>;
       updateDisplay();
     }
-    else if (cmd == "M-") {
-      minutes = (minutes + 59) % 60;
-      seconds = 0;
+    <span class="keyword">else</span> <span class="keyword">if</span> (cmd == <span class="string">"M-"</span>) {
+      minutes = (minutes + <span class="constant">59</span>) % <span class="constant">60</span>;
+      seconds = <span class="constant">0</span>;
       updateDisplay();
     }
   }
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-void updateDisplay() {
-  // Create the display value: HHMM
-  int displayValue = hours * 100 + minutes;
+<span class="keyword">void</span> updateDisplay() {
+  <span class="comment">// Create the display value: HHMM</span>
+  <span class="keyword">int</span> displayValue = hours * <span class="constant">100</span> + minutes;
   
-  // Show on display with or without colon
-  uint8_t colonMask = colonOn ? 0b01000000 : 0;
+  <span class="comment">// Show on display with or without colon</span>
+  uint8_t colonMask = colonOn ? 0b01000000 : <span class="constant">0</span>;
   
-  display.showNumberDecEx(displayValue, colonMask, true);
+  display.showNumberDecEx(displayValue, colonMask, <span class="keyword">true</span>);
 }
 
-void printTime() {
-  Serial.print(hours < 10 ? "0" : "");
-  Serial.print(hours);
-  Serial.print(":");
-  Serial.print(minutes < 10 ? "0" : "");
-  Serial.print(minutes);
-  Serial.print(":");
-  Serial.print(seconds < 10 ? "0" : "");
-  Serial.println(seconds);
+<span class="keyword">void</span> printTime() {
+  <span class="function">Serial</span>.<span class="function">print</span>(hours < <span class="constant">10</span> ? <span class="string">"0"</span> : <span class="string">""</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(hours);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">":"</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(minutes < <span class="constant">10</span> ? <span class="string">"0"</span> : <span class="string">""</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(minutes);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">":"</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(seconds < <span class="constant">10</span> ? <span class="string">"0"</span> : <span class="string">""</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(seconds);
 }
 
-/*
+<span class="comment">/*
  * TM1637 DISPLAY OVERVIEW
  * 
  * The TM1637 is a dedicated display driver IC
@@ -248,7 +248,7 @@ void printTime() {
  * NOTE: This is a SIMPLE clock - time drifts!
  * For accurate timekeeping, use RTC module (DS3231)
  * See Project #52 for RTC version
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -271,10 +271,11 @@ void printTime() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-27.html" class="btn">← Previous: #27 7-Segment Countdown</a>
-                <a href="project-29.html" class="btn">Next: #29 LCD Hello World →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-27.html" class="btn">← Previous: Project #27: 7-Segment Countdown Timer</a><a href="project-29.html" class="btn">Next: Project #29: LCD Hello World (16x2) →</a></div>
+
+            
+
+            
 
         </section>
     </main>

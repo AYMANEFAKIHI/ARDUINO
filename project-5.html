@@ -75,110 +75,110 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #5: SOS Morse Code Flasher
  * The Arduino Student Lab
  * 
  * Flashes the international distress signal SOS
  * in proper Morse code timing
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int LED_PIN = 13;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;
 
-// ============================================
-// MORSE CODE TIMING (in milliseconds)
-// Standard ratio: dot=1, dash=3, gaps follow same pattern
-// ============================================
-const int UNIT_TIME = 200;                    // Base unit: 200ms
-const int DOT_DURATION = UNIT_TIME;           // 1 unit
-const int DASH_DURATION = UNIT_TIME * 3;      // 3 units
-const int INTRA_GAP = UNIT_TIME;              // Gap within a letter (1 unit)
-const int LETTER_GAP = UNIT_TIME * 3;         // Gap between letters (3 units)
-const int WORD_GAP = UNIT_TIME * 7;           // Gap between words/repeat (7 units)
+<span class="comment">// ============================================</span>
+<span class="comment">// MORSE CODE TIMING (in milliseconds)</span>
+<span class="comment">// Standard ratio: dot=1, dash=3, gaps follow same pattern</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> UNIT_TIME = <span class="constant">200</span>;                    <span class="comment">// Base unit: 200ms</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DOT_DURATION = UNIT_TIME;           <span class="comment">// 1 unit</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DASH_DURATION = UNIT_TIME * <span class="constant">3</span>;      <span class="comment">// 3 units</span>
+<span class="keyword">const</span> <span class="keyword">int</span> INTRA_GAP = UNIT_TIME;              <span class="comment">// Gap within a letter (1 unit)</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LETTER_GAP = UNIT_TIME * <span class="constant">3</span>;         <span class="comment">// Gap between letters (3 units)</span>
+<span class="keyword">const</span> <span class="keyword">int</span> WORD_GAP = UNIT_TIME * <span class="constant">7</span>;           <span class="comment">// Gap between words/repeat (7 units)</span>
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(LED_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("SOS Morse Code Flasher");
-  Serial.println("... --- ...");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"SOS Morse Code Flasher"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"... --- ..."</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Flash SOS: ... --- ...
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Flash SOS: ... --- ...</span>
   
-  Serial.println("Sending SOS...");
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Sending SOS..."</span>);
   
-  // S = dot dot dot (...)
+  <span class="comment">// S = dot dot dot (...)</span>
   flashS();
-  delay(LETTER_GAP);
+  <span class="function">delay</span>(LETTER_GAP);
   
-  // O = dash dash dash (---)
+  <span class="comment">// O = dash dash dash (---)</span>
   flashO();
-  delay(LETTER_GAP);
+  <span class="function">delay</span>(LETTER_GAP);
   
-  // S = dot dot dot (...)
+  <span class="comment">// S = dot dot dot (...)</span>
   flashS();
   
-  // Pause before repeating
-  Serial.println("Waiting to repeat...\n");
-  delay(WORD_GAP);
+  <span class="comment">// Pause before repeating</span>
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Waiting to repeat...\n"</span>);
+  <span class="function">delay</span>(WORD_GAP);
 }
 
-// ============================================
-// LETTER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// LETTER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-// Flash the letter S: ...
-void flashS() {
-  Serial.print("S: ");
+<span class="comment">// Flash the letter S: ...</span>
+<span class="keyword">void</span> flashS() {
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"S: "</span>);
   dot();
   dot();
   dot();
-  Serial.println();
+  <span class="function">Serial</span>.<span class="function">println</span>();
 }
 
-// Flash the letter O: ---
-void flashO() {
-  Serial.print("O: ");
+<span class="comment">// Flash the letter O: ---</span>
+<span class="keyword">void</span> flashO() {
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"O: "</span>);
   dash();
   dash();
   dash();
-  Serial.println();
+  <span class="function">Serial</span>.<span class="function">println</span>();
 }
 
-// ============================================
-// BASIC MORSE ELEMENTS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// BASIC MORSE ELEMENTS</span>
+<span class="comment">// ============================================</span>
 
-// Flash a dot (short)
-void dot() {
-  Serial.print(".");
-  digitalWrite(LED_PIN, HIGH);
-  delay(DOT_DURATION);
-  digitalWrite(LED_PIN, LOW);
-  delay(INTRA_GAP);
+<span class="comment">// Flash a dot (short)</span>
+<span class="keyword">void</span> dot() {
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"."</span>);
+  <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);
+  <span class="function">delay</span>(DOT_DURATION);
+  <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
+  <span class="function">delay</span>(INTRA_GAP);
 }
 
-// Flash a dash (long)
-void dash() {
-  Serial.print("-");
-  digitalWrite(LED_PIN, HIGH);
-  delay(DASH_DURATION);
-  digitalWrite(LED_PIN, LOW);
-  delay(INTRA_GAP);
+<span class="comment">// Flash a dash (long)</span>
+<span class="keyword">void</span> dash() {
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"-"</span>);
+  <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);
+  <span class="function">delay</span>(DASH_DURATION);
+  <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
+  <span class="function">delay</span>(INTRA_GAP);
 }
 
-/*
+<span class="comment">/*
  * MORSE CODE ALPHABET (for future expansion):
  * 
  * A: .-      N: -.
@@ -194,7 +194,7 @@ void dash() {
  * K: -.-     X: -..-
  * L: .-..    Y: -.--
  * M: --      Z: --..
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -219,10 +219,11 @@ void dash() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-4.html" class="btn">← Previous: #4 Non-Blocking Blink</a>
-                <a href="button-tutorial.html" class="btn">Next: #6 Push Button →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-4.html" class="btn">← Previous: Project #4: Non-Blocking Blink with millis()</a><a href="project-6.html" class="btn">Next: Simple Push Button Input →</a></div>
+
+            
+
+            
 
         </section>
     </main>

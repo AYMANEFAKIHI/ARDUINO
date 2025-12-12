@@ -55,35 +55,34 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Wire.h>
+<span class="preprocessor">#include</span> <Adafruit_GFX.h>
+<span class="preprocessor">#include</span> <Adafruit_SSD1306.h>
 
-Adafruit_SSD1306 display(128, 64, &Wire, -1);
+Adafruit_SSD1306 display(<span class="constant">128</span>, <span class="constant">64</span>, &Wire, -<span class="constant">1</span>);
 
-void setup() {
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+<span class="keyword">void</span> setup() {
+  display.<span class="function">begin</span>(SSD1306_SWITCHCAPVCC, 0x3C);
 }
 
-void loop() {
+<span class="keyword">void</span> loop() {
   display.clearDisplay();
-  display.drawCircle(64, 32, 20, WHITE);
+  display.drawCircle(<span class="constant">64</span>, <span class="constant">32</span>, <span class="constant">20</span>, WHITE);
   display.display();
-  delay(500);
+  <span class="function">delay</span>(<span class="constant">500</span>);
   display.clearDisplay();
-  display.fillCircle(64, 32, 20, WHITE);
+  display.fillCircle(<span class="constant">64</span>, <span class="constant">32</span>, <span class="constant">20</span>, WHITE);
   display.display();
-  delay(500);
+  <span class="function">delay</span>(<span class="constant">500</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-66.html" class="btn">← Previous: #66</a>
-                <a href="project-68.html" class="btn">Next: #68 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-66.html" class="btn">← Previous: Project #66: I2C OLED Display (SSD1306)</a><a href="project-68.html" class="btn">Next: Project #68: MPU-6050 Accelerometer/Gyro →</a></div>
+
+            
 
         </section>
     </main>

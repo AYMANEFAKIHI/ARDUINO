@@ -72,42 +72,44 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-// ----------------------------------------------------------------
-// Hello World (Blink an LED) Sketch
-// ----------------------------------------------------------------
+<span class="comment">// ----------------------------------------------------------------</span>
+<span class="comment">// Hello World (Blink an LED) Sketch</span>
+<span class="comment">// ----------------------------------------------------------------</span>
 
-// Define the LED pin as a constant integer for clarity.
-// We are using the built-in LED pin (13) for this example.
-const int ledPin = 13; 
+<span class="comment">// Define the LED pin as a constant integer for clarity.</span>
+<span class="comment">// We are using the built-in LED pin (13) for this example.</span>
+<span class="keyword">const</span> <span class="keyword">int</span> ledPin = <span class="constant">13</span>; 
 
-void setup() {
-  // Setup code runs once when you press reset or power the board.
-  // We initialize the digital pin as an output.
-  pinMode(ledPin, OUTPUT);
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Setup code runs once when you press reset or power the board.</span>
+  <span class="comment">// We initialize the digital pin as an output.</span>
+  <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
 }
 
-void loop() {
-  // Main code runs repeatedly forever.
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Main code runs repeatedly forever.</span>
   
-  // 1. Turn the LED on (set the voltage HIGH)
-  digitalWrite(ledPin, HIGH); 
+  <span class="comment">// 1. Turn the LED on (set the voltage HIGH)</span>
+  <span class="function">digitalWrite</span>(ledPin, <span class="keyword">HIGH</span>); 
   
-  // 2. Pause the program for 1000 milliseconds (1 second)
-  delay(1000); 
+  <span class="comment">// 2. Pause the program for 1000 milliseconds (1 second)</span>
+  <span class="function">delay</span>(<span class="constant">1000</span>); 
   
-  // 3. Turn the LED off (set the voltage LOW)
-  digitalWrite(ledPin, LOW); 
+  <span class="comment">// 3. Turn the LED off (set the voltage LOW)</span>
+  <span class="function">digitalWrite</span>(ledPin, <span class="keyword">LOW</span>); 
   
-  // 4. Pause the program for another 1 second
-  delay(1000); 
+  <span class="comment">// 4. Pause the program for another 1 second</span>
+  <span class="function">delay</span>(<span class="constant">1000</span>); 
 }
                     </pre>
                 </div>
             </article>
+
+            <div class="nav-buttons"><a href="project-2.html" class="btn">Next: Project #2: Traffic Light Sequence →</a></div>
+
             
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: flex-end;">
-                <a href="project-2.html" class="btn">Next: #2 Traffic Light →</a>
-            </div>
+            
+            
             
             </section>
     </main>

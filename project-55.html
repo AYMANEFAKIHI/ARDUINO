@@ -56,33 +56,32 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-const int sensorPin = A0;
-const int ledPin = 13;
-int sensorValue = 0;
+<span class="keyword">const</span> <span class="keyword">int</span> sensorPin = A0;
+<span class="keyword">const</span> <span class="keyword">int</span> ledPin = <span class="constant">13</span>;
+<span class="keyword">int</span> sensorValue = <span class="constant">0</span>;
 
-void setup() {
-  pinMode(ledPin, OUTPUT);
-  Serial.begin(9600);
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
 }
 
-void loop() {
-  sensorValue = analogRead(sensorPin);
-  Serial.println(sensorValue);
+<span class="keyword">void</span> loop() {
+  sensorValue = <span class="function">analogRead</span>(sensorPin);
+  <span class="function">Serial</span>.<span class="function">println</span>(sensorValue);
   
-  if (sensorValue > 500) { // Adjust threshold
-    digitalWrite(ledPin, HIGH);
-    delay(50);
-    digitalWrite(ledPin, LOW);
+  <span class="keyword">if</span> (sensorValue > <span class="constant">500</span>) { <span class="comment">// Adjust threshold</span>
+    <span class="function">digitalWrite</span>(ledPin, <span class="keyword">HIGH</span>);
+    <span class="function">delay</span>(<span class="constant">50</span>);
+    <span class="function">digitalWrite</span>(ledPin, <span class="keyword">LOW</span>);
   }
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-54.html" class="btn">← Previous: #54</a>
-                <a href="project-56.html" class="btn">Next: #56 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-54.html" class="btn">← Previous: Project #54: Countdown Timer with Buzzer Alarm</a><a href="project-56.html" class="btn">Next: Project #56: Clap Switch (Sound-Activated) →</a></div>
+
+            
 
         </section>
     </main>

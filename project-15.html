@@ -75,83 +75,83 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #15: Breathing LED (Smooth Fade)
  * The Arduino Student Lab
  * 
  * Creates a smooth, organic "breathing" animation
  * using sine wave mathematics
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int LED_PIN = 9;  // Must be a PWM pin (~)
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">9</span>;  <span class="comment">// Must be a PWM pin (~)</span>
 
-// ============================================
-// ANIMATION CONFIGURATION
-// ============================================
-const float BREATH_SPEED = 0.02;   // How fast to breathe (smaller = slower)
-const int DELAY_TIME = 10;         // Milliseconds between updates
+<span class="comment">// ============================================</span>
+<span class="comment">// ANIMATION CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">float</span> BREATH_SPEED = <span class="constant">0</span>.<span class="constant">02</span>;   <span class="comment">// How fast to breathe (smaller = slower)</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DELAY_TIME = <span class="constant">10</span>;         <span class="comment">// Milliseconds between updates</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-float angle = 0;  // Current angle for sine wave (in radians)
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">float</span> angle = <span class="constant">0</span>;  <span class="comment">// Current angle for sine wave (in radians)</span>
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(LED_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== BREATHING LED ===");
-  Serial.println("Watch the LED pulse smoothly!");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== BREATHING LED ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Watch the LED pulse smoothly!"</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Calculate brightness using sine wave
-  // sin() returns -1 to +1, we need 0 to 255
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Calculate brightness using sine wave</span>
+  <span class="comment">// sin() returns -1 to +1, we need 0 to 255</span>
   
-  // Step 1: Get sine value (-1 to +1)
-  float sineValue = sin(angle);
+  <span class="comment">// Step 1: Get sine value (-1 to +1)</span>
+  <span class="keyword">float</span> sineValue = sin(angle);
   
-  // Step 2: Shift to 0 to +2 range
-  float shifted = sineValue + 1;
+  <span class="comment">// Step 2: Shift to 0 to +2 range</span>
+  <span class="keyword">float</span> shifted = sineValue + <span class="constant">1</span>;
   
-  // Step 3: Scale to 0-255 (PWM range)
-  int brightness = shifted * 127.5;
+  <span class="comment">// Step 3: Scale to 0-255 (PWM range)</span>
+  <span class="keyword">int</span> brightness = shifted * <span class="constant">127</span>.<span class="constant">5</span>;
   
-  // Apply brightness to LED
-  analogWrite(LED_PIN, brightness);
+  <span class="comment">// Apply brightness to LED</span>
+  <span class="function">analogWrite</span>(LED_PIN, brightness);
   
-  // Increment angle for next frame
+  <span class="comment">// Increment angle for next frame</span>
   angle += BREATH_SPEED;
   
-  // Keep angle from getting too large (optional but good practice)
-  if (angle >= 2 * PI) {
-    angle = 0;
+  <span class="comment">// Keep angle from getting too large (optional but good practice)</span>
+  <span class="keyword">if</span> (angle >= <span class="constant">2</span> * PI) {
+    angle = <span class="constant">0</span>;
   }
   
-  // Debug output (every 50 loops to avoid flooding)
-  static int loopCount = 0;
-  if (loopCount++ % 50 == 0) {
-    Serial.print("Angle: ");
-    Serial.print(angle, 2);
-    Serial.print(" | Sine: ");
-    Serial.print(sineValue, 2);
-    Serial.print(" | Brightness: ");
-    Serial.println(brightness);
+  <span class="comment">// Debug output (every 50 loops to avoid flooding)</span>
+  static <span class="keyword">int</span> loopCount = <span class="constant">0</span>;
+  <span class="keyword">if</span> (loopCount++ % <span class="constant">50</span> == <span class="constant">0</span>) {
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Angle: "</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(angle, <span class="constant">2</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" | Sine: "</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(sineValue, <span class="constant">2</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" | Brightness: "</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(brightness);
   }
   
-  delay(DELAY_TIME);
+  <span class="function">delay</span>(DELAY_TIME);
 }
 
-/*
+<span class="comment">/*
  * THE MATH EXPLAINED
  * 
  * Sine Wave Basics:
@@ -184,7 +184,7 @@ void loop() {
  * 
  * The sine wave naturally accelerates and decelerates,
  * mimicking how living things breathe!
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -207,10 +207,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-14.html" class="btn">← Previous: #14 Level Meter</a>
-                <a href="project-16.html" class="btn">Next: #16 Piezo Melody →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-14.html" class="btn">← Previous: Project #14: 5-LED Volume/Level Meter</a><a href="project-16.html" class="btn">Next: Project #16: Simple Melody with Piezo Buzzer →</a></div>
+
+            
+
+            
 
         </section>
     </main>

@@ -74,47 +74,48 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-// ----------------------------------------------------------------
-// Simple Push Button Input Sketch
-// ----------------------------------------------------------------
+<span class="comment">// ----------------------------------------------------------------</span>
+<span class="comment">// Simple Push Button Input Sketch</span>
+<span class="comment">// ----------------------------------------------------------------</span>
 
-// Define constant pin numbers clearly
-const int buttonPin = 2;     // The number of the pushbutton pin
-const int ledPin = 13;       // The number of the LED pin
+<span class="comment">// Define constant pin numbers clearly</span>
+<span class="keyword">const</span> <span class="keyword">int</span> buttonPin = <span class="constant">2</span>;     <span class="comment">// The number of the pushbutton pin</span>
+<span class="keyword">const</span> <span class="keyword">int</span> ledPin = <span class="constant">13</span>;       <span class="comment">// The number of the LED pin</span>
 
-// Variable to store the state of the button (HIGH or LOW)
-int buttonState = 0;
+<span class="comment">// Variable to store the state of the button (HIGH or LOW)</span>
+<span class="keyword">int</span> buttonState = <span class="constant">0</span>;
 
-void setup() {
-  // Initialize the LED pin as an output:
-  pinMode(ledPin, OUTPUT);
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Initialize the LED pin as an output:</span>
+  <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
   
-  // Initialize the pushbutton pin as an input:
-  pinMode(buttonPin, INPUT);
+  <span class="comment">// Initialize the pushbutton pin as an input:</span>
+  <span class="function">pinMode</span>(buttonPin, <span class="keyword">INPUT</span>);
 }
 
-void loop() {
-  // Read the state of the pushbutton value:
-  buttonState = digitalRead(buttonPin);
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read the state of the pushbutton value:</span>
+  buttonState = <span class="function">digitalRead</span>(buttonPin);
 
-  // Check if the pushbutton is pressed.
-  // If it is, the buttonState is HIGH:
-  if (buttonState == HIGH) {
-    // Turn LED on:
-    digitalWrite(ledPin, HIGH);
-  } else {
-    // Turn LED off:
-    digitalWrite(ledPin, LOW);
+  <span class="comment">// Check if the pushbutton is pressed.</span>
+  <span class="comment">// If it is, the buttonState is HIGH:</span>
+  <span class="keyword">if</span> (buttonState == <span class="keyword">HIGH</span>) {
+    <span class="comment">// Turn LED on:</span>
+    <span class="function">digitalWrite</span>(ledPin, <span class="keyword">HIGH</span>);
+  } <span class="keyword">else</span> {
+    <span class="comment">// Turn LED off:</span>
+    <span class="function">digitalWrite</span>(ledPin, <span class="keyword">LOW</span>);
   }
 }
                     </pre>
                 </div>
             </article>
+
+            <div class="nav-buttons"><a href="project-5.html" class="btn">← Previous: Project #5: SOS Morse Code Flasher</a><a href="project-7.html" class="btn">Next: Project #7: Push-to-Toggle LED (Latching) →</a></div>
+
             
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-5.html" class="btn">← Previous: #5 SOS Morse Code</a>
-                <a href="project-7.html" class="btn">Next: #7 Push-to-Toggle LED →</a>
-            </div>
+            
+            
             
             </section>
     </main>

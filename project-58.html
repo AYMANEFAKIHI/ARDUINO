@@ -55,23 +55,23 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <IRremote.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <IRremote.h>
 
-const int RECV_PIN = 11;
-const int LED_PIN = 13;
+<span class="keyword">const</span> <span class="keyword">int</span> RECV_PIN = <span class="constant">11</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
-void setup(){
+<span class="keyword">void</span> setup(){
   irrecv.enableIRIn();
-  pinMode(LED_PIN, OUTPUT);
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
 }
 
-void loop(){
-  if (irrecv.decode(&results)){
-    if (results.value == 0xFFA25D) { // Example code for Power button
-      digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+<span class="keyword">void</span> loop(){
+  <span class="keyword">if</span> (irrecv.decode(&results)){
+    <span class="keyword">if</span> (results.value == 0xFFA25D) { <span class="comment">// Example code for Power button</span>
+      <span class="function">digitalWrite</span>(LED_PIN, !<span class="function">digitalRead</span>(LED_PIN));
     }
     irrecv.resume();
   }
@@ -80,10 +80,9 @@ void loop(){
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-57.html" class="btn">← Previous: #57</a>
-                <a href="project-59.html" class="btn">Next: #59 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-57.html" class="btn">← Previous: Project #57: IR Remote Control Decoder</a><a href="project-59.html" class="btn">Next: Project #59: 4x4 Keypad Password Lock →</a></div>
+
+            
 
         </section>
     </main>

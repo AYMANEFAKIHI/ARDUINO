@@ -56,30 +56,29 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-const int sensorPin = 2;
-const int relayPin = 13;
-boolean state = false;
+<span class="keyword">const</span> <span class="keyword">int</span> sensorPin = <span class="constant">2</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> relayPin = <span class="constant">13</span>;
+boolean state = <span class="keyword">false</span>;
 
-void setup() {
-  pinMode(sensorPin, INPUT);
-  pinMode(relayPin, OUTPUT);
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(sensorPin, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(relayPin, <span class="keyword">OUTPUT</span>);
 }
 
-void loop() {
-  if (digitalRead(sensorPin) == HIGH) {
+<span class="keyword">void</span> loop() {
+  <span class="keyword">if</span> (<span class="function">digitalRead</span>(sensorPin) == <span class="keyword">HIGH</span>) {
     state = !state;
-    digitalWrite(relayPin, state ? HIGH : LOW);
-    delay(500); // Debounce to prevent multiple toggles
+    <span class="function">digitalWrite</span>(relayPin, state ? <span class="keyword">HIGH</span> : <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="constant">500</span>); <span class="comment">// Debounce to prevent multiple toggles</span>
   }
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-55.html" class="btn">← Previous: #55</a>
-                <a href="project-57.html" class="btn">Next: #57 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-55.html" class="btn">← Previous: Project #55: Sound Sensor (KY-038) LED React</a><a href="project-57.html" class="btn">Next: Project #57: IR Remote Control Decoder →</a></div>
+
+            
 
         </section>
     </main>

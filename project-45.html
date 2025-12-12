@@ -73,63 +73,62 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include "DHT.h"
-
-#define DHTPIN 2     // Digital pin connected to the DHT sensor
-#define DHTTYPE DHT11   // DHT 11
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <span class="string">"DHT.h"</span>
+<span class="preprocessor">
+#define</span> DHTPIN <span class="constant">2</span>     <span class="comment">// Digital pin connected to the DHT sensor</span>
+<span class="preprocessor">#define</span> DHTTYPE DHT11   <span class="comment">// DHT 11</span>
 
 DHT dht(DHTPIN, DHTTYPE);
 
-void setup() {
-  Serial.begin(9600);
-  Serial.println(F("DHT11 test!"));
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(F(<span class="string">"DHT11 test!"</span>));
 
-  dht.begin();
+  dht.<span class="function">begin</span>();
 }
 
-void loop() {
-  // Wait a few seconds between measurements.
-  delay(2000);
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Wait a few seconds between measurements.</span>
+  <span class="function">delay</span>(<span class="constant">2000</span>);
 
-  // Reading temperature or humidity takes about 250 milliseconds!
-  float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
-  // Read temperature as Fahrenheit (isFahrenheit = true)
-  float f = dht.readTemperature(true);
+  <span class="comment">// Reading temperature or humidity takes about 250 milliseconds!</span>
+  <span class="keyword">float</span> h = dht.readHumidity();
+  <span class="comment">// Read temperature as Celsius (the default)</span>
+  <span class="keyword">float</span> t = dht.readTemperature();
+  <span class="comment">// Read temperature as Fahrenheit (isFahrenheit = true)</span>
+  <span class="keyword">float</span> f = dht.readTemperature(<span class="keyword">true</span>);
 
-  // Check if any reads failed and exit early (to try again).
-  if (isnan(h) || isnan(t) || isnan(f)) {
-    Serial.println(F("Failed to read from DHT sensor!"));
-    return;
+  <span class="comment">// Check if any reads failed and exit early (to try again).</span>
+  <span class="keyword">if</span> (isnan(h) || isnan(t) || isnan(f)) {
+    <span class="function">Serial</span>.<span class="function">println</span>(F(<span class="string">"Failed to read from DHT sensor!"</span>));
+    <span class="keyword">return</span>;
   }
 
-  // Compute heat index in Fahrenheit (the default)
-  float hif = dht.computeHeatIndex(f, h);
-  // Compute heat index in Celsius (isFahreheit = false)
-  float hic = dht.computeHeatIndex(t, h, false);
+  <span class="comment">// Compute heat index in Fahrenheit (the default)</span>
+  <span class="keyword">float</span> hif = dht.computeHeatIndex(f, h);
+  <span class="comment">// Compute heat index in Celsius (isFahreheit = false)</span>
+  <span class="keyword">float</span> hic = dht.computeHeatIndex(t, h, <span class="keyword">false</span>);
 
-  Serial.print(F("Humidity: "));
-  Serial.print(h);
-  Serial.print(F("%  Temperature: "));
-  Serial.print(t);
-  Serial.print(F("°C "));
-  Serial.print(f);
-  Serial.print(F("°F  Heat index: "));
-  Serial.print(hic);
-  Serial.print(F("°C "));
-  Serial.print(hif);
-  Serial.println(F("°F"));
+  <span class="function">Serial</span>.<span class="function">print</span>(F(<span class="string">"Humidity: "</span>));
+  <span class="function">Serial</span>.<span class="function">print</span>(h);
+  <span class="function">Serial</span>.<span class="function">print</span>(F(<span class="string">"%  Temperature: "</span>));
+  <span class="function">Serial</span>.<span class="function">print</span>(t);
+  <span class="function">Serial</span>.<span class="function">print</span>(F(<span class="string">"°C "</span>));
+  <span class="function">Serial</span>.<span class="function">print</span>(f);
+  <span class="function">Serial</span>.<span class="function">print</span>(F(<span class="string">"°F  Heat index: "</span>));
+  <span class="function">Serial</span>.<span class="function">print</span>(hic);
+  <span class="function">Serial</span>.<span class="function">print</span>(F(<span class="string">"°C "</span>));
+  <span class="function">Serial</span>.<span class="function">print</span>(hif);
+  <span class="function">Serial</span>.<span class="function">println</span>(F(<span class="string">"°F"</span>));
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-44.html" class="btn">← Previous: #44</a>
-                <a href="project-46.html" class="btn">Next: #46 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-44.html" class="btn">← Previous: Project #44: Relay Module ON/OFF Control</a><a href="project-46.html" class="btn">Next: Project #46: DHT22 Weather Station (LCD) →</a></div>
+
+            
 
         </section>
     </main>

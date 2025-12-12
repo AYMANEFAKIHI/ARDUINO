@@ -55,32 +55,31 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <EEPROM.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <EEPROM.h>
 
-int addr = 0;
+<span class="keyword">int</span> addr = <span class="constant">0</span>;
 
-void setup() {
-  Serial.begin(9600);
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
   
-  // Write
-  EEPROM.write(addr, 123); 
+  <span class="comment">// Write</span>
+  EEPROM.<span class="function">write</span>(addr, <span class="constant">123</span>); 
   
-  // Read
-  int val = EEPROM.read(addr);
-  Serial.print("Value: ");
-  Serial.println(val);
+  <span class="comment">// Read</span>
+  <span class="keyword">int</span> val = EEPROM.<span class="function">read</span>(addr);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Value: "</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(val);
 }
 
-void loop() {}
+<span class="keyword">void</span> loop() {}
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-74.html" class="btn">← Previous: #74</a>
-                <a href="project-76.html" class="btn">Next: #76 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-74.html" class="btn">← Previous: Project #74: CSV Temperature Logger</a><a href="project-76.html" class="btn">Next: Project #76: RFID Reader (RC522) →</a></div>
+
+            
 
         </section>
     </main>

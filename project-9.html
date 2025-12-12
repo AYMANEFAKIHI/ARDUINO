@@ -82,114 +82,114 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #9: Magnetic Reed Switch Door Alarm
  * The Arduino Student Lab
  * 
  * Detects when a magnet is removed (door opened)
  * Triggers LED and optional buzzer alarm
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int REED_PIN = 2;      // Reed switch input
-const int LED_PIN = 13;      // Alarm LED
-const int BUZZER_PIN = 8;    // Optional buzzer
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> REED_PIN = <span class="constant">2</span>;      <span class="comment">// Reed switch input</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;      <span class="comment">// Alarm LED</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BUZZER_PIN = <span class="constant">8</span>;    <span class="comment">// Optional buzzer</span>
 
-// ============================================
-// ALARM CONFIGURATION
-// ============================================
-const int ALARM_FREQUENCY = 2000;  // Buzzer frequency in Hz
-const int ALARM_DURATION = 100;    // Beep duration in ms
+<span class="comment">// ============================================</span>
+<span class="comment">// ALARM CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> ALARM_FREQUENCY = <span class="constant">2000</span>;  <span class="comment">// Buzzer frequency in Hz</span>
+<span class="keyword">const</span> <span class="keyword">int</span> ALARM_DURATION = <span class="constant">100</span>;    <span class="comment">// Beep duration in ms</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-bool doorClosed = true;      // Magnet present = door closed
-bool alarmArmed = true;      // Is alarm system active?
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">bool</span> doorClosed = <span class="keyword">true</span>;      <span class="comment">// Magnet present = door closed</span>
+<span class="keyword">bool</span> alarmArmed = <span class="keyword">true</span>;      <span class="comment">// Is alarm system active?</span>
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(REED_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(REED_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(BUZZER_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== DOOR ALARM SYSTEM ===");
-  Serial.println("Place magnet near reed switch.");
-  Serial.println("Remove magnet to trigger alarm.");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== DOOR ALARM SYSTEM ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Place magnet near reed switch."</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Remove magnet to trigger alarm."</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
   
-  // Check initial state
-  doorClosed = digitalRead(REED_PIN);
-  if (doorClosed) {
-    Serial.println("STATUS: Door CLOSED (magnet detected)");
-  } else {
-    Serial.println("STATUS: Door OPEN (no magnet)");
+  <span class="comment">// Check initial state</span>
+  doorClosed = <span class="function">digitalRead</span>(REED_PIN);
+  <span class="keyword">if</span> (doorClosed) {
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"STATUS: Door CLOSED (magnet detected)"</span>);
+  } <span class="keyword">else</span> {
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"STATUS: Door OPEN (no magnet)"</span>);
   }
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Read reed switch state
-  // HIGH = magnet present (door closed)
-  // LOW = magnet absent (door open)
-  bool currentState = digitalRead(REED_PIN);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read reed switch state</span>
+  <span class="comment">// HIGH = magnet present (door closed)</span>
+  <span class="comment">// LOW = magnet absent (door open)</span>
+  <span class="keyword">bool</span> currentState = <span class="function">digitalRead</span>(REED_PIN);
   
-  // Check for state change
-  if (currentState != doorClosed) {
+  <span class="comment">// Check for state change</span>
+  <span class="keyword">if</span> (currentState != doorClosed) {
     doorClosed = currentState;
     
-    if (doorClosed) {
-      // Door just closed
-      Serial.println(">> Door CLOSED - All clear");
-      digitalWrite(LED_PIN, LOW);
-      noTone(BUZZER_PIN);
-    } else {
-      // Door just opened!
-      Serial.println("!! ALERT: Door OPENED !!");
+    <span class="keyword">if</span> (doorClosed) {
+      <span class="comment">// Door just closed</span>
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">">> Door CLOSED - All clear"</span>);
+      <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
+      <span class="function">noTone</span>(BUZZER_PIN);
+    } <span class="keyword">else</span> {
+      <span class="comment">// Door just opened!</span>
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"!! ALERT: Door OPENED !!"</span>);
       
-      if (alarmArmed) {
+      <span class="keyword">if</span> (alarmArmed) {
         triggerAlarm();
       }
     }
   }
   
-  // While door is open and alarm is armed, keep alerting
-  if (!doorClosed && alarmArmed) {
-    // Blink LED
-    digitalWrite(LED_PIN, HIGH);
-    tone(BUZZER_PIN, ALARM_FREQUENCY, ALARM_DURATION);
-    delay(200);
-    digitalWrite(LED_PIN, LOW);
-    delay(200);
+  <span class="comment">// While door is open and alarm is armed, keep alerting</span>
+  <span class="keyword">if</span> (!doorClosed && alarmArmed) {
+    <span class="comment">// Blink LED</span>
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);
+    <span class="function">tone</span>(BUZZER_PIN, ALARM_FREQUENCY, ALARM_DURATION);
+    <span class="function">delay</span>(<span class="constant">200</span>);
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="constant">200</span>);
   }
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-void triggerAlarm() {
-  Serial.println("** ALARM TRIGGERED **");
+<span class="keyword">void</span> triggerAlarm() {
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"** ALARM TRIGGERED **"</span>);
   
-  // Initial alarm burst
-  for (int i = 0; i < 5; i++) {
-    digitalWrite(LED_PIN, HIGH);
-    tone(BUZZER_PIN, ALARM_FREQUENCY);
-    delay(100);
-    digitalWrite(LED_PIN, LOW);
-    noTone(BUZZER_PIN);
-    delay(100);
+  <span class="comment">// Initial alarm burst</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">5</span>; i++) {
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);
+    <span class="function">tone</span>(BUZZER_PIN, ALARM_FREQUENCY);
+    <span class="function">delay</span>(<span class="constant">100</span>);
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
+    <span class="function">noTone</span>(BUZZER_PIN);
+    <span class="function">delay</span>(<span class="constant">100</span>);
   }
 }
 
-/*
+<span class="comment">/*
  * HOW REED SWITCHES WORK
  * 
  * Inside the glass tube are two flexible metal "reeds":
@@ -209,7 +209,7 @@ void triggerAlarm() {
  * - Laptop lid detection
  * - Bicycle speedometers
  * - Position sensing in machinery
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -232,10 +232,11 @@ void triggerAlarm() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-8.html" class="btn">← Previous: #8 Tilt Switch</a>
-                <a href="project-10.html" class="btn">Next: #10 Vibration Sensor →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-8.html" class="btn">← Previous: Project #8: Tilt Switch Orientation Sensor</a><a href="project-10.html" class="btn">Next: Project #10: Vibration Sensor (SW-420) Alert →</a></div>
+
+            
+
+            
 
         </section>
     </main>

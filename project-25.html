@@ -78,103 +78,103 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #25: Proximity Alert Buzzer
  * The Arduino Student Lab
  * 
  * Distance mapped to pitch: closer = higher tone
  * Beyond max range = silence
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int TRIG_PIN = 9;
-const int ECHO_PIN = 10;
-const int BUZZER_PIN = 8;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> TRIG_PIN = <span class="constant">9</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> ECHO_PIN = <span class="constant">10</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> BUZZER_PIN = <span class="constant">8</span>;
 
-// ============================================
-// CONFIGURATION
-// ============================================
-const int MIN_DISTANCE = 5;      // Closest detection (cm)
-const int MAX_DISTANCE = 100;    // Farthest detection (cm)
-const int MIN_FREQ = 200;        // Low pitch for far objects
-const int MAX_FREQ = 2000;       // High pitch for close objects
+<span class="comment">// ============================================</span>
+<span class="comment">// CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> MIN_DISTANCE = <span class="constant">5</span>;      <span class="comment">// Closest detection (cm)</span>
+<span class="keyword">const</span> <span class="keyword">int</span> MAX_DISTANCE = <span class="constant">100</span>;    <span class="comment">// Farthest detection (cm)</span>
+<span class="keyword">const</span> <span class="keyword">int</span> MIN_FREQ = <span class="constant">200</span>;        <span class="comment">// Low pitch for far objects</span>
+<span class="keyword">const</span> <span class="keyword">int</span> MAX_FREQ = <span class="constant">2000</span>;       <span class="comment">// High pitch for close objects</span>
 
-// ============================================
-// SETUP
-// ============================================
-void setup() {
-  pinMode(TRIG_PIN, OUTPUT);
-  pinMode(ECHO_PIN, INPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(TRIG_PIN, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(ECHO_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(BUZZER_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== PROXIMITY ALERT BUZZER ===");
-  Serial.println("Move hand toward sensor to increase pitch");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== PROXIMITY ALERT BUZZER ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Move hand toward sensor to increase pitch"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
 }
 
-// ============================================
-// MAIN LOOP
-// ============================================
-void loop() {
-  // Measure distance
-  float distance = measureDistance();
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Measure distance</span>
+  <span class="keyword">float</span> distance = measureDistance();
   
-  // Check if in range
-  if (distance > MAX_DISTANCE || distance < MIN_DISTANCE) {
-    // Out of range - silence
-    noTone(BUZZER_PIN);
-    Serial.print(distance, 1);
-    Serial.println(" cm - Out of range (silent)");
+  <span class="comment">// Check if in range</span>
+  <span class="keyword">if</span> (distance > MAX_DISTANCE || distance < MIN_DISTANCE) {
+    <span class="comment">// Out of range - silence</span>
+    <span class="function">noTone</span>(BUZZER_PIN);
+    <span class="function">Serial</span>.<span class="function">print</span>(distance, <span class="constant">1</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" cm - Out of range (silent)"</span>);
   }
-  else {
-    // Map distance to frequency (inverse relationship)
-    // Close (5cm) -> High freq (2000Hz)
-    // Far (100cm) -> Low freq (200Hz)
-    int frequency = map(distance, MIN_DISTANCE, MAX_DISTANCE, MAX_FREQ, MIN_FREQ);
+  <span class="keyword">else</span> {
+    <span class="comment">// Map distance to frequency (inverse relationship)</span>
+    <span class="comment">// Close (5cm) -> High freq (2000Hz)</span>
+    <span class="comment">// Far (100cm) -> Low freq (200Hz)</span>
+    <span class="keyword">int</span> frequency = <span class="function">map</span>(distance, MIN_DISTANCE, MAX_DISTANCE, MAX_FREQ, MIN_FREQ);
     
-    // Play tone
-    tone(BUZZER_PIN, frequency);
+    <span class="comment">// Play tone</span>
+    <span class="function">tone</span>(BUZZER_PIN, frequency);
     
-    // Debug output
-    Serial.print(distance, 1);
-    Serial.print(" cm -> ");
-    Serial.print(frequency);
-    Serial.println(" Hz");
+    <span class="comment">// Debug output</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(distance, <span class="constant">1</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" cm -> "</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(frequency);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" Hz"</span>);
   }
   
-  delay(50);  // Update rate
+  <span class="function">delay</span>(<span class="constant">50</span>);  <span class="comment">// Update rate</span>
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-float measureDistance() {
-  // Send trigger pulse
-  digitalWrite(TRIG_PIN, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
+<span class="keyword">float</span> measureDistance() {
+  <span class="comment">// Send trigger pulse</span>
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">LOW</span>);
+  <span class="function">delayMicroseconds</span>(<span class="constant">2</span>);
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">HIGH</span>);
+  <span class="function">delayMicroseconds</span>(<span class="constant">10</span>);
+  <span class="function">digitalWrite</span>(TRIG_PIN, <span class="keyword">LOW</span>);
   
-  // Measure echo
-  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+  <span class="comment">// Measure echo</span>
+  <span class="keyword">long</span> duration = <span class="function">pulseIn</span>(ECHO_PIN, <span class="keyword">HIGH</span>, <span class="constant">30000</span>);
   
-  // Calculate distance in cm
-  float distance = duration * 0.0343 / 2.0;
+  <span class="comment">// Calculate distance in cm</span>
+  <span class="keyword">float</span> distance = duration * <span class="constant">0</span>.<span class="constant">0343</span> / <span class="constant">2</span>.<span class="constant">0</span>;
   
-  // Handle timeout
-  if (duration == 0) {
-    distance = 999;
+  <span class="comment">// Handle timeout</span>
+  <span class="keyword">if</span> (duration == <span class="constant">0</span>) {
+    distance = <span class="constant">999</span>;
   }
   
-  return distance;
+  <span class="keyword">return</span> distance;
 }
 
-/*
+<span class="comment">/*
  * MAPPING EXPLANATION
  * 
  * We want: Close = High pitch, Far = Low pitch
@@ -203,7 +203,7 @@ float measureDistance() {
  * - 2000 Hz: High, attention-grabbing
  * - Human hearing: 20 Hz - 20,000 Hz
  * - Best sensitivity: 1,000 - 4,000 Hz
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -226,10 +226,11 @@ float measureDistance() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-24.html" class="btn">← Previous: #24 Radar Sweep</a>
-                <a href="project-26.html" class="btn">Next: #26 IR Obstacle →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-24.html" class="btn">← Previous: Project #24: Radar Sweep (Serial Plotter)</a><a href="project-26.html" class="btn">Next: Project #26: IR Obstacle Detector →</a></div>
+
+            
+
+            
 
         </section>
     </main>

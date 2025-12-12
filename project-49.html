@@ -56,38 +56,37 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-const int sensorPin = A0;
-const int buzzer = 8;
-int sensorValue = 0;
+<span class="keyword">const</span> <span class="keyword">int</span> sensorPin = A0;
+<span class="keyword">const</span> <span class="keyword">int</span> buzzer = <span class="constant">8</span>;
+<span class="keyword">int</span> sensorValue = <span class="constant">0</span>;
 
-void setup() {
-  pinMode(buzzer, OUTPUT);
-  Serial.begin(9600);
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(buzzer, <span class="keyword">OUTPUT</span>);
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
 }
 
-void loop() {
-  sensorValue = analogRead(sensorPin);
-  Serial.println(sensorValue);
+<span class="keyword">void</span> loop() {
+  sensorValue = <span class="function">analogRead</span>(sensorPin);
+  <span class="function">Serial</span>.<span class="function">println</span>(sensorValue);
   
-  // Lower value means more water
-  if(sensorValue < 500) { 
-    digitalWrite(buzzer, HIGH);
-    delay(100);
-    digitalWrite(buzzer, LOW);
-    delay(100);
-  } else {
-    digitalWrite(buzzer, LOW);
+  <span class="comment">// Lower value means more water</span>
+  <span class="keyword">if</span>(sensorValue < <span class="constant">500</span>) { 
+    <span class="function">digitalWrite</span>(buzzer, <span class="keyword">HIGH</span>);
+    <span class="function">delay</span>(<span class="constant">100</span>);
+    <span class="function">digitalWrite</span>(buzzer, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="constant">100</span>);
+  } <span class="keyword">else</span> {
+    <span class="function">digitalWrite</span>(buzzer, <span class="keyword">LOW</span>);
   }
-  delay(500);
+  <span class="function">delay</span>(<span class="constant">500</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-48.html" class="btn">← Previous: #48</a>
-                <a href="project-50.html" class="btn">Next: #50 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-48.html" class="btn">← Previous: Project #48: Soil Moisture Plant Monitor</a><a href="project-50.html" class="btn">Next: Project #50: MQ-2 Gas/Smoke Detector →</a></div>
+
+            
 
         </section>
     </main>

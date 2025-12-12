@@ -55,46 +55,45 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Wire.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Wire.h>
 
-void setup() {
-  Wire.begin();
-  Serial.begin(9600);
-  Serial.println("
-I2C Scanner");
+<span class="keyword">void</span> setup() {
+  Wire.<span class="function">begin</span>();
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"
+I2C Scanner"</span>);
 }
 
-void loop() {
-  byte error, address;
-  int nDevices = 0;
+<span class="keyword">void</span> loop() {
+  <span class="keyword">byte</span> error, address;
+  <span class="keyword">int</span> nDevices = <span class="constant">0</span>;
 
-  for(address = 1; address < 127; address++ ) {
+  <span class="keyword">for</span>(address = <span class="constant">1</span>; address < <span class="constant">127</span>; address++ ) {
     Wire.beginTransmission(address);
     error = Wire.endTransmission();
 
-    if (error == 0) {
-      Serial.print("I2C device found at address 0x");
-      if (address<16) Serial.print("0");
-      Serial.print(address,HEX);
-      Serial.println("  !");
+    <span class="keyword">if</span> (error == <span class="constant">0</span>) {
+      <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"I2C device found at address 0x"</span>);
+      <span class="keyword">if</span> (address<<span class="constant">16</span>) <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"0"</span>);
+      <span class="function">Serial</span>.<span class="function">print</span>(address,HEX);
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"  !"</span>);
       nDevices++;
     }
   }
-  if (nDevices == 0) Serial.println("No I2C devices found
-");
-  else Serial.println("done
-");
-  delay(5000);
+  <span class="keyword">if</span> (nDevices == <span class="constant">0</span>) <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"No I2C devices found
+"</span>);
+  <span class="keyword">else</span> <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"done
+"</span>);
+  <span class="function">delay</span>(<span class="constant">5000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-69.html" class="btn">← Previous: #69</a>
-                <a href="project-71.html" class="btn">Next: #71 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-69.html" class="btn">← Previous: Project #69: MPU-6050 Tilt Angle Display</a><a href="project-71.html" class="btn">Next: Project #71: PCA9685 PWM Driver (16 Servos) →</a></div>
+
+            
 
         </section>
     </main>

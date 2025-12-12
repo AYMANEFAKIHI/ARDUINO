@@ -56,21 +56,20 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-// Use TimerOne library or register manipulation
-void setup() {
-  // Configure Timer1 for 1Hz interrupt
+<span class="comment">// Use TimerOne library or register manipulation</span>
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Configure Timer1 for 1Hz interrupt</span>
 }
 ISR(TIMER1_COMPA_vect) {
-  digitalWrite(13, !digitalRead(13));
+  <span class="function">digitalWrite</span>(<span class="constant">13</span>, !<span class="function">digitalRead</span>(<span class="constant">13</span>));
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-90.html" class="btn">← Previous: #90</a>
-                <a href="project-92.html" class="btn">Next: #92 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-90.html" class="btn">← Previous: Project #90: Bluetooth Robot Car Control</a><a href="project-92.html" class="btn">Next: Project #92: Rotary Encoder Menu System →</a></div>
+
+            
 
         </section>
     </main>

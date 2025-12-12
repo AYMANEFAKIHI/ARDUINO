@@ -55,41 +55,41 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Keypad.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Keypad.h>
 
-const byte ROWS = 4; 
-const byte COLS = 4; 
-char keys[ROWS][COLS] = {
-  {'1','2','3','A'},
-  {'4','5','6','B'},
-  {'7','8','9','C'},
-  {'*','0','#','D'}
+<span class="keyword">const</span> <span class="keyword">byte</span> ROWS = <span class="constant">4</span>; 
+<span class="keyword">const</span> <span class="keyword">byte</span> COLS = <span class="constant">4</span>; 
+<span class="keyword">char</span> keys[ROWS][COLS] = {
+  {'<span class="constant">1</span>','<span class="constant">2</span>','<span class="constant">3</span>','A'},
+  {'<span class="constant">4</span>','<span class="constant">5</span>','<span class="constant">6</span>','B'},
+  {'<span class="constant">7</span>','<span class="constant">8</span>','<span class="constant">9</span>','C'},
+  {'*','<span class="constant">0</span>','#','D'}
 };
-byte rowPins[ROWS] = {9, 8, 7, 6}; 
-byte colPins[COLS] = {5, 4, 3, 2}; 
+<span class="keyword">byte</span> rowPins[ROWS] = {<span class="constant">9</span>, <span class="constant">8</span>, <span class="constant">7</span>, <span class="constant">6</span>}; 
+<span class="keyword">byte</span> colPins[COLS] = {<span class="constant">5</span>, <span class="constant">4</span>, <span class="constant">3</span>, <span class="constant">2</span>}; 
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
-char password[] = "1234";
-String input = "";
+<span class="keyword">char</span> password[] = <span class="string">"1234"</span>;
+String input = <span class="string">""</span>;
 
-void setup(){
-  Serial.begin(9600);
+<span class="keyword">void</span> setup(){
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
 }
 
-void loop(){
-  char key = keypad.getKey();
+<span class="keyword">void</span> loop(){
+  <span class="keyword">char</span> key = keypad.getKey();
   
-  if (key){
-    Serial.println(key);
-    if(key == '#') {
-      if(input == password) {
-        Serial.println("Unlocked!");
-      } else {
-        Serial.println("Wrong Password");
+  <span class="keyword">if</span> (key){
+    <span class="function">Serial</span>.<span class="function">println</span>(key);
+    <span class="keyword">if</span>(key == '#') {
+      <span class="keyword">if</span>(input == password) {
+        <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Unlocked!"</span>);
+      } <span class="keyword">else</span> {
+        <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Wrong Password"</span>);
       }
-      input = "";
-    } else {
+      input = <span class="string">""</span>;
+    } <span class="keyword">else</span> {
       input += key;
     }
   }
@@ -98,10 +98,9 @@ void loop(){
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-58.html" class="btn">← Previous: #58</a>
-                <a href="project-60.html" class="btn">Next: #60 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-58.html" class="btn">← Previous: Project #58: IR Remote Controlled LED</a><a href="project-60.html" class="btn">Next: Project #60: Rotary Encoder Basic Counter →</a></div>
+
+            
 
         </section>
     </main>

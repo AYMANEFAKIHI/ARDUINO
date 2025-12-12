@@ -78,55 +78,55 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #17: Button-Activated Doorbell
  * The Arduino Student Lab
  * 
  * Press the button to play a "ding-dong" sound!
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int BUTTON_PIN = 2;
-const int BUZZER_PIN = 8;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> BUTTON_PIN = <span class="constant">2</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> BUZZER_PIN = <span class="constant">8</span>;
 
-// ============================================
-// DOORBELL CONFIGURATION
-// ============================================
-// Classic doorbell uses a major third interval
-const int DING_FREQ = 698;   // F5 - higher note
-const int DONG_FREQ = 523;   // C5 - lower note
-const int DING_DURATION = 300;  // milliseconds
-const int DONG_DURATION = 400;  // milliseconds
+<span class="comment">// ============================================</span>
+<span class="comment">// DOORBELL CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="comment">// Classic doorbell uses a major third interval</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DING_FREQ = <span class="constant">698</span>;   <span class="comment">// F5 - higher note</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DONG_FREQ = <span class="constant">523</span>;   <span class="comment">// C5 - lower note</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DING_DURATION = <span class="constant">300</span>;  <span class="comment">// milliseconds</span>
+<span class="keyword">const</span> <span class="keyword">int</span> DONG_DURATION = <span class="constant">400</span>;  <span class="comment">// milliseconds</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-bool lastButtonState = LOW;
-bool doorbellPlaying = false;
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">bool</span> lastButtonState = <span class="keyword">LOW</span>;
+<span class="keyword">bool</span> doorbellPlaying = <span class="keyword">false</span>;
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(BUTTON_PIN, INPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(BUTTON_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(BUZZER_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== DOORBELL READY ===");
-  Serial.println("Press the button to ring!");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== DOORBELL READY ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Press the button to ring!"</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  bool buttonState = digitalRead(BUTTON_PIN);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="keyword">bool</span> buttonState = <span class="function">digitalRead</span>(BUTTON_PIN);
   
-  // Detect button press (rising edge)
-  if (buttonState == HIGH && lastButtonState == LOW) {
-    if (!doorbellPlaying) {
+  <span class="comment">// Detect button press (rising edge)</span>
+  <span class="keyword">if</span> (buttonState == <span class="keyword">HIGH</span> && lastButtonState == <span class="keyword">LOW</span>) {
+    <span class="keyword">if</span> (!doorbellPlaying) {
       ringDoorbell();
     }
   }
@@ -134,32 +134,32 @@ void loop() {
   lastButtonState = buttonState;
 }
 
-// ============================================
-// DOORBELL FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// DOORBELL FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-void ringDoorbell() {
-  doorbellPlaying = true;
+<span class="keyword">void</span> ringDoorbell() {
+  doorbellPlaying = <span class="keyword">true</span>;
   
-  Serial.println("DING-DONG!");
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"DING-DONG!"</span>);
   
-  // Play "DING" (higher note)
-  tone(BUZZER_PIN, DING_FREQ);
-  delay(DING_DURATION);
-  noTone(BUZZER_PIN);
+  <span class="comment">// Play "DING" (higher note)</span>
+  <span class="function">tone</span>(BUZZER_PIN, DING_FREQ);
+  <span class="function">delay</span>(DING_DURATION);
+  <span class="function">noTone</span>(BUZZER_PIN);
   
-  // Brief pause
-  delay(50);
+  <span class="comment">// Brief pause</span>
+  <span class="function">delay</span>(<span class="constant">50</span>);
   
-  // Play "DONG" (lower note)
-  tone(BUZZER_PIN, DONG_FREQ);
-  delay(DONG_DURATION);
-  noTone(BUZZER_PIN);
+  <span class="comment">// Play "DONG" (lower note)</span>
+  <span class="function">tone</span>(BUZZER_PIN, DONG_FREQ);
+  <span class="function">delay</span>(DONG_DURATION);
+  <span class="function">noTone</span>(BUZZER_PIN);
   
-  doorbellPlaying = false;
+  doorbellPlaying = <span class="keyword">false</span>;
 }
 
-/*
+<span class="comment">/*
  * MUSICAL INTERVALS IN DOORBELLS
  * 
  * Traditional doorbells use pleasing intervals:
@@ -183,7 +183,7 @@ void ringDoorbell() {
  * Perfect Fourth:  F4 (349) → C4 (262)
  * Minor Third:     Eb4 (311) → C4 (262)
  * Octave:          C5 (523) → C4 (262)
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -206,10 +206,11 @@ void ringDoorbell() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-16.html" class="btn">← Previous: #16 Piezo Melody</a>
-                <a href="project-18.html" class="btn">Next: #18 Serial Logger →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-16.html" class="btn">← Previous: Project #16: Simple Melody with Piezo Buzzer</a><a href="project-18.html" class="btn">Next: Project #18: Serial Monitor Temperature Logger →</a></div>
+
+            
+
+            
 
         </section>
     </main>

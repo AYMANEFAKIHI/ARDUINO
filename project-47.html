@@ -55,35 +55,34 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <OneWire.h>
-#include <DallasTemperature.h>
-
-#define ONE_WIRE_BUS 2
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <OneWire.h>
+<span class="preprocessor">#include</span> <DallasTemperature.h>
+<span class="preprocessor">
+#define</span> ONE_WIRE_BUS <span class="constant">2</span>
 
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
-void setup() {
-  Serial.begin(9600);
-  sensors.begin();
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  sensors.<span class="function">begin</span>();
 }
 
-void loop() {
+<span class="keyword">void</span> loop() {
   sensors.requestTemperatures(); 
-  Serial.print("Temperature is: ");
-  Serial.print(sensors.getTempCByIndex(0));
-  Serial.println(" C");
-  delay(1000);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Temperature is: "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(sensors.getTempCByIndex(<span class="constant">0</span>));
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" C"</span>);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-46.html" class="btn">← Previous: #46</a>
-                <a href="project-48.html" class="btn">Next: #48 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-46.html" class="btn">← Previous: Project #46: DHT22 Weather Station (LCD)</a><a href="project-48.html" class="btn">Next: Project #48: Soil Moisture Plant Monitor →</a></div>
+
+            
 
         </section>
     </main>

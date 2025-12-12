@@ -78,90 +78,90 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-/*
+<span class="comment">/*
  * Project #2: 3-LED Traffic Light Sequence
  * The Arduino Student Lab
  * 
  * Simulates a realistic traffic light cycle
  * Red -> Green -> Yellow -> Red
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int RED_LED = 10;      // Red LED on pin 10
-const int YELLOW_LED = 9;    // Yellow LED on pin 9
-const int GREEN_LED = 8;     // Green LED on pin 8
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> RED_LED = <span class="constant">10</span>;      <span class="comment">// Red LED on pin 10</span>
+<span class="keyword">const</span> <span class="keyword">int</span> YELLOW_LED = <span class="constant">9</span>;    <span class="comment">// Yellow LED on pin 9</span>
+<span class="keyword">const</span> <span class="keyword">int</span> GREEN_LED = <span class="constant">8</span>;     <span class="comment">// Green LED on pin 8</span>
 
-// ============================================
-// TIMING CONSTANTS (in milliseconds)
-// ============================================
-const int RED_TIME = 5000;      // Red light duration: 5 seconds
-const int GREEN_TIME = 4000;    // Green light duration: 4 seconds
-const int YELLOW_TIME = 2000;   // Yellow light duration: 2 seconds
+<span class="comment">// ============================================</span>
+<span class="comment">// TIMING CONSTANTS (in milliseconds)</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> RED_TIME = <span class="constant">5000</span>;      <span class="comment">// Red light duration: 5 seconds</span>
+<span class="keyword">const</span> <span class="keyword">int</span> GREEN_TIME = <span class="constant">4000</span>;    <span class="comment">// Green light duration: 4 seconds</span>
+<span class="keyword">const</span> <span class="keyword">int</span> YELLOW_TIME = <span class="constant">2000</span>;   <span class="comment">// Yellow light duration: 2 seconds</span>
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  // Configure all LED pins as outputs
-  pinMode(RED_LED, OUTPUT);
-  pinMode(YELLOW_LED, OUTPUT);
-  pinMode(GREEN_LED, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="comment">// Configure all LED pins as outputs</span>
+  <span class="function">pinMode</span>(RED_LED, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(YELLOW_LED, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(GREEN_LED, <span class="keyword">OUTPUT</span>);
   
-  // Start with all LEDs off
+  <span class="comment">// Start with all LEDs off</span>
   allOff();
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // PHASE 1: Red Light
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// PHASE 1: Red Light</span>
   redLight();
-  delay(RED_TIME);
+  <span class="function">delay</span>(RED_TIME);
   
-  // PHASE 2: Green Light
+  <span class="comment">// PHASE 2: Green Light</span>
   greenLight();
-  delay(GREEN_TIME);
+  <span class="function">delay</span>(GREEN_TIME);
   
-  // PHASE 3: Yellow Light (warning)
+  <span class="comment">// PHASE 3: Yellow Light (warning)</span>
   yellowLight();
-  delay(YELLOW_TIME);
+  <span class="function">delay</span>(YELLOW_TIME);
   
-  // Loop repeats - back to red
+  <span class="comment">// Loop repeats - back to red</span>
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
+<span class="comment">// ============================================</span>
+<span class="comment">// HELPER FUNCTIONS</span>
+<span class="comment">// ============================================</span>
 
-// Turn all LEDs off
-void allOff() {
-  digitalWrite(RED_LED, LOW);
-  digitalWrite(YELLOW_LED, LOW);
-  digitalWrite(GREEN_LED, LOW);
+<span class="comment">// Turn all LEDs off</span>
+<span class="keyword">void</span> allOff() {
+  <span class="function">digitalWrite</span>(RED_LED, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(YELLOW_LED, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(GREEN_LED, <span class="keyword">LOW</span>);
 }
 
-// Red light ON, others OFF
-void redLight() {
-  digitalWrite(RED_LED, HIGH);
-  digitalWrite(YELLOW_LED, LOW);
-  digitalWrite(GREEN_LED, LOW);
+<span class="comment">// Red light ON, others OFF</span>
+<span class="keyword">void</span> redLight() {
+  <span class="function">digitalWrite</span>(RED_LED, <span class="keyword">HIGH</span>);
+  <span class="function">digitalWrite</span>(YELLOW_LED, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(GREEN_LED, <span class="keyword">LOW</span>);
 }
 
-// Yellow light ON, others OFF
-void yellowLight() {
-  digitalWrite(RED_LED, LOW);
-  digitalWrite(YELLOW_LED, HIGH);
-  digitalWrite(GREEN_LED, LOW);
+<span class="comment">// Yellow light ON, others OFF</span>
+<span class="keyword">void</span> yellowLight() {
+  <span class="function">digitalWrite</span>(RED_LED, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(YELLOW_LED, <span class="keyword">HIGH</span>);
+  <span class="function">digitalWrite</span>(GREEN_LED, <span class="keyword">LOW</span>);
 }
 
-// Green light ON, others OFF
-void greenLight() {
-  digitalWrite(RED_LED, LOW);
-  digitalWrite(YELLOW_LED, LOW);
-  digitalWrite(GREEN_LED, HIGH);
+<span class="comment">// Green light ON, others OFF</span>
+<span class="keyword">void</span> greenLight() {
+  <span class="function">digitalWrite</span>(RED_LED, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(YELLOW_LED, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(GREEN_LED, <span class="keyword">HIGH</span>);
 }
                     </pre>
                 </div>
@@ -178,10 +178,11 @@ void greenLight() {
                 </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="blink-tutorial.html" class="btn">← Previous: #1 Blink LED</a>
-                <a href="project-3.html" class="btn">Next: #3 Knight Rider →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-1.html" class="btn">← Previous: Hello World (Blink)</a><a href="project-3.html" class="btn">Next: Project #3: Knight Rider LED Scanner →</a></div>
+
+            
+
+            
 
         </section>
     </main>

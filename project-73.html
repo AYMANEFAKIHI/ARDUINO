@@ -55,37 +55,36 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <SPI.h>
-#include <SD.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <SPI.h>
+<span class="preprocessor">#include</span> <SD.h>
 
-const int chipSelect = 10;
+<span class="keyword">const</span> <span class="keyword">int</span> chipSelect = <span class="constant">10</span>;
 
-void setup() {
-  Serial.begin(9600);
-  if (!SD.begin(chipSelect)) {
-    Serial.println("Card failed, or not present");
-    return;
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="keyword">if</span> (!SD.<span class="function">begin</span>(chipSelect)) {
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Card failed, or not present"</span>);
+    <span class="keyword">return</span>;
   }
 }
 
-void loop() {
-  File dataFile = SD.open("datalog.txt", FILE_WRITE);
-  if (dataFile) {
-    dataFile.println("Sensor Data Here");
+<span class="keyword">void</span> loop() {
+  File dataFile = SD.open(<span class="string">"datalog.txt"</span>, FILE_WRITE);
+  <span class="keyword">if</span> (dataFile) {
+    dataFile.<span class="function">println</span>(<span class="string">"Sensor Data Here"</span>);
     dataFile.close();
-    Serial.println("Saved.");
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Saved."</span>);
   }
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-72.html" class="btn">← Previous: #72</a>
-                <a href="project-74.html" class="btn">Next: #74 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-72.html" class="btn">← Previous: Project #72: PCF8574 I/O Expander</a><a href="project-74.html" class="btn">Next: Project #74: CSV Temperature Logger →</a></div>
+
+            
 
         </section>
     </main>

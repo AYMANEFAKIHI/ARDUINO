@@ -79,69 +79,69 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #8: Tilt Switch Orientation Sensor
  * The Arduino Student Lab
  * 
  * Detects when the sensor is tilted past its trigger angle
  * Uses debouncing for stable readings
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int TILT_PIN = 2;
-const int LED_PIN = 13;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> TILT_PIN = <span class="constant">2</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;
 
-// ============================================
-// DEBOUNCE CONFIGURATION
-// ============================================
-const unsigned long DEBOUNCE_DELAY = 100;  // Tilt switches need more debounce time
+<span class="comment">// ============================================</span>
+<span class="comment">// DEBOUNCE CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> DEBOUNCE_DELAY = <span class="constant">100</span>;  <span class="comment">// Tilt switches need more debounce time</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-bool tiltState = false;
-bool lastTiltState = false;
-unsigned long lastDebounceTime = 0;
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">bool</span> tiltState = <span class="keyword">false</span>;
+<span class="keyword">bool</span> lastTiltState = <span class="keyword">false</span>;
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lastDebounceTime = <span class="constant">0</span>;
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(TILT_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(TILT_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
   
-  Serial.begin(9600);
-  Serial.println("Tilt Sensor Ready!");
-  Serial.println("Tilt the sensor to trigger the LED.");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Tilt Sensor Ready!"</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Tilt the sensor to trigger the LED."</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Read current tilt sensor state
-  bool reading = digitalRead(TILT_PIN);
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Read current tilt sensor state</span>
+  <span class="keyword">bool</span> reading = <span class="function">digitalRead</span>(TILT_PIN);
   
-  // Check if state changed
-  if (reading != lastTiltState) {
-    lastDebounceTime = millis();
+  <span class="comment">// Check if state changed</span>
+  <span class="keyword">if</span> (reading != lastTiltState) {
+    lastDebounceTime = <span class="function">millis</span>();
   }
   
-  // If stable for DEBOUNCE_DELAY, accept new state
-  if ((millis() - lastDebounceTime) > DEBOUNCE_DELAY) {
-    if (reading != tiltState) {
+  <span class="comment">// If stable for DEBOUNCE_DELAY, accept new state</span>
+  <span class="keyword">if</span> ((<span class="function">millis</span>() - lastDebounceTime) > DEBOUNCE_DELAY) {
+    <span class="keyword">if</span> (reading != tiltState) {
       tiltState = reading;
       
-      // Update LED to match tilt state
-      digitalWrite(LED_PIN, tiltState);
+      <span class="comment">// Update LED to match tilt state</span>
+      <span class="function">digitalWrite</span>(LED_PIN, tiltState);
       
-      // Debug output
-      if (tiltState) {
-        Serial.println("TILTED! (circuit closed)");
-      } else {
-        Serial.println("LEVEL (circuit open)");
+      <span class="comment">// Debug output</span>
+      <span class="keyword">if</span> (tiltState) {
+        <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"TILTED! (circuit closed)"</span>);
+      } <span class="keyword">else</span> {
+        <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"LEVEL (circuit open)"</span>);
       }
     }
   }
@@ -149,7 +149,7 @@ void loop() {
   lastTiltState = reading;
 }
 
-/*
+<span class="comment">/*
  * HOW TILT SWITCHES WORK
  * 
  * Inside the switch is a small metal ball bearing:
@@ -170,7 +170,7 @@ void loop() {
  * - Motion-activated lights
  * - Gaming controllers (tilt steering)
  * - Anti-theft alarms
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -193,10 +193,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-7.html" class="btn">← Previous: #7 Toggle Button</a>
-                <a href="project-9.html" class="btn">Next: #9 Reed Switch →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-7.html" class="btn">← Previous: Project #7: Push-to-Toggle LED (Latching)</a><a href="project-9.html" class="btn">Next: Project #9: Magnetic Reed Switch Door Alarm →</a></div>
+
+            
+
+            
 
         </section>
     </main>

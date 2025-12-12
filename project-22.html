@@ -78,112 +78,112 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #22: PIR Motion-Activated Light
  * The Arduino Student Lab
  * 
  * Automatically turns on light when motion detected
  * Stays on for configured duration, then turns off
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int PIR_PIN = 2;       // PIR sensor output
-const int LED_PIN = 13;      // Light to control
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> PIR_PIN = <span class="constant">2</span>;       <span class="comment">// PIR sensor output</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;      <span class="comment">// Light to control</span>
 
-// ============================================
-// TIMING CONFIGURATION
-// ============================================
-const unsigned long LIGHT_DURATION = 10000;  // Stay on for 10 seconds
-const unsigned long WARMUP_TIME = 30000;     // PIR warmup period (30s)
+<span class="comment">// ============================================</span>
+<span class="comment">// TIMING CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> LIGHT_DURATION = <span class="constant">10000</span>;  <span class="comment">// Stay on for 10 seconds</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> WARMUP_TIME = <span class="constant">30000</span>;     <span class="comment">// PIR warmup period (30s)</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-bool lightOn = false;
-unsigned long lightTurnedOnTime = 0;
-bool sensorReady = false;
-int motionCount = 0;
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">bool</span> lightOn = <span class="keyword">false</span>;
+<span class="keyword">unsigned</span> <span class="keyword">long</span> lightTurnedOnTime = <span class="constant">0</span>;
+<span class="keyword">bool</span> sensorReady = <span class="keyword">false</span>;
+<span class="keyword">int</span> motionCount = <span class="constant">0</span>;
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(PIR_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(PIR_PIN, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
   
-  digitalWrite(LED_PIN, LOW);
+  <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
   
-  Serial.begin(9600);
-  Serial.println("=== PIR MOTION-ACTIVATED LIGHT ===");
-  Serial.println("");
-  Serial.println("PIR sensor warming up...");
-  Serial.println("Please wait 30 seconds for calibration.");
-  Serial.println("");
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"=== PIR MOTION-ACTIVATED LIGHT ==="</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"PIR sensor warming up..."</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Please wait 30 seconds for calibration."</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
   
-  // Blink LED during warmup
-  for (int i = 0; i < 30; i++) {
-    digitalWrite(LED_PIN, HIGH);
-    delay(100);
-    digitalWrite(LED_PIN, LOW);
-    delay(900);
-    Serial.print(30 - i);
-    Serial.println(" seconds remaining...");
+  <span class="comment">// Blink LED during warmup</span>
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="constant">0</span>; i < <span class="constant">30</span>; i++) {
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);
+    <span class="function">delay</span>(<span class="constant">100</span>);
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="constant">900</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="constant">30</span> - i);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" seconds remaining..."</span>);
   }
   
-  sensorReady = true;
-  Serial.println("");
-  Serial.println("Sensor ready! Detecting motion...");
-  Serial.println("");
+  sensorReady = <span class="keyword">true</span>;
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Sensor ready! Detecting motion..."</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  if (!sensorReady) return;
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="keyword">if</span> (!sensorReady) <span class="keyword">return</span>;
   
-  unsigned long currentTime = millis();
+  <span class="keyword">unsigned</span> <span class="keyword">long</span> currentTime = <span class="function">millis</span>();
   
-  // Read PIR sensor
-  bool motionDetected = digitalRead(PIR_PIN);
+  <span class="comment">// Read PIR sensor</span>
+  <span class="keyword">bool</span> motionDetected = <span class="function">digitalRead</span>(PIR_PIN);
   
-  if (motionDetected) {
-    if (!lightOn) {
-      // First motion detection - turn on light
+  <span class="keyword">if</span> (motionDetected) {
+    <span class="keyword">if</span> (!lightOn) {
+      <span class="comment">// First motion detection - turn on light</span>
       motionCount++;
-      lightOn = true;
+      lightOn = <span class="keyword">true</span>;
       lightTurnedOnTime = currentTime;
-      digitalWrite(LED_PIN, HIGH);
+      <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">HIGH</span>);
       
-      Serial.print("[");
-      Serial.print(currentTime / 1000);
-      Serial.print("s] Motion #");
-      Serial.print(motionCount);
-      Serial.println(" detected! Light ON");
-    } else {
-      // Motion while light is on - reset timer
+      <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"["</span>);
+      <span class="function">Serial</span>.<span class="function">print</span>(currentTime / <span class="constant">1000</span>);
+      <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"s] Motion #"</span>);
+      <span class="function">Serial</span>.<span class="function">print</span>(motionCount);
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" detected! Light ON"</span>);
+    } <span class="keyword">else</span> {
+      <span class="comment">// Motion while light is on - reset timer</span>
       lightTurnedOnTime = currentTime;
-      Serial.println("  Motion continues - timer reset");
+      <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"  Motion continues - timer reset"</span>);
     }
   }
   
-  // Check if light should turn off
-  if (lightOn && (currentTime - lightTurnedOnTime >= LIGHT_DURATION)) {
-    lightOn = false;
-    digitalWrite(LED_PIN, LOW);
+  <span class="comment">// Check if light should turn off</span>
+  <span class="keyword">if</span> (lightOn && (currentTime - lightTurnedOnTime >= LIGHT_DURATION)) {
+    lightOn = <span class="keyword">false</span>;
+    <span class="function">digitalWrite</span>(LED_PIN, <span class="keyword">LOW</span>);
     
-    Serial.print("[");
-    Serial.print(currentTime / 1000);
-    Serial.println("s] No motion - Light OFF");
-    Serial.println("");
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"["</span>);
+    <span class="function">Serial</span>.<span class="function">print</span>(currentTime / <span class="constant">1000</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"s] No motion - Light OFF"</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">""</span>);
   }
   
-  delay(100);  // Small delay to reduce CPU usage
+  <span class="function">delay</span>(<span class="constant">100</span>);  <span class="comment">// Small delay to reduce CPU usage</span>
 }
 
-/*
+<span class="comment">/*
  * HOW PIR SENSORS WORK
  * 
  * PIR = Passive Infrared
@@ -213,7 +213,7 @@ void loop() {
  * WARMUP PERIOD:
  * PIR sensors need 30-60 seconds to calibrate to
  * ambient IR levels. May give false triggers during warmup.
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -236,10 +236,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="distance-tutorial.html" class="btn">← Previous: #21 Distance Sensor</a>
-                <a href="project-23.html" class="btn">Next: #23 Parking Assist →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-21.html" class="btn">← Previous: HC-SR04 Distance Finder</a><a href="project-23.html" class="btn">Next: Project #23: Parking Assist (3-Zone LED) →</a></div>
+
+            
+
+            
 
         </section>
     </main>

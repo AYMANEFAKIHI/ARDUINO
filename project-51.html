@@ -55,44 +55,43 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Wire.h>
-#include <Adafruit_BMP085.h> // Use Adafruit_BMP280.h for BMP280
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Wire.h>
+<span class="preprocessor">#include</span> <Adafruit_BMP085.h> <span class="comment">// Use Adafruit_BMP280.h for BMP280</span>
 
 Adafruit_BMP085 bmp;
 
-void setup() {
-  Serial.begin(9600);
-  if (!bmp.begin()) {
-    Serial.println("Could not find a valid BMP085 sensor, check wiring!");
-    while (1) {}
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="keyword">if</span> (!bmp.<span class="function">begin</span>()) {
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Could not find a valid BMP085 sensor, check wiring!"</span>);
+    <span class="keyword">while</span> (<span class="constant">1</span>) {}
   }
 }
 
-void loop() {
-  Serial.print("Temperature = ");
-  Serial.print(bmp.readTemperature());
-  Serial.println(" *C");
+<span class="keyword">void</span> loop() {
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Temperature = "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(bmp.readTemperature());
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" *C"</span>);
   
-  Serial.print("Pressure = ");
-  Serial.print(bmp.readPressure());
-  Serial.println(" Pa");
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Pressure = "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(bmp.readPressure());
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" Pa"</span>);
   
-  Serial.print("Altitude = ");
-  Serial.print(bmp.readAltitude());
-  Serial.println(" meters");
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Altitude = "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(bmp.readAltitude());
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" meters"</span>);
   
-  Serial.println();
-  delay(2000);
+  <span class="function">Serial</span>.<span class="function">println</span>();
+  <span class="function">delay</span>(<span class="constant">2000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-50.html" class="btn">← Previous: #50</a>
-                <a href="project-52.html" class="btn">Next: #52 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-50.html" class="btn">← Previous: Project #50: MQ-2 Gas/Smoke Detector</a><a href="project-52.html" class="btn">Next: Project #52: Real-Time Clock (DS3231) Display →</a></div>
+
+            
 
         </section>
     </main>

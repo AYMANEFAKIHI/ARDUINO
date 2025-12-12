@@ -55,52 +55,51 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#define CLK 2
-#define DT 3
-#define SW 4
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#define</span> CLK <span class="constant">2</span>
+<span class="preprocessor">#define</span> DT <span class="constant">3</span>
+<span class="preprocessor">#define</span> SW <span class="constant">4</span>
 
-int counter = 0;
-int currentStateCLK;
-int lastStateCLK;
+<span class="keyword">int</span> counter = <span class="constant">0</span>;
+<span class="keyword">int</span> currentStateCLK;
+<span class="keyword">int</span> lastStateCLK;
 
-void setup() {
-  pinMode(CLK,INPUT);
-  pinMode(DT,INPUT);
-  pinMode(SW, INPUT_PULLUP);
-  Serial.begin(9600);
-  lastStateCLK = digitalRead(CLK);
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(CLK,<span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(DT,<span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(SW, <span class="keyword">INPUT_PULLUP</span>);
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  lastStateCLK = <span class="function">digitalRead</span>(CLK);
 }
 
-void loop() {
-  currentStateCLK = digitalRead(CLK);
+<span class="keyword">void</span> loop() {
+  currentStateCLK = <span class="function">digitalRead</span>(CLK);
 
-  if (currentStateCLK != lastStateCLK  && currentStateCLK == 1){
-    if (digitalRead(DT) != currentStateCLK) {
+  <span class="keyword">if</span> (currentStateCLK != lastStateCLK  && currentStateCLK == <span class="constant">1</span>){
+    <span class="keyword">if</span> (<span class="function">digitalRead</span>(DT) != currentStateCLK) {
       counter --;
-    } else {
+    } <span class="keyword">else</span> {
       counter ++;
     }
-    Serial.print("Counter: ");
-    Serial.println(counter);
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Counter: "</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(counter);
   }
 
   lastStateCLK = currentStateCLK;
   
-  if(digitalRead(SW) == LOW) {
-    counter = 0;
-    Serial.println("Reset");
-    delay(200);
+  <span class="keyword">if</span>(<span class="function">digitalRead</span>(SW) == <span class="keyword">LOW</span>) {
+    counter = <span class="constant">0</span>;
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Reset"</span>);
+    <span class="function">delay</span>(<span class="constant">200</span>);
   }
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-59.html" class="btn">← Previous: #59</a>
-                <a href="project-61.html" class="btn">Next: #61 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-59.html" class="btn">← Previous: Project #59: 4x4 Keypad Password Lock</a><a href="project-61.html" class="btn">Next: Project #61: Serial LED Control (PC Commands) →</a></div>
+
+            
 
         </section>
     </main>

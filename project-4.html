@@ -75,83 +75,83 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">/*
+                    <pre class="arduino-code" id="arduinoCode"><span class="comment">/*
  * Project #4: Non-Blocking Blink with millis()
  * The Arduino Student Lab
  * 
  * Blinks an LED WITHOUT using delay()
  * This allows other code to run simultaneously
- */
+ */</span>
 
-// ============================================
-// PIN DEFINITIONS
-// ============================================
-const int LED_PIN = 13;
+<span class="comment">// ============================================</span>
+<span class="comment">// PIN DEFINITIONS</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">int</span> LED_PIN = <span class="constant">13</span>;
 
-// ============================================
-// TIMING CONFIGURATION
-// ============================================
-const unsigned long BLINK_INTERVAL = 1000;  // Blink every 1000ms (1 second)
+<span class="comment">// ============================================</span>
+<span class="comment">// TIMING CONFIGURATION</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> BLINK_INTERVAL = <span class="constant">1000</span>;  <span class="comment">// Blink every 1000ms (1 second)</span>
 
-// ============================================
-// STATE VARIABLES
-// ============================================
-unsigned long previousMillis = 0;   // Stores last time LED was updated
-int ledState = LOW;                 // Current state of LED
+<span class="comment">// ============================================</span>
+<span class="comment">// STATE VARIABLES</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">unsigned</span> <span class="keyword">long</span> previousMillis = <span class="constant">0</span>;   <span class="comment">// Stores last time LED was updated</span>
+<span class="keyword">int</span> ledState = <span class="keyword">LOW</span>;                 <span class="comment">// Current state of LED</span>
 
-// ============================================
-// SETUP - Runs once at startup
-// ============================================
-void setup() {
-  pinMode(LED_PIN, OUTPUT);
+<span class="comment">// ============================================</span>
+<span class="comment">// SETUP - Runs once at startup</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> setup() {
+  <span class="function">pinMode</span>(LED_PIN, <span class="keyword">OUTPUT</span>);
   
-  // Optional: Start Serial for debugging
-  Serial.begin(9600);
-  Serial.println("Non-blocking blink started!");
+  <span class="comment">// Optional: Start Serial for debugging</span>
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Non-blocking blink started!"</span>);
 }
 
-// ============================================
-// MAIN LOOP - Runs repeatedly
-// ============================================
-void loop() {
-  // Get current time
-  unsigned long currentMillis = millis();
+<span class="comment">// ============================================</span>
+<span class="comment">// MAIN LOOP - Runs repeatedly</span>
+<span class="comment">// ============================================</span>
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Get current time</span>
+  <span class="keyword">unsigned</span> <span class="keyword">long</span> currentMillis = <span class="function">millis</span>();
   
-  // Check if enough time has passed
-  if (currentMillis - previousMillis >= BLINK_INTERVAL) {
-    // Save the current time for next comparison
+  <span class="comment">// Check if enough time has passed</span>
+  <span class="keyword">if</span> (currentMillis - previousMillis >= BLINK_INTERVAL) {
+    <span class="comment">// Save the current time for next comparison</span>
     previousMillis = currentMillis;
     
-    // Toggle the LED state
-    if (ledState == LOW) {
-      ledState = HIGH;
-    } else {
-      ledState = LOW;
+    <span class="comment">// Toggle the LED state</span>
+    <span class="keyword">if</span> (ledState == <span class="keyword">LOW</span>) {
+      ledState = <span class="keyword">HIGH</span>;
+    } <span class="keyword">else</span> {
+      ledState = <span class="keyword">LOW</span>;
     }
     
-    // Apply the new state to the LED
-    digitalWrite(LED_PIN, ledState);
+    <span class="comment">// Apply the new state to the LED</span>
+    <span class="function">digitalWrite</span>(LED_PIN, ledState);
     
-    // Debug output
-    Serial.print("LED is now: ");
-    Serial.println(ledState == HIGH ? "ON" : "OFF");
+    <span class="comment">// Debug output</span>
+    <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"LED is now: "</span>);
+    <span class="function">Serial</span>.<span class="function">println</span>(ledState == <span class="keyword">HIGH</span> ? <span class="string">"ON"</span> : <span class="string">"OFF"</span>);
   }
   
-  // ==========================================
-  // OTHER CODE CAN RUN HERE!
-  // ==========================================
-  // Unlike delay(), the loop keeps running
-  // so you can check buttons, read sensors, etc.
-  // This is where millis() shines!
+  <span class="comment">// ==========================================</span>
+  <span class="comment">// OTHER CODE CAN RUN HERE!</span>
+  <span class="comment">// ==========================================</span>
+  <span class="comment">// Unlike delay(), the loop keeps running</span>
+  <span class="comment">// so you can check buttons, read sensors, etc.</span>
+  <span class="comment">// This is where millis() shines!</span>
   
-  // Example: You could add button checking here
-  // checkButtons();
+  <span class="comment">// Example: You could add button checking here</span>
+  <span class="comment">// checkButtons();</span>
   
-  // Example: You could read a sensor here
-  // readSensors();
+  <span class="comment">// Example: You could read a sensor here</span>
+  <span class="comment">// readSensors();</span>
 }
 
-/*
+<span class="comment">/*
  * WHY IS THIS BETTER THAN delay()?
  * 
  * With delay(1000):
@@ -165,7 +165,7 @@ void loop() {
  *   - Arduino stays responsive
  *   - Can do multiple tasks "simultaneously"
  *   - Professional embedded programming technique
- */</pre>
+ */</span></pre>
                 </div>
             </article>
 
@@ -193,10 +193,11 @@ void loop() {
             </ul>
             </article>
 
-            <div class="nav-buttons" style="margin-top: 40px; display: flex; justify-content: space-between;">
-                <a href="project-3.html" class="btn">← Previous: #3 Knight Rider</a>
-                <a href="project-5.html" class="btn">Next: #5 SOS Morse Code →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-3.html" class="btn">← Previous: Project #3: Knight Rider LED Scanner</a><a href="project-5.html" class="btn">Next: Project #5: SOS Morse Code Flasher →</a></div>
+
+            
+
+            
 
         </section>
     </main>

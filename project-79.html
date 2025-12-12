@@ -56,33 +56,32 @@
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-// Requires ESP8266 Board Package
-#include <ESP8266WiFi.h>
+<span class="comment">// Requires ESP8266 Board Package</span>
+<span class="preprocessor">#include</span> <ESP8266WiFi.h>
 
-const char* ssid = "SSID";
-const char* password = "PASS";
-WiFiServer server(80);
+<span class="keyword">const</span> <span class="keyword">char</span>* ssid = <span class="string">"SSID"</span>;
+<span class="keyword">const</span> <span class="keyword">char</span>* password = <span class="string">"PASS"</span>;
+WiFiServer server(<span class="constant">80</span>);
 
-void setup() {
-  WiFi.begin(ssid, password);
-  server.begin();
+<span class="keyword">void</span> setup() {
+  WiFi.<span class="function">begin</span>(ssid, password);
+  server.<span class="function">begin</span>();
 }
 
-void loop() {
-  WiFiClient client = server.available();
-  if (!client) return;
+<span class="keyword">void</span> loop() {
+  WiFiClient client = server.<span class="function">available</span>();
+  <span class="keyword">if</span> (!client) <span class="keyword">return</span>;
   
-  // Read request, check for "GET /LED=ON"
-  // Send HTML response
+  <span class="comment">// Read request, check for "GET /LED=ON"</span>
+  <span class="comment">// Send HTML response</span>
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-78.html" class="btn">← Previous: #78</a>
-                <a href="project-80.html" class="btn">Next: #80 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-78.html" class="btn">← Previous: Project #78: ESP8266 Wi-Fi Connection Basics</a><a href="project-80.html" class="btn">Next: Project #80: ESP8266 Access Point (AP) Mode →</a></div>
+
+            
 
         </section>
     </main>

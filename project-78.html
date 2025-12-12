@@ -55,28 +55,27 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <SoftwareSerial.h>
-SoftwareSerial esp8266(2,3); 
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <SoftwareSerial.h>
+SoftwareSerial esp8266(<span class="constant">2</span>,<span class="constant">3</span>); 
 
-void setup() {
-  Serial.begin(9600);
-  esp8266.begin(115200); // Default baud rate varies
-  esp8266.println("AT");
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  esp8266.<span class="function">begin</span>(<span class="constant">115200</span>); <span class="comment">// Default baud rate varies</span>
+  esp8266.<span class="function">println</span>(<span class="string">"AT"</span>);
 }
 
-void loop() {
-  if(esp8266.available()) Serial.write(esp8266.read());
-  if(Serial.available()) esp8266.write(Serial.read());
+<span class="keyword">void</span> loop() {
+  <span class="keyword">if</span>(esp8266.<span class="function">available</span>()) <span class="function">Serial</span>.<span class="function">write</span>(esp8266.<span class="function">read</span>());
+  <span class="keyword">if</span>(<span class="function">Serial</span>.<span class="function">available</span>()) esp8266.<span class="function">write</span>(<span class="function">Serial</span>.<span class="function">read</span>());
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-77.html" class="btn">← Previous: #77</a>
-                <a href="project-79.html" class="btn">Next: #79 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-77.html" class="btn">← Previous: Project #77: RFID Access Control System</a><a href="project-79.html" class="btn">Next: Project #79: ESP8266 Web Server LED Control →</a></div>
+
+            
 
         </section>
     </main>

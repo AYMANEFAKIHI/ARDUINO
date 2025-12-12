@@ -55,37 +55,36 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <ESP8266WiFi.h>
-#include <NTPClient.h>
-#include <WiFiUdp.h>
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <ESP8266WiFi.h>
+<span class="preprocessor">#include</span> <NTPClient.h>
+<span class="preprocessor">#include</span> <WiFiUdp.h>
 
-const char *ssid     = "SSID";
-const char *password = "PASS";
+<span class="keyword">const</span> <span class="keyword">char</span> *ssid     = <span class="string">"SSID"</span>;
+<span class="keyword">const</span> <span class="keyword">char</span> *password = <span class="string">"PASS"</span>;
 
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org");
+NTPClient timeClient(ntpUDP, <span class="string">"pool.ntp.org"</span>);
 
-void setup(){
-  Serial.begin(115200);
-  WiFi.begin(ssid, password);
-  timeClient.begin();
-  timeClient.setTimeOffset(3600); // GMT+1
+<span class="keyword">void</span> setup(){
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">115200</span>);
+  WiFi.<span class="function">begin</span>(ssid, password);
+  timeClient.<span class="function">begin</span>();
+  timeClient.setTimeOffset(<span class="constant">3600</span>); <span class="comment">// GMT+1</span>
 }
 
-void loop() {
+<span class="keyword">void</span> loop() {
   timeClient.update();
-  Serial.println(timeClient.getFormattedTime());
-  delay(1000);
+  <span class="function">Serial</span>.<span class="function">println</span>(timeClient.getFormattedTime());
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-80.html" class="btn">← Previous: #80</a>
-                <a href="project-82.html" class="btn">Next: #82 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-80.html" class="btn">← Previous: Project #80: ESP8266 Access Point (AP) Mode</a><a href="project-82.html" class="btn">Next: Project #82: Getting Weather Data (API) →</a></div>
+
+            
 
         </section>
     </main>

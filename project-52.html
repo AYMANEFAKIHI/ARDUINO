@@ -55,51 +55,50 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include <Wire.h>
-#include "RTClib.h"
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> <Wire.h>
+<span class="preprocessor">#include</span> <span class="string">"RTClib.h"</span>
 
 RTC_DS3231 rtc;
 
-void setup() {
-  Serial.begin(9600);
-  if (!rtc.begin()) {
-    Serial.println("Couldn't find RTC");
-    while (1);
+<span class="keyword">void</span> setup() {
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="keyword">if</span> (!rtc.<span class="function">begin</span>()) {
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"Couldn't find RTC"</span>);
+    <span class="keyword">while</span> (<span class="constant">1</span>);
   }
   
-  if (rtc.lostPower()) {
-    Serial.println("RTC lost power, lets set the time!");
+  <span class="keyword">if</span> (rtc.lostPower()) {
+    <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">"RTC lost power, lets set the time!"</span>);
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
 }
 
-void loop() {
+<span class="keyword">void</span> loop() {
   DateTime now = rtc.now();
   
-  Serial.print(now.year(), DEC);
-  Serial.print('/');
-  Serial.print(now.month(), DEC);
-  Serial.print('/');
-  Serial.print(now.day(), DEC);
-  Serial.print(" ");
-  Serial.print(now.hour(), DEC);
-  Serial.print(':');
-  Serial.print(now.minute(), DEC);
-  Serial.print(':');
-  Serial.print(now.second(), DEC);
-  Serial.println();
+  <span class="function">Serial</span>.<span class="function">print</span>(now.year(), DEC);
+  <span class="function">Serial</span>.<span class="function">print</span>('/');
+  <span class="function">Serial</span>.<span class="function">print</span>(now.month(), DEC);
+  <span class="function">Serial</span>.<span class="function">print</span>('/');
+  <span class="function">Serial</span>.<span class="function">print</span>(now.day(), DEC);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">" "</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(now.hour(), DEC);
+  <span class="function">Serial</span>.<span class="function">print</span>(':');
+  <span class="function">Serial</span>.<span class="function">print</span>(now.minute(), DEC);
+  <span class="function">Serial</span>.<span class="function">print</span>(':');
+  <span class="function">Serial</span>.<span class="function">print</span>(now.second(), DEC);
+  <span class="function">Serial</span>.<span class="function">println</span>();
   
-  delay(1000);
+  <span class="function">delay</span>(<span class="constant">1000</span>);
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-51.html" class="btn">← Previous: #51</a>
-                <a href="project-53.html" class="btn">Next: #53 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-51.html" class="btn">← Previous: Project #51: BMP180/280 Barometric Pressure</a><a href="project-53.html" class="btn">Next: Project #53: LCD Stopwatch with Buttons →</a></div>
+
+            
 
         </section>
     </main>

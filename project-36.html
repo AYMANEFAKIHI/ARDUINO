@@ -65,53 +65,52 @@
                 <p>Copy and paste the code below into your Arduino IDE.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
-                    <pre class="arduino-code" id="arduinoCode">
-#include &lt;Adafruit_NeoPixel.h&gt;
-
-#define PIN        6
-#define NUMPIXELS  8 
+                    <pre class="arduino-code" id="arduinoCode"><span class="preprocessor">
+#include</span> &lt;Adafruit_NeoPixel.h&gt;
+<span class="preprocessor">
+#define</span> PIN        <span class="constant">6</span>
+<span class="preprocessor">#define</span> NUMPIXELS  <span class="constant">8</span> 
 
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-void setup() {
-  pixels.begin();
-  pixels.setBrightness(50);
+<span class="keyword">void</span> setup() {
+  pixels.<span class="function">begin</span>();
+  pixels.setBrightness(<span class="constant">50</span>);
 }
 
-void loop() {
-  // Cycle through the rainbow colors
-  // The first number (10) is the wait time between updates (speed)
-  rainbow(10);
+<span class="keyword">void</span> loop() {
+  <span class="comment">// Cycle through the rainbow colors</span>
+  <span class="comment">// The first number (10) is the wait time between updates (speed)</span>
+  rainbow(<span class="constant">10</span>);
 }
 
-// Custom function to create a rainbow cycle
-void rainbow(int wait) {
-  // Hue of first pixel runs 5 complete loops through the color wheel.
-  // Color wheel has a range of 65536 but it's OK if we roll over.
-  for(long firstPixelHue = 0; firstPixelHue &lt; 5*65536; firstPixelHue += 256) {
+<span class="comment">// Custom function to create a rainbow cycle</span>
+<span class="keyword">void</span> rainbow(<span class="keyword">int</span> wait) {
+  <span class="comment">// Hue of first pixel runs 5 complete loops through the color wheel.</span>
+  <span class="comment">// Color wheel has a range of 65536 but it's OK if we roll over.</span>
+  <span class="keyword">for</span>(<span class="keyword">long</span> firstPixelHue = <span class="constant">0</span>; firstPixelHue &lt; <span class="constant">5</span>*<span class="constant">65536</span>; firstPixelHue += <span class="constant">256</span>) {
     
-    for(int i=0; i&lt;pixels.numPixels(); i++) { 
-      // For each pixel in strip...
-      // Offset pixel hue by an amount to make one full revolution of the
-      // color wheel (range of 65536) along the length of the strip
-      // (pixels.numPixels() steps):
-      int pixelHue = firstPixelHue + (i * 65536L / pixels.numPixels());
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="constant">0</span>; i&lt;pixels.numPixels(); i++) { 
+      <span class="comment">// For each pixel in strip...</span>
+      <span class="comment">// Offset pixel hue by an amount to make one full revolution of the</span>
+      <span class="comment">// color wheel (range of 65536) along the length of the strip</span>
+      <span class="comment">// (pixels.numPixels() steps):</span>
+      <span class="keyword">int</span> pixelHue = firstPixelHue + (i * 65536L / pixels.numPixels());
       
-      // pixels.ColorHSV() converts hue to an RGB color
+      <span class="comment">// pixels.ColorHSV() converts hue to an RGB color</span>
       pixels.setPixelColor(i, pixels.gamma32(pixels.ColorHSV(pixelHue)));
     }
-    pixels.show(); // Update strip with new contents
-    delay(wait);  // Pause for a moment
+    pixels.show(); <span class="comment">// Update strip with new contents</span>
+    <span class="function">delay</span>(wait);  <span class="comment">// Pause for a moment</span>
   }
 }
                     </pre>
                 </div>
             </article>
 
-            <div class="project-navigation">
-                <a href="project-35.html" class="btn">← Previous: #35</a>
-                <a href="project-37.html" class="btn">Next: #37 →</a>
-            </div>
+            <div class="nav-buttons"><a href="project-35.html" class="btn">← Previous: Project #35: NeoPixel RGB LED Strip Basics</a><a href="project-37.html" class="btn">Next: Project #37: Servo Motor Basic Sweep →</a></div>
+
+            
 
         </section>
     </main>
