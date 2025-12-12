@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glossary & Cheatsheet - The Arduino Student Lab</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
-</head>
+    </head>
 <body>
 
     <header>
@@ -24,163 +23,156 @@
     </header>
 
     <main>
-        <section class="container content-page">
-            <h1>📖 Arduino Glossary & Cheatsheet</h1>
-            <p class="project-summary">Quick definitions and syntax references for the most common terms and functions you will encounter in Arduino.</p>
+        <section class="tutorial-content container">
+            <div class="tutorial-header">
+                <span class="difficulty-badge beginner">Reference</span>
+                <h1>📖 Arduino Glossary & Cheatsheet</h1>
+                <p class="project-summary">Quick definitions and syntax references for the most common terms, functions, and components you will encounter in your projects.</p>
+            </div>
 
-            <h2 id="terminology">Core Terminology</h2>
-            <dl>
-                <dt>Sketch</dt>
-                <dd>The name given to an Arduino program file (written in C/C++).</dd>
-                
-                <dt>Breadboard</dt>
-                <dd>A construction base used to build temporary, solderless electronic circuits.</dd>
-                
-                <dt>GND (Ground)</dt>
-                <dd>Ground (0 Volts). The reference point for all voltage measurements in a circuit.</dd>
-                
-                <dt>VCC / 5V</dt>
-                <dd>The positive voltage supply pin (usually 5 Volts on Arduino Uno).</dd>
-                
-                <dt>PWM (Pulse Width Modulation)</dt>
-                <dd>A technique used to simulate analog output (like fading an LED) using a digital pin by quickly turning it on and off. PWM-capable pins are marked with a tilde (~).</dd>
-                
-                <dt>Analog vs. Digital</dt>
-                <dd><strong>Digital</strong> signals are either ON (HIGH/5V) or OFF (LOW/0V). <strong>Analog</strong> signals can be any value within a range (0-1023 on Arduino).</dd>
-                
-                <dt>LED (Light Emitting Diode)</dt>
-                <dd>A semiconductor that emits light when current passes through it. Has polarity: longer leg is positive (Anode), shorter leg is negative (Cathode).</dd>
-                
-                <dt>Resistor</dt>
-                <dd>A component that limits the flow of electrical current. Measured in Ohms (Ω). Used to protect LEDs from burning out.</dd>
-                
-                <dt>Pull-Down / Pull-Up Resistor</dt>
-                <dd>A resistor used to ensure a known state (LOW or HIGH) for an input pin when no other signal is present, preventing "floating" inputs.</dd>
-                
-                <dt>Potentiometer</dt>
-                <dd>A three-terminal variable resistor, often used as a control knob (like volume control).</dd>
-            </dl>
-            
-            <h2 id="functions">Essential Functions Cheatsheet</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Function</th>
-                        <th>Purpose</th>
-                        <th>Syntax</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>pinMode()</code></td>
-                        <td>Sets a digital pin to behave as an INPUT or an OUTPUT.</td>
-                        <td><code>pinMode(pin, mode);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>digitalWrite()</code></td>
-                        <td>Sets an OUTPUT pin HIGH (5V) or LOW (0V).</td>
-                        <td><code>digitalWrite(pin, value);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>digitalRead()</code></td>
-                        <td>Reads the state of an INPUT pin (returns HIGH or LOW).</td>
-                        <td><code>digitalRead(pin);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>analogRead()</code></td>
-                        <td>Reads a voltage from an Analog pin (A0-A5) and returns a value between 0 and 1023.</td>
-                        <td><code>analogRead(pin);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>analogWrite()</code></td>
-                        <td>Outputs a PWM signal (0-255) to simulate analog voltage on a PWM pin (~).</td>
-                        <td><code>analogWrite(pin, value);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>delay()</code></td>
-                        <td>Pauses the program for a specified number of milliseconds (ms).</td>
-                        <td><code>delay(ms);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>delayMicroseconds()</code></td>
-                        <td>Pauses the program for a specified number of microseconds (μs).</td>
-                        <td><code>delayMicroseconds(us);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>map()</code></td>
-                        <td>Scales a number from one range to another (e.g., 0-1023 to 0-255).</td>
-                        <td><code>map(value, fromLow, fromHigh, toLow, toHigh);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>pulseIn()</code></td>
-                        <td>Measures the duration of a pulse (HIGH or LOW) on a pin in microseconds.</td>
-                        <td><code>pulseIn(pin, value);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>Serial.begin()</code></td>
-                        <td>Initializes serial communication at a specified baud rate.</td>
-                        <td><code>Serial.begin(9600);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>Serial.print()</code></td>
-                        <td>Sends data to the Serial Monitor without a newline.</td>
-                        <td><code>Serial.print(data);</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>Serial.println()</code></td>
-                        <td>Sends data to the Serial Monitor followed by a newline.</td>
-                        <td><code>Serial.println(data);</code></td>
-                    </tr>
-                </tbody>
-            </table>
+            <hr>
 
-            <h2 id="structure">Program Structure</h2>
-            <p>Every Arduino sketch has two required functions:</p>
-            <dl>
-                <dt><code>void setup()</code></dt>
-                <dd>Runs once when the Arduino is powered on or reset. Used to initialize pins, start serial communication, etc.</dd>
-                
-                <dt><code>void loop()</code></dt>
-                <dd>Runs repeatedly forever after <code>setup()</code> completes. This is where your main program logic goes.</dd>
-            </dl>
+            <article>
+                <h2 id="programming">1. Core Programming Concepts</h2>
+                <dl>
+                    <dt>Sketch</dt>
+                    <dd>The name given to an Arduino program file (written in C/C++).</dd>
 
-            <h2 id="constants">Useful Constants</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Constant</th>
-                        <th>Value</th>
-                        <th>Usage</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>HIGH</code></td>
-                        <td>1 (5V)</td>
-                        <td>Turn on a pin or read a high signal</td>
-                    </tr>
-                    <tr>
-                        <td><code>LOW</code></td>
-                        <td>0 (0V)</td>
-                        <td>Turn off a pin or read a low signal</td>
-                    </tr>
-                    <tr>
-                        <td><code>INPUT</code></td>
-                        <td>—</td>
-                        <td>Set a pin to receive signals</td>
-                    </tr>
-                    <tr>
-                        <td><code>OUTPUT</code></td>
-                        <td>—</td>
-                        <td>Set a pin to send signals</td>
-                    </tr>
-                    <tr>
-                        <td><code>INPUT_PULLUP</code></td>
-                        <td>—</td>
-                        <td>Set a pin as input with internal pull-up resistor enabled</td>
-                    </tr>
-                </tbody>
-            </table>
+                    <dt>Setup()</dt>
+                    <dd>A function that runs only **once** when the Arduino board starts up or is reset. Used for initializing pins, libraries, and communication.</dd>
+
+                    <dt>Loop()</dt>
+                    <dd>A function that runs repeatedly forever, cycling as long as the board has power. This contains the main logic of the program.</dd>
+
+                    <dt>Variable</dt>
+                    <dd>A storage location defined in the code, used to hold data (like a sensor reading or a pin number).</dd>
+
+                    <dt>Array</dt>
+                    <dd>A structured variable that can store multiple values of the same type (e.g., storing a list of all 6 LED pin numbers for the Knight Rider project).</dd>
+                    
+                    <dt>If/Else</dt>
+                    <dd>A control structure that allows the program to make decisions (e.g., "IF the button is pressed, THEN turn the LED ON, ELSE turn the LED OFF").</dd>
+
+                    <dt>Function</dt>
+                    <dd>A block of code given a name that performs a specific, reusable task (e.g., a function named `allOff()` to turn all traffic lights off).</dd>
+
+                    <dt>FSM (Finite State Machine)</dt>
+                    <dd>A programming model where the system can only be in one "state" at a time (e.g., RED, YELLOW, or GREEN) and transitions between them based on conditions.</dd>
+                </dl>
+            </article>
+
+            <article>
+                <h2 id="hardware">2. Basic Electronics & Hardware</h2>
+                <dl>
+                    <dt>Breadboard</dt>
+                    <dd>A construction base used to build temporary, solderless electronic circuits by plugging in components and wires.</dd>
+
+                    <dt>GND</dt>
+                    <dd>Ground (0 Volts). The reference point for all voltage measurements in a circuit.</dd>
+                    
+                    <dt>5V / VCC</dt>
+                    <dd>The standard 5-Volt power supply output from the Arduino board, used to power small components.</dd>
+
+                    <dt>Resistor</dt>
+                    <dd>A passive component that limits the flow of electric current. Essential for protecting sensitive parts like LEDs.</dd>
+
+                    <dt>Pull-Up / Pull-Down Resistor</dt>
+                    <dd>A resistor used with input pins (like buttons) to hold the pin stably at HIGH (Pull-Up) or LOW (Pull-Down) when the main input is disconnected, preventing a "floating" or noisy signal.</dd>
+
+                    <dt>LED</dt>
+                    <dd>Light Emitting Diode. An electronic component that emits light when current flows through it. It must be connected with correct polarity (+Anode, -Cathode).</dd>
+                </dl>
+            </article>
+
+            <article>
+                <h2 id="io">3. Input/Output Modes & Core Functions</h2>
+                <dl>
+                    <dt>Digital I/O</dt>
+                    <dd>A signal that is strictly **ON** (HIGH/5V) or **OFF** (LOW/0V). Used for pins labeled D0-D13.</dd>
+
+                    <dt>Analog I/O</dt>
+                    <dd>A signal that can represent a range of values (variable). Used for Analog Pins (A0-A5).</dd>
+
+                    <dt>PWM (Pulse Width Modulation)</dt>
+                    <dd>A technique used to simulate analog output (like fading an LED or controlling motor speed) by rapidly switching a digital pin ON and OFF. Pins are marked with a (~).</dd>
+
+                    <dt>Interrupt</dt>
+                    <dd>A hardware mechanism that allows the Arduino to temporarily stop what it's doing in the main `loop()` to immediately execute a high-priority task (e.g., a fast button press).</dd>
+                </dl>
+            </article>
+
+            <article>
+                <h2 id="functions">4. Essential Function Cheatsheet</h2>
+                <table style="width:100%; text-align: left;">
+                    <thead>
+                        <tr><th style="width: 25%;">Function</th><th style="width: 50%;">Purpose</th><th>Syntax</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pinMode()</code></td>
+                            <td>Sets a pin to behave as an <code>INPUT</code> or an <code>OUTPUT</code>.</td>
+                            <td><code>pinMode(pin, mode);</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>digitalWrite()</code></td>
+                            <td>Sets a digital output pin <code>HIGH</code> (ON) or <code>LOW</code> (OFF).</td>
+                            <td><code>digitalWrite(pin, value);</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>digitalRead()</code></td>
+                            <td>Reads the value of a digital input pin (returns <code>HIGH</code> or <code>LOW</code>).</td>
+                            <td><code>digitalRead(pin);</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>analogRead()</code></td>
+                            <td>Reads a voltage from an Analog pin (A0-A5) and returns a value between 0 and 1023.</td>
+                            <td><code>analogRead(pin);</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>analogWrite()</code></td>
+                            <td>Writes an analog value (PWM) to a PWM pin (~) using a value between 0 and 255.</td>
+                            <td><code>analogWrite(pin, value);</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>delay()</code></td>
+                            <td>Pauses the program for a specified number of milliseconds (ms). (Blocks code execution)</td>
+                            <td><code>delay(ms);</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>millis()</code></td>
+                            <td>Returns the number of milliseconds since the program started. Used for non-blocking timing.</td>
+                            <td><code>unsigned long time = millis();</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>map()</code></td>
+                            <td>Scales a number from one range of values to another (e.g., 0-1023 to 0-255).</td>
+                            <td><code>map(value, fromL, fromH, toL, toH);</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>pulseIn()</code></td>
+                            <td>Measures the duration of a pulse (HIGH or LOW) on a specified pin. Used for sensors like HC-SR04.</td>
+                            <td><code>time = pulseIn(pin, value);</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article>
+                <h2 id="protocols">5. Communication Protocols</h2>
+                <dl>
+                    <dt>Serial (UART)</dt>
+                    <dd>The simplest form of two-way communication using only two wires (RX and TX). Used for debugging via the Serial Monitor and communicating with modules like GPS or Bluetooth (HC-05).</dd>
+                    
+                    <dt>I2C (Inter-Integrated Circuit)</dt>
+                    <dd>A powerful two-wire bus protocol (SDA, SCL) that allows the Arduino to communicate with many devices (OLED displays, RTCs, MPU-6050) using unique addresses. Very common in advanced projects.</dd>
+
+                    <dt>SPI (Serial Peripheral Interface)</dt>
+                    <dd>A fast communication protocol that uses four wires (MISO, MOSI, SCK, CS). Often used for high-speed peripherals like SD cards and RFID readers.</dd>
+
+                    <dt>Baud Rate</dt>
+                    <dd>The speed at which data is transmitted over a serial line, measured in bits per second (bps). Must match between the Arduino and the connected device (e.g., 9600).</dd>
+                </dl>
+            </article>
         </section>
     </main>
 
@@ -189,7 +181,7 @@
         <p>&copy; 2025 The Arduino Student Lab. | All Rights Reserved.</p>
         <p>Developed by <a href="https://www.linkedin.com/in/aymane-fakihi-9a3435335/" target="_blank" rel="noopener noreferrer">AYMANE FAKIHI</a></p>
     </div>
-</footer>
+    </footer>
 
 </body>
 </html>

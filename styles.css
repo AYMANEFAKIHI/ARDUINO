@@ -1,456 +1,455 @@
-/* --- Global Reset & Typography --- */
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f7f9; /* Light background for contrast */
-    color: #333;
-    line-height: 1.6;
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-a {
-    color: #00979C; /* Arduino Blue/Green */
-    text-decoration: none;
-}
-
-/* --- Header & Navigation --- */
-header {
-    background-color: #fff;
-    border-bottom: 3px solid #00979C;
-    padding: 15px 0;
-}
-
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    margin: 0;
-    font-size: 1.8em;
-    /* Use a subtle gradient */
-    background: linear-gradient(90deg, #00979C, #007a80); /* Arduino Green/Blue blend */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 900;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-}
-
-nav li {
-    margin-left: 25px;
-}
-
-nav a {
-    font-weight: 700;
-    padding: 5px 10px;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: #FF6F61; /* Accent Color */
-}
-
-/* --- Hero Section --- */
-.hero {
-    background-color: #e0f7fa; /* Very light blue */
-    padding: 80px 0;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.hero h2 {
-    font-size: 3em;
-    margin-bottom: 15px;
-    color: #00979C;
-}
-
-.cta-button {
-    display: inline-block;
-    background-color: #FF6F61;
-    color: white;
-    padding: 12px 30px;
-    margin-top: 20px;
-    border-radius: 5px;
-    font-weight: 700;
-    transition: background-color 0.3s;
-}
-
-.cta-button:hover {
-    background-color: #e55a50;
-}
-
-/* --- Project Grid --- */
-.projects-grid h3 {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 30px;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-bottom: 60px;
-}
-
-/* --- Project Card Design (Crucial) --- */
-.project-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-}
-
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-}
-
-.card-header h3 {
-    font-size: 1.5em;
-    margin: 0;
-    line-height: 1.2;
-}
-
-.difficulty-badge {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8em;
-    font-weight: 700;
-    color: white;
-    white-space: nowrap;
-}
-
-.beginner { background-color: #4CAF50; /* Green */ }
-.intermediate { background-color: #FFC107; /* Yellow/Orange */ }
-.advanced { background-color: #F44336; /* Red */ }
-
-.montage-placeholder {
-    height: 180px; /* Fixed height for image area */
-    background-color: #eee; /* Placeholder background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #999;
-    font-style: italic;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.snippet {
-    font-size: 0.9em;
-    flex-grow: 1; /* Pushes the button to the bottom */
-}
-
-.view-button {
-    display: block;
-    width: 100%;
-    background-color: #00979C;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: 15px;
-    border-radius: 4px;
-    font-weight: 700;
-    transition: background-color 0.3s;
-}
-
-.view-button:hover {
-    background-color: #007a80;
-}
-
-/* --- Footer --- */
-footer {
-    background-color: #333;
-    color: #f4f7f9;
-    padding: 20px 0;
-    text-align: center;
-    font-size: 0.9em;
-}
-
-/* --- Mobile Responsiveness --- */
-@media (max-width: 768px) {
-    header .container {
-        flex-direction: column;
-        text-align: center;
-    }
-    nav ul {
-        margin-top: 10px;
-        justify-content: center;
-    }
-    nav li {
-        margin: 0 10px;
-    }
-    .hero {
-        padding: 50px 0;
-    }
-    .hero h2 {
-        font-size: 2em;
-    }
-    /* Grid automatically adjusts via minmax, but force single column for clarity on small screens */
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* --- Tutorial Content Specific Styling --- */
-.tutorial-content {
-    padding: 40px 0;
-}
-
-.tutorial-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.tutorial-header h1 {
-    font-size: 3em;
-    color: #00979C;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-.project-summary {
-    font-size: 1.1em;
-    color: #555;
-}
-
-.tutorial-content h2 {
-    color: #333;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 5px;
-    margin-top: 40px;
-    margin-bottom: 20px;
-}
-
-/* Montage (Wiring) Display */
-.montage-display {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-.montage-display ol {
-    margin-left: 0;
-    padding-left: 20px;
-}
-
-.image-area {
-    margin: 25px 0;
-    text-align: center;
-    background-color: #f0f0f0;
-    border: 1px dashed #ccc;
-    height: 350px; /* Large area for the crucial wiring diagram */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-style: italic;
-    color: #999;
-}
-
-/* Code Block Styling */
-.code-block-wrapper {
-    position: relative;
-    margin: 25px 0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.arduino-code {
-    background-color: #272822; /* Dark background for code (Monokai style) */
-    color: #f8f8f2;
-    padding: 20px;
-    overflow-x: auto;
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.95em;
-    line-height: 1.4;
-    margin: 0;
-    border-radius: 0 0 8px 8px;
-}
-
-.copy-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #00979C;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-weight: 700;
-    border-radius: 0 8px 0 8px;
-    transition: background-color 0.2s;
-    z-index: 10;
-}
-
-.copy-button:hover {
-    background-color: #007a80;
-}
-
-/* Small screen adjustments for tutorial page */
-@media (max-width: 600px) {
-    .tutorial-header h1 {
-        font-size: 2em;
-    }
-    .image-area {
-        height: 250px;
-    }
-}
-
-/* --- Code Block Mock Syntax Highlighting (inside .arduino-code) --- */
-.arduino-code span.keyword { color: #66d9ef; } /* blue/cyan */
-.arduino-code span.comment { color: #75715e; font-style: italic; } /* gray/green */
-.arduino-code span.constant { color: #ae81ff; } /* purple */
-.arduino-code span.function { color: #a6e22e; } /* lime green */
-.arduino-code span.variable { color: #f8f8f2; } /* white/off-white */
-.arduino-code span.preprocessor { color: #f92672; } /* pink/red */
-
-/* --- Content/Utility Pages (About, Glossary) --- */
-.content-page {
-    padding: 40px 0;
-    background-color: #fff;
-    margin: 40px auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    padding: 40px;
-}
-
-.content-page h1 {
-    font-size: 2.5em;
-    color: #00979C;
-    margin-bottom: 10px;
-}
-
-.content-page h2 {
-    color: #333;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    margin-top: 40px;
-    margin-bottom: 20px;
-}
-
-.content-page p,
-.content-page li {
-    font-size: 1.05em;
-    line-height: 1.8;
-}
-
-.content-page ul {
-    padding-left: 25px;
-}
-
-.content-page li {
-    margin-bottom: 10px;
-}
-
-/* Definition List Styling (for Glossary) */
-.content-page dl {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.content-page dt {
-    font-weight: 700;
-    color: #00979C;
-    font-size: 1.1em;
-    margin-top: 15px;
-}
-
-.content-page dt:first-child {
-    margin-top: 0;
-}
-
-.content-page dd {
-    margin-left: 20px;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-/* Table Styling (for Cheatsheet) */
-.content-page table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.content-page th,
-.content-page td {
-    border: 1px solid #ddd;
-    padding: 12px 15px;
-    text-align: left;
-}
-
-.content-page th {
-    background-color: #00979C;
-    color: white;
-    font-weight: 700;
-}
-
-.content-page tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.content-page tr:hover {
-    background-color: #e0f7fa;
-}
-
-.content-page td code {
-    background-color: #272822;
-    color: #f8f8f2;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-family: 'Inconsolata', monospace;
-}
-
-/* Update Footer Styling */
-footer p {
-    margin: 5px 0;
-}
-
-/* Style for the developer link */
-footer p a {
-    color: #FF6F61; /* Using your accent color for the name */
-    font-weight: 700;
-}
- 
- / *   P r o j e c t   T h u m b n a i l   I m a g e   * /  
- . p r o j e c t - t h u m b n a i l   {  
-         w i d t h :   1 0 0 % ;  
-         h e i g h t :   1 8 0 p x ;  
-         o b j e c t - f i t :   c o v e r ;   / *   E n s u r e s   t h e   i m a g e   c o v e r s   t h e   a r e a   w i t h o u t   d i s t o r t i o n   * /  
-         b o r d e r :   2 p x   s o l i d   # d d d ;   / *   T h e   r e q u e s t e d   b o r d e r   * /  
-         b o r d e r - r a d i u s :   4 p x ;  
-         m a r g i n - b o t t o m :   1 5 p x ;  
-         b o x - s i z i n g :   b o r d e r - b o x ;   / *   I n c l u d e s   b o r d e r   i n   w i d t h / h e i g h t   * /  
- }  
- 
+/* --- Global Reset & Typography --- */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f9; /* Light background for contrast */
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+a {
+    color: #00979C; /* Arduino Blue/Green */
+    text-decoration: none;
+}
+
+/* --- Header & Navigation --- */
+header {
+    background-color: #fff;
+    border-bottom: 3px solid #00979C;
+    padding: 15px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    margin: 0;
+    font-size: 1.8em;
+    /* Use a subtle gradient */
+    background: linear-gradient(90deg, #00979C, #007a80); /* Arduino Green/Blue blend */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav li {
+    margin-left: 25px;
+}
+
+nav a {
+    font-weight: 700;
+    padding: 5px 10px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #FF6F61; /* Accent Color */
+}
+
+/* --- Hero Section --- */
+.hero {
+    background-color: #e0f7fa; /* Very light blue */
+    padding: 80px 0;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero h2 {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: #00979C;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #FF6F61;
+    color: white;
+    padding: 12px 30px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #e55a50;
+}
+
+/* --- Project Grid --- */
+.projects-grid h3 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+/* --- Project Card Design (Crucial) --- */
+.project-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.card-header h3 {
+    font-size: 1.5em;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.difficulty-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+}
+
+.beginner { background-color: #4CAF50; /* Green */ }
+.intermediate { background-color: #FFC107; /* Yellow/Orange */ }
+.advanced { background-color: #F44336; /* Red */ }
+
+.montage-placeholder {
+    height: 180px; /* Fixed height for image area */
+    background-color: #eee; /* Placeholder background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    font-style: italic;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.snippet {
+    font-size: 0.9em;
+    flex-grow: 1; /* Pushes the button to the bottom */
+}
+
+.view-button {
+    display: block;
+    width: 100%;
+    background-color: #00979C;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 15px;
+    border-radius: 4px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.view-button:hover {
+    background-color: #007a80;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: #333;
+    color: #f4f7f9;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    nav ul {
+        margin-top: 10px;
+        justify-content: center;
+    }
+    nav li {
+        margin: 0 10px;
+    }
+    .hero {
+        padding: 50px 0;
+    }
+    .hero h2 {
+        font-size: 2em;
+    }
+    /* Grid automatically adjusts via minmax, but force single column for clarity on small screens */
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Tutorial Content Specific Styling --- */
+.tutorial-content {
+    padding: 40px 0;
+}
+
+.tutorial-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tutorial-header h1 {
+    font-size: 3em;
+    color: #00979C;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.project-summary {
+    font-size: 1.1em;
+    color: #555;
+}
+
+.tutorial-content h2 {
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* Montage (Wiring) Display */
+.montage-display {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.montage-display ol {
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+.image-area {
+    margin: 25px 0;
+    text-align: center;
+    background-color: #f0f0f0;
+    border: 1px dashed #ccc;
+    height: 350px; /* Large area for the crucial wiring diagram */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    color: #999;
+}
+
+/* Code Block Styling */
+.code-block-wrapper {
+    position: relative;
+    margin: 25px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.arduino-code {
+    background-color: #272822; /* Dark background for code (Monokai style) */
+    color: #f8f8f2;
+    padding: 20px;
+    overflow-x: auto;
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.95em;
+    line-height: 1.4;
+    margin: 0;
+    border-radius: 0 0 8px 8px;
+}
+
+.copy-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #00979C;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 0 8px 0 8px;
+    transition: background-color 0.2s;
+    z-index: 10;
+}
+
+.copy-button:hover {
+    background-color: #007a80;
+}
+
+/* Small screen adjustments for tutorial page */
+@media (max-width: 600px) {
+    .tutorial-header h1 {
+        font-size: 2em;
+    }
+    .image-area {
+        height: 250px;
+    }
+}
+
+/* --- Code Block Mock Syntax Highlighting (inside .arduino-code) --- */
+.arduino-code span.keyword { color: #66d9ef; } /* blue/cyan */
+.arduino-code span.comment { color: #75715e; font-style: italic; } /* gray/green */
+.arduino-code span.constant { color: #ae81ff; } /* purple */
+.arduino-code span.function { color: #a6e22e; } /* lime green */
+.arduino-code span.variable { color: #f8f8f2; } /* white/off-white */
+.arduino-code span.preprocessor { color: #f92672; } /* pink/red */
+
+/* --- Content/Utility Pages (About, Glossary) --- */
+.content-page {
+    padding: 40px 0;
+    background-color: #fff;
+    margin: 40px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+}
+
+.content-page h1 {
+    font-size: 2.5em;
+    color: #00979C;
+    margin-bottom: 10px;
+}
+
+.content-page h2 {
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.content-page p,
+.content-page li {
+    font-size: 1.05em;
+    line-height: 1.8;
+}
+
+.content-page ul {
+    padding-left: 25px;
+}
+
+.content-page li {
+    margin-bottom: 10px;
+}
+
+/* Definition List Styling (for Glossary) */
+.content-page dl, .tutorial-content dl {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.content-page dt, .tutorial-content dt {
+    font-weight: 700;
+    color: #00979C;
+    font-size: 1.1em;
+    margin-top: 15px;
+}
+
+.content-page dt:first-child, .tutorial-content dt:first-child {
+    margin-top: 0;
+}
+
+.content-page dd, .tutorial-content dd {
+    margin-left: 20px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Table Styling (for Cheatsheet) */
+.content-page table, .tutorial-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.content-page th, .tutorial-content th,
+.content-page td, .tutorial-content td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.content-page th, .tutorial-content th {
+    background-color: #00979C;
+    color: white;
+    font-weight: 700;
+}
+
+.content-page tr:nth-child(even), .tutorial-content tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.content-page tr:hover, .tutorial-content tr:hover {
+    background-color: #e0f7fa;
+}
+
+.content-page td code, .tutorial-content td code {
+    background-color: #272822;
+    color: #f8f8f2;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Inconsolata', monospace;
+}
+
+/* Update Footer Styling */
+footer p {
+    margin: 5px 0;
+}
+
+/* Style for the developer link */
+footer p a {
+    color: #FF6F61; /* Using your accent color for the name */
+    font-weight: 700;
+}
+
+/* Project Thumbnail Image */
+.project-thumbnail {
+    width: 100%;
+    height: 180px;
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border: 2px solid #ddd; /* The requested border */
+    border-radius: 4px;
+    margin-bottom: 15px;
+    box-sizing: border-box; /* Includes border in width/height */
+}
