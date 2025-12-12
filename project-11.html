@@ -66,49 +66,47 @@
                 </div>
             </article>
 
-            <article>
+                        <article>
                 <h2>4. The Code (Arduino Sketch)</h2>
-                <p>Copy and paste the code below into your Arduino IDE. The comments explain exactly what each line is doing.</p>
+                <p>The key here is the <code>map()</code> function, which translates the 0-1023 input range from the potentiometer into the 0-255 output range required by the <code>analogWrite()</code> (PWM) function.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-<span class="comment">// ----------------------------------------------------------------</span>
-<span class="comment">// Fading LED with Potentiometer Sketch</span>
-<span class="comment">// ----------------------------------------------------------------</span>
+<span class="comment">/* * Project #11: Fading LED with Potentiometer
+ * Reads Analog Input (0-1023) and maps it to PWM Output (0-255).
+ */</span>
 
-<span class="keyword">const</span> <span class="keyword">int</span> potPin = A0;  <span class="comment">// Analog input pin that the potentiometer is attached to</span>
-<span class="keyword">const</span> <span class="keyword">int</span> ledPin = <span class="constant">9</span>;   <span class="comment">// Analog output (PWM) pin that the LED is attached to</span>
+<span class="comment">// Define pins:</span>
+<span class="preprocessor">const</span> <span class="keyword">int</span> <span class="variable">potPin</span> = <span class="constant">A0</span>;    <span class="comment">// Analog input pin for the potentiometer</span>
+<span class="preprocessor">const</span> <span class="keyword">int</span> <span class="variable">ledPin</span> = <span class="constant">9</span>;     <span class="comment">// PWM output pin for the LED (must have a ~)</span>
 
-<span class="keyword">int</span> sensorValue = <span class="constant">0</span>;    <span class="comment">// Value read from the pot</span>
-<span class="keyword">int</span> outputValue = <span class="constant">0</span>;    <span class="comment">// Value output to the PWM (analog out)</span>
+<span class="comment">// Variables to hold the readings:</span>
+<span class="keyword">int</span> <span class="variable">sensorValue</span> = <span class="constant">0</span>;   <span class="comment">// value read from the pot (0 to 1023)</span>
+<span class="keyword">int</span> <span class="variable">outputValue</span> = <span class="constant">0</span>;   <span class="comment">// value written to the LED (0 to 255)</span>
 
-<span class="keyword">void</span> setup() {
-  <span class="comment">// No pinMode needed for Analog Input (A0), it is automatic.</span>
-  <span class="comment">// We set the LED pin as output.</span>
-  <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
-  
-  <span class="comment">// Initialize serial communications at 9600 bps (optional, for debugging):</span>
+<span class="keyword">void</span> <span class="function">setup</span>() {
+  <span class="comment">// Initialize Serial communication for debugging</span>
   <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);
+  <span class="comment">// The LED pin must be set as an OUTPUT</span>
+  <span class="function">pinMode</span>(<span class="variable">ledPin</span>, <span class="constant">OUTPUT</span>); 
 }
 
-<span class="keyword">void</span> loop() {
-  <span class="comment">// Read the analog in value:</span>
-  <span class="comment">// This returns a value between 0 (0V) and 1023 (5V)</span>
-  sensorValue = <span class="function">analogRead</span>(potPin);
+<span class="keyword">void</span> <span class="function">loop</span>() {
+  <span class="comment">// 1. Read the input on the analog pin A0:</span>
+  <span class="variable">sensorValue</span> = <span class="function">analogRead</span>(<span class="variable">potPin</span>);
 
-  <span class="comment">// Map it to the range of the analog out:</span>
+  <span class="comment">// 2. Map the analog input value (0-1023) to the analog out value (0-255):</span>
   <span class="comment">// The analogWrite function only accepts values between 0 and 255.</span>
-  <span class="comment">// We use map(value, fromLow, fromHigh, toLow, toHigh)</span>
-  outputValue = <span class="function">map</span>(sensorValue, <span class="constant">0</span>, <span class="constant">1023</span>, <span class="constant">0</span>, <span class="constant">255</span>);
+  <span class="variable">outputValue</span> = <span class="function">map</span>(<span class="variable">sensorValue</span>, <span class="constant">0</span>, <span class="constant">1023</span>, <span class="constant">0</span>, <span class="constant">255</span>);
 
-  <span class="comment">// Change the analog out value:</span>
-  <span class="function">analogWrite</span>(ledPin, outputValue);
+  <span class="comment">// 3. Change the LED brightness using the mapped value:</span>
+  <span class="function">analogWrite</span>(<span class="variable">ledPin</span>, <span class="variable">outputValue</span>);
 
-  <span class="comment">// Print the results to the Serial Monitor (Tools > Serial Monitor)</span>
+  <span class="comment">// 4. Print the results to the Serial Monitor (Tools > Serial Monitor)</span>
   <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"sensor = "</span>);
-  <span class="function">Serial</span>.<span class="function">print</span>(sensorValue);
-  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"\t output = "</span>);
-  <span class="function">Serial</span>.<span class="function">println</span>(outputValue);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="variable">sensorValue</span>);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"	 output = "</span>);
+  <span class="function">Serial</span>.<span class="function">println</span>(<span class="variable">outputValue</span>);
 
   <span class="comment">// Wait 2 milliseconds before the next loop for the ADC to settle</span>
   <span class="function">delay</span>(<span class="constant">2</span>);

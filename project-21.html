@@ -64,54 +64,51 @@
                 </div>
             </article>
 
-            <article>
+                        <article>
                 <h2>4. The Code (Arduino Sketch)</h2>
-                <p>Copy and paste the code below into your Arduino IDE. The comments explain exactly what each line is doing.</p>
+                <p>The core of this code uses <code>pulseIn()</code>, which is an efficient way to measure the time difference between sending a pulse (Trig Pin) and receiving the echo (Echo Pin).</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-<span class="comment">// ----------------------------------------------------------------</span>
-<span class="comment">// HC-SR04 Distance Finder Sketch</span>
-<span class="comment">// ----------------------------------------------------------------</span>
+<span class="comment">/* * Project #21: HC-SR04 Distance Finder
+ * Uses the speed of sound and pulse timing to calculate distance.
+ */</span>
 
-<span class="comment">// Define pins for the ultrasonic sensor</span>
-<span class="keyword">const</span> <span class="keyword">int</span> trigPin = <span class="constant">9</span>;
-<span class="keyword">const</span> <span class="keyword">int</span> echoPin = <span class="constant">10</span>;
+<span class="comment">// Define pins:</span>
+<span class="preprocessor">const</span> <span class="keyword">int</span> <span class="variable">trigPin</span> = <span class="constant">9</span>; <span class="comment">// Output pin: sends the ultrasonic burst</span>
+<span class="preprocessor">const</span> <span class="keyword">int</span> <span class="variable">echoPin</span> = <span class="constant">10</span>; <span class="comment">// Input pin: receives the echo pulse</span>
 
-<span class="comment">// Define variables for calculation</span>
-<span class="keyword">long</span> duration; <span class="comment">// Variable for the duration of sound wave travel</span>
-<span class="keyword">int</span> distance;  <span class="comment">// Variable for the distance measurement</span>
+<span class="comment">// Define variables:</span>
+<span class="keyword">long</span> <span class="variable">duration</span>; <span class="comment">// Stores the time taken for the sound to travel</span>
+<span class="keyword">int</span> <span class="variable">distance</span>; <span class="comment">// Stores the calculated distance in cm</span>
 
-<span class="keyword">void</span> setup() {
-  <span class="function">pinMode</span>(trigPin, <span class="keyword">OUTPUT</span>); <span class="comment">// Sets the trigPin as an Output</span>
-  <span class="function">pinMode</span>(echoPin, <span class="keyword">INPUT</span>);  <span class="comment">// Sets the echoPin as an Input</span>
-  
-  <span class="comment">// Start serial communication so we can see the distance on the computer</span>
-  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>); 
+<span class="keyword">void</span> <span class="function">setup</span>() {
+  <span class="function">pinMode</span>(<span class="variable">trigPin</span>, <span class="constant">OUTPUT</span>); <span class="comment">// Sets the trigPin as an Output</span>
+  <span class="function">pinMode</span>(<span class="variable">echoPin</span>, <span class="constant">INPUT</span>);  <span class="comment">// Sets the echoPin as an Input</span>
+  <span class="function">Serial</span>.<span class="function">begin</span>(<span class="constant">9600</span>);   <span class="comment">// Starts serial communication</span>
 }
 
-<span class="keyword">void</span> loop() {
-  <span class="comment">// 1. Clear the trigPin condition</span>
-  <span class="function">digitalWrite</span>(trigPin, <span class="keyword">LOW</span>);
+<span class="keyword">void</span> <span class="function">loop</span>() {
+  <span class="comment">// 1. Clear the trigPin by setting it LOW for a moment</span>
+  <span class="function">digitalWrite</span>(<span class="variable">trigPin</span>, <span class="constant">LOW</span>);
   <span class="function">delayMicroseconds</span>(<span class="constant">2</span>);
 
-  <span class="comment">// 2. Sets the trigPin HIGH (ACTIVE) for 10 microseconds</span>
-  <span class="comment">// This sends out an 8-cycle sonic burst</span>
-  <span class="function">digitalWrite</span>(trigPin, <span class="keyword">HIGH</span>);
+  <span class="comment">// 2. Trigger a pulse: Set the trigPin HIGH for 10 microseconds</span>
+  <span class="function">digitalWrite</span>(<span class="variable">trigPin</span>, <span class="constant">HIGH</span>);
   <span class="function">delayMicroseconds</span>(<span class="constant">10</span>);
-  <span class="function">digitalWrite</span>(trigPin, <span class="keyword">LOW</span>);
+  <span class="function">digitalWrite</span>(<span class="variable">trigPin</span>, <span class="constant">LOW</span>);
 
   <span class="comment">// 3. Reads the echoPin, returns the sound wave travel time in microseconds</span>
-  duration = <span class="function">pulseIn</span>(echoPin, <span class="keyword">HIGH</span>);
+  <span class="variable">duration</span> = <span class="function">pulseIn</span>(<span class="variable">echoPin</span>, <span class="constant">HIGH</span>);
 
   <span class="comment">// 4. Calculating the distance</span>
   <span class="comment">// Speed of sound is roughly 0.034 cm per microsecond.</span>
   <span class="comment">// We divide by 2 because the sound goes out AND comes back.</span>
-  distance = duration * <span class="constant">0</span>.<span class="constant">034</span> / <span class="constant">2</span>;
+  <span class="variable">distance</span> = <span class="variable">duration</span> * <span class="constant">0.034</span> / <span class="constant">2</span>;
 
   <span class="comment">// 5. Print the distance on the Serial Monitor</span>
   <span class="function">Serial</span>.<span class="function">print</span>(<span class="string">"Distance: "</span>);
-  <span class="function">Serial</span>.<span class="function">print</span>(distance);
+  <span class="function">Serial</span>.<span class="function">print</span>(<span class="variable">distance</span>);
   <span class="function">Serial</span>.<span class="function">println</span>(<span class="string">" cm"</span>);
   
   <span class="comment">// Wait a bit before the next measurement</span>

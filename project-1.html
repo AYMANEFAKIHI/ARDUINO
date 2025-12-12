@@ -66,7 +66,7 @@
                 </div>
             </article>
 
-            <article>
+                        <article>
                 <h2>4. The Code (Arduino Sketch)</h2>
                 <p>Copy and paste the code below into your Arduino IDE. The comments explain exactly what each line is doing.</p>
                 <div class="code-block-wrapper">
@@ -77,26 +77,25 @@
 <span class="comment">// ----------------------------------------------------------------</span>
 
 <span class="comment">// Define the LED pin as a constant integer for clarity.</span>
-<span class="comment">// We are using the built-in LED pin (13) for this example.</span>
-<span class="keyword">const</span> <span class="keyword">int</span> ledPin = <span class="constant">13</span>; 
+<span class="preprocessor">const</span> <span class="keyword">int</span> <span class="variable">ledPin</span> = <span class="constant">13</span>; 
 
-<span class="keyword">void</span> setup() {
+<span class="keyword">void</span> <span class="function">setup</span>() {
   <span class="comment">// Setup code runs once when you press reset or power the board.</span>
   <span class="comment">// We initialize the digital pin as an output.</span>
-  <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(<span class="variable">ledPin</span>, <span class="constant">OUTPUT</span>);
 }
 
-<span class="keyword">void</span> loop() {
+<span class="keyword">void</span> <span class="function">loop</span>() {
   <span class="comment">// Main code runs repeatedly forever.</span>
   
   <span class="comment">// 1. Turn the LED on (set the voltage HIGH)</span>
-  <span class="function">digitalWrite</span>(ledPin, <span class="keyword">HIGH</span>); 
+  <span class="function">digitalWrite</span>(<span class="variable">ledPin</span>, <span class="constant">HIGH</span>); 
   
   <span class="comment">// 2. Pause the program for 1000 milliseconds (1 second)</span>
   <span class="function">delay</span>(<span class="constant">1000</span>); 
   
   <span class="comment">// 3. Turn the LED off (set the voltage LOW)</span>
-  <span class="function">digitalWrite</span>(ledPin, <span class="keyword">LOW</span>); 
+  <span class="function">digitalWrite</span>(<span class="variable">ledPin</span>, <span class="constant">LOW</span>); 
   
   <span class="comment">// 4. Pause the program for another 1 second</span>
   <span class="function">delay</span>(<span class="constant">1000</span>); 

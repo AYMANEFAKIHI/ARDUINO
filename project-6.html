@@ -68,43 +68,43 @@
                 </div>
             </article>
 
-            <article>
+                        <article>
                 <h2>4. The Code (Arduino Sketch)</h2>
-                <p>Copy and paste the code below into your Arduino IDE. The comments explain exactly what each line is doing.</p>
+                <p>The code reads the state of the digital input (Pin 2). If it's HIGH (button pressed), the LED turns on; otherwise, it's off.</p>
                 <div class="code-block-wrapper">
                     <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     <pre class="arduino-code" id="arduinoCode">
-<span class="comment">// ----------------------------------------------------------------</span>
-<span class="comment">// Simple Push Button Input Sketch</span>
-<span class="comment">// ----------------------------------------------------------------</span>
+<span class="comment">/* * Project #6: Simple Push Button Input
+ * Reads a digital input (HIGH/LOW) to control a digital output.
+ */</span>
 
-<span class="comment">// Define constant pin numbers clearly</span>
-<span class="keyword">const</span> <span class="keyword">int</span> buttonPin = <span class="constant">2</span>;     <span class="comment">// The number of the pushbutton pin</span>
-<span class="keyword">const</span> <span class="keyword">int</span> ledPin = <span class="constant">13</span>;       <span class="comment">// The number of the LED pin</span>
+<span class="comment">// Define the pins used:</span>
+<span class="preprocessor">const</span> <span class="keyword">int</span> <span class="variable">buttonPin</span> = <span class="constant">2</span>;    <span class="comment">// The number of the pushbutton input pin</span>
+<span class="preprocessor">const</span> <span class="keyword">int</span> <span class="variable">ledPin</span> = <span class="constant">13</span>;      <span class="comment">// The number of the LED output pin</span>
 
-<span class="comment">// Variable to store the state of the button (HIGH or LOW)</span>
-<span class="keyword">int</span> buttonState = <span class="constant">0</span>;
+<span class="comment">// Variable to store the current button state (HIGH or LOW)</span>
+<span class="keyword">int</span> <span class="variable">buttonState</span> = <span class="constant">0</span>;
 
-<span class="keyword">void</span> setup() {
+<span class="keyword">void</span> <span class="function">setup</span>() {
   <span class="comment">// Initialize the LED pin as an output:</span>
-  <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
+  <span class="function">pinMode</span>(<span class="variable">ledPin</span>, <span class="constant">OUTPUT</span>);
   
   <span class="comment">// Initialize the pushbutton pin as an input:</span>
-  <span class="function">pinMode</span>(buttonPin, <span class="keyword">INPUT</span>);
+  <span class="function">pinMode</span>(<span class="variable">buttonPin</span>, <span class="constant">INPUT</span>);
 }
 
-<span class="keyword">void</span> loop() {
+<span class="keyword">void</span> <span class="function">loop</span>() {
   <span class="comment">// Read the state of the pushbutton value:</span>
-  buttonState = <span class="function">digitalRead</span>(buttonPin);
+  <span class="variable">buttonState</span> = <span class="function">digitalRead</span>(<span class="variable">buttonPin</span>);
 
   <span class="comment">// Check if the pushbutton is pressed.</span>
   <span class="comment">// If it is, the buttonState is HIGH:</span>
-  <span class="keyword">if</span> (buttonState == <span class="keyword">HIGH</span>) {
+  <span class="keyword">if</span> (<span class="variable">buttonState</span> == <span class="constant">HIGH</span>) {
     <span class="comment">// Turn LED on:</span>
-    <span class="function">digitalWrite</span>(ledPin, <span class="keyword">HIGH</span>);
+    <span class="function">digitalWrite</span>(<span class="variable">ledPin</span>, <span class="constant">HIGH</span>);
   } <span class="keyword">else</span> {
     <span class="comment">// Turn LED off:</span>
-    <span class="function">digitalWrite</span>(ledPin, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(<span class="variable">ledPin</span>, <span class="constant">LOW</span>);
   }
 }
                     </pre>
