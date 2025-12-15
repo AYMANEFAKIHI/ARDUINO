@@ -199,7 +199,6 @@
             const codeElement = document.getElementById('arduinoCode');
             const codeText = codeElement.textContent;
             
-            // Use the Clipboard API for modern browsers
             navigator.clipboard.writeText(codeText).then(() => {
                 alert('Code copied to clipboard!');
             }).catch(err => {
