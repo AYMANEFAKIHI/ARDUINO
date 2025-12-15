@@ -521,3 +521,20 @@ footer p a {
     color: #00979C;
     margin-bottom: 10px;
 }
+
+/* --- Project Images --- */
+.project-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.montage-display img {
+    max-width: 100%;
+    height: auto;
+}
+
